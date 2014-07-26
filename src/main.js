@@ -1,15 +1,14 @@
 
-var fc = $.fullCalendar = { version: "<%= meta.version %>" };
+var fc = $.njCalendar = { version: "<%= meta.version %>" };
 var fcViews = fc.views = {};
 
-
-$.fn.fullCalendar = function(options) {
+$.fn.njCalendar = function(options) {
 	var args = Array.prototype.slice.call(arguments, 1); // for a possible method call
 	var res = this; // what this function will return (this jQuery object by default)
 
 	this.each(function(i, _element) { // loop each DOM element involved
 		var element = $(_element);
-		var calendar = element.data('fullCalendar'); // get the existing calendar object (if any)
+		var calendar = element.data('njCalendar'); // get the existing calendar object (if any)
 		var singleRes; // the returned value of this single method call
 
 		// a method call
@@ -20,14 +19,14 @@ $.fn.fullCalendar = function(options) {
 					res = singleRes; // record the first method call result
 				}
 				if (options === 'destroy') { // for the destroy method, must remove Calendar object data
-					element.removeData('fullCalendar');
+					element.removeData('njCalendar');
 				}
 			}
 		}
 		// a new calendar initialization
 		else if (!calendar) { // don't initialize twice
 			calendar = new Calendar(element, options);
-			element.data('fullCalendar', calendar);
+			element.data('njCalendar', calendar);
 			calendar.render();
 		}
 	});

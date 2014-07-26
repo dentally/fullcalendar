@@ -11,6 +11,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-jscs-checker');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-karma');
@@ -27,6 +28,10 @@ module.exports = function(grunt) {
 		shell: {},
 		clean: {
 			temp: 'build/temp'
+		},
+		watch: {
+			files: ['dist/fullcalendar.js', 'dist/fullcalendar.css'],
+			tasks: 'copyToApp' // a directory. lumbar doesn't like trailing slash
 		}
 	};
 
@@ -50,7 +55,8 @@ module.exports = function(grunt) {
 	grunt.registerTask('dev', [
 		'shell:assume-unchanged',
 		'lumbar:build',
-		'languages'
+		'languages',
+		'copyToApp'
 	]);
 
 
@@ -64,7 +70,8 @@ module.exports = function(grunt) {
 		'lumbar:build',
 		'concat:moduleVariables',
 		'jshint:builtModules',
-		'uglify:modules'
+		'uglify:modules',
+		'copyToApp'
 	]);
 
 	// assemble modules
@@ -148,6 +155,24 @@ module.exports = function(grunt) {
 		'dist/lang',
 		'dist/lang-all.js'
 	];
+
+  /* Copy to App folder for Gem
+  ----------------------------------------------------------------------------------------------------*/
+
+  config.copy.jsToAppFolder = {
+  	src: 'dist/fullcalendar.js',
+  	dest: 'app/assets/javascripts/nj-calendar.js'
+  };
+
+  config.copy.cssToAppFolder = {
+  	src: 'dist/fullcalendar.css',
+  	dest: 'app/assets/stylesheets/nj-calendar.css'
+  };
+
+  grunt.registerTask('copyToApp', [
+  	'copy:jsToAppFolder',
+  	'copy:cssToAppFolder'
+  ]);
 
 
 

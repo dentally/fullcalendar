@@ -3,4 +3,4 @@
 cd "`dirname $0`/.."
 
 grunt shell:assume-unchanged
-grunt lumbar:watch
+grunt lumbar:watch & grunt watch
