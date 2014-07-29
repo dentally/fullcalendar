@@ -24,6 +24,7 @@ function EventManager(options) { // assumed to be a calendar
 	t.removeEvents = removeEvents;
 	t.clientEvents = clientEvents;
 	t.mutateEvent = mutateEvent;
+	t.associateResourceWithEvent = associateResourceWithEvent;
 	
 	
 	// imports
@@ -41,6 +42,7 @@ function EventManager(options) { // assumed to be a calendar
 	var pendingSourceCnt = 0;
 	var loadingLevel = 0;
 	var cache = [];
+	var resources = options.resources;
 
 
 	$.each(
@@ -523,6 +525,8 @@ function EventManager(options) { // assumed to be a calendar
 			out.end = getEventEnd(out);
 		}
 
+		associateResourceWithEvent(data, out);
+
 		backupEventDates(out);
 
 		return out;
@@ -700,6 +704,29 @@ function EventManager(options) { // assumed to be a calendar
 				undoFunctions[i]();
 			}
 		};
+	}
+
+	/* Resources
+	------------------------------------------------------------------------------*/
+
+	function associateResourceWithEvent(data, out) {
+		 var i = 0;
+		
+		if(!data.resourceId) {
+	          return;
+	      }
+	      
+	      $.each(
+	          resources,
+	      	function( intIndex, resource ){
+	  			if(resource.id == data.resourceId) {
+					out.resource = resource;
+					out.resource._col = i;
+					delete data.resourceId;
+				}
+				i++;
+	          }
+	      );
 	}
 
 }

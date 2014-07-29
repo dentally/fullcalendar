@@ -209,7 +209,7 @@ function ResourceEventRenderer() {
 
 	function slotEventEnd(event) {
 		if (event.end) {
-			return event.clone();
+			return event.end.clone();
 		}else{
 			return event.start.clone().add('minutes', opt('defaultEventMinutes')) ;
 		}
