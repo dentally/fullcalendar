@@ -20,6 +20,7 @@ function View(element, calendar, viewName) {
 	t.hideEvents = hideEvents;
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
+	t.getShownEvents = getShownEvents;
 	// t.start, t.end // moments with ambiguous-time
 	// t.intervalStart, t.intervalEnd // moments with ambiguous-time
 	
@@ -43,6 +44,15 @@ function View(element, calendar, viewName) {
 			return smartProperty(v, viewNameOverride || viewName);
 		}
 		return v;
+	}
+
+	// Get currently shown events
+	function getShownEvents() {
+		evs = [];
+		for (id in eventElementsByID){
+			evs.push(eventsByID[id]);
+		}
+		return evs;
 	}
 
 	
@@ -194,7 +204,7 @@ function View(element, calendar, viewName) {
 	---------------------------------------------------------------------------------*/
 
 	
-	function eventDrop(el, event, newStart, ev, ui) {
+	function eventDrop(el, event, newStart, ev, ui, resource) {
 		var mutateResult = calendar.mutateEvent(event, newStart, null);
 
 		trigger(

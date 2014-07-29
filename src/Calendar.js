@@ -1,6 +1,6 @@
 
  
-function Calendar(element, instanceOptions) {
+function Calendar(element, instanceOptions, eventSources, eventResources) {
 	var t = this;
 
 
@@ -12,6 +12,8 @@ function Calendar(element, instanceOptions) {
 	instanceOptions = instanceOptions || {};
 
 	var options = mergeOptions({}, defaults, instanceOptions);
+
+	var eventResources = eventResources || instanceOptions.resources
 	var langOptions;
 
 	// determine language options
@@ -40,6 +42,7 @@ function Calendar(element, instanceOptions) {
 	t.destroy = destroy;
 	t.refetchEvents = refetchEvents;
 	t.reportEvents = reportEvents;
+	t.refetchResources = refetchResources;
 	t.reportEventChange = reportEventChange;
 	t.rerenderEvents = rerenderEvents;
 	t.changeView = changeView;
@@ -58,6 +61,11 @@ function Calendar(element, instanceOptions) {
 	t.option = option;
 	t.trigger = trigger;
 
+	t.getResources = function() { return eventResources; }
+	t.setResources = function(resources) { eventResources = resources; render(false, true); }
+  t.addEventResource = addEventResource;
+  t.removeEventResource = removeEventResource;
+  t.clientResources = clientResources;
 
 
 	// Language-data Internals
@@ -228,9 +236,13 @@ function Calendar(element, instanceOptions) {
 	// -----------------------------------------------------------------------------------
 
 
-	EventManager.call(t, options);
+	// njnote which one? EventManager.call(t, options);
+	EventManager.call(t, options, eventSources, eventResources);
 	var isFetchNeeded = t.isFetchNeeded;
 	var fetchEvents = t.fetchEvents;
+	var fetchResources = t.fetchResources;
+	var associateResourceWithEvent = t.associateResourceWithEvent;
+
 
 
 
@@ -241,6 +253,8 @@ function Calendar(element, instanceOptions) {
 	var _element = element[0];
 	var header;
 	var headerElement;
+	var resourceList;
+	var resourceListElement;
 	var content;
 	var tm; // for making theme classes
 	var currentView;
@@ -293,6 +307,13 @@ function Calendar(element, instanceOptions) {
 
 		content = $("<div class='fc-content' />")
 			.prependTo(element);
+
+		// Render out the resource list before the Calendar (not applicable to all views?)
+		resourceList = new ResourceList(t, options, eventResources);
+		resourceListElement = resourceList.render();
+		if(resourceListElement) {
+			element.prepend(resourceListElement);
+		}
 
 		header = new Header(t, options);
 		headerElement = header.render();
@@ -546,6 +567,7 @@ function Calendar(element, instanceOptions) {
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
+			if (options['refetchResources']) refetchResources(); // refetch resources every time new events are loaded
 			fetchAndRenderEvents();
 		}
 		else {
@@ -560,6 +582,16 @@ function Calendar(element, instanceOptions) {
 			// ... which will call renderEvents
 	}
 
+	function refetchResources() {
+	  fetchResources(false, currentView);
+	  // remove current view
+	  //var viewName = currentView.name;
+	  //currentView = false;
+	  
+	  // show view with new resources
+	  //changeView(viewName);
+	}
+
 	
 	// called when event data arrives
 	function reportEvents(_events) {
@@ -571,6 +603,39 @@ function Calendar(element, instanceOptions) {
 	// called when a single event's data has been changed
 	function reportEventChange(eventID) {
 		rerenderEvents(eventID);
+	}
+
+	function addEventResource(resource) {
+		eventResources.push(resource);
+		for(var i = 0; i < events.length; i++) {
+			associateResourceWithEvent(events[i]);
+		}
+		render(false, true);
+	}
+
+		
+	function removeEventResource(resourceId) {
+		var updatedResources = []
+		for(var i = 0; i < eventResources.length; i++) {
+			if(eventResources[i].id != resourceId) {
+				updatedResources.push(eventResources[i]);
+			}
+		}
+		eventResources = updatedResources;
+		render(false, true);
+	}
+
+	function clientResources(filter) {
+		if ($.isFunction(filter)) {
+			return $.grep(eventResources, filter);
+		}
+		else if (filter) { // an event ID
+			filter += '';
+			return $.grep(eventResources, function(e) {
+				return e.id == filter;
+			});
+		}
+		return eventResources; // else, return all
 	}
 
 

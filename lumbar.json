@@ -31,6 +31,10 @@
         "src/agenda/AgendaDayView.js",
         "src/agenda/AgendaView.js",
         "src/agenda/AgendaEventRenderer.js",
+        "src/resource/ResourceList.js",
+        "src/resource/ResourceDayView.js",
+        "src/resource/ResourceView.js",
+        "src/resource/ResourceEventRenderer.js",
         "src/common/View.js",
         "src/common/DayEventRenderer.js",
         "src/common/SelectionManager.js",
@@ -44,7 +48,8 @@
         "src/main.css",
         "src/common/common.css",
         "src/basic/basic.css",
-        "src/agenda/agenda.css"
+        "src/agenda/agenda.css",
+        "src/resource/resource.css"
       ]
     },
     "fullcalendar.print": {
