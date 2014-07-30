@@ -97,7 +97,7 @@ function ResourceEventRenderer() {
 			resourceEvents, visEventEndsForRes;
 
 		for (i=0; i<colCnt; i++) {
-			cellDate = cellToDate(0, i);
+			cellDate = cellToDate(0);
 
 			resourceEvents = eventsForResource(resources[i], events);
 			visEventEndsForRes = visEventEndsForResource(resources[i], events);
@@ -577,7 +577,7 @@ function ResourceEventRenderer() {
 		var snapDelta, prevSnapDelta; // the number of snaps away from the original position
 
 		// newly computed
-		var eventStart, eventEnd;
+		var eventStart, eventEnd, col;
 
 		eventElement.draggable({
 			scroll: false,
@@ -603,6 +603,7 @@ function ResourceEventRenderer() {
 
 				eventStart = null;
 				eventEnd = null;
+				col = null;
 			},
 			drag: function(ev, ui) {
 
@@ -624,7 +625,7 @@ function ResourceEventRenderer() {
 					if (colDelta != prevColDelta) {
 						// calculate the day delta based off of the original clicked column and the column delta
 						var origDate = cellToDate(0, origCell.col);
-						var col = origCell.col + colDelta;
+						col = origCell.col + colDelta;
 						col = Math.max(0, col);
 						col = Math.min(colCnt-1, col);
 						var date = cellToDate(0, col);
@@ -677,8 +678,8 @@ function ResourceEventRenderer() {
 				if (isInBounds && (isAllDay || dayDelta || snapDelta)) { // changed!
 					// changed!
 					resources = calendar.getResources();
-					event.resource = resources[newColumn];
-					event.resource._col = newColumn;
+					event.resource = resources[col];
+					event.resource._col = col;
 
 					eventDrop(
 						eventElement[0],
