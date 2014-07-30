@@ -624,14 +624,13 @@ function ResourceEventRenderer() {
 					colDelta = Math.round((ui.position.left - origPosition.left) / colWidth);
 					if (colDelta != prevColDelta) {
 						// calculate the day delta based off of the original clicked column and the column delta
-						var origDate = cellToDate(0, origCell.col);
+						var origDate = cellToDate(0);
 						col = origCell.col + colDelta;
 						col = Math.max(0, col);
 						col = Math.min(colCnt-1, col);
-						var date = cellToDate(0, col);
+						var date = cellToDate(0);
 						dayDelta = date.diff(origDate, 'days');
 					}
-
 					// calculate minute delta (only if over slots)
 					if (!isAllDay) {
 						snapDelta = Math.round((ui.position.top - origPosition.top) / snapHeight);
@@ -670,7 +669,7 @@ function ResourceEventRenderer() {
 
 			},
 			stop: function(ev, ui) {
-				var resources;
+				var resources, newCol;
 
 				clearOverlays();
 				trigger('eventDragStop', eventElement[0], event, ev, ui);
@@ -678,8 +677,9 @@ function ResourceEventRenderer() {
 				if (isInBounds && (isAllDay || dayDelta || snapDelta)) { // changed!
 					// changed!
 					resources = calendar.getResources();
-					event.resource = resources[col];
-					event.resource._col = col;
+          col === null ? newCol = origCell.col : newCol = col
+					event.resource = resources[newCol];
+					event.resource._col = newCol;
 
 					eventDrop(
 						eventElement[0],

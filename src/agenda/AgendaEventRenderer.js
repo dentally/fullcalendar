@@ -67,7 +67,6 @@ function AgendaEventRenderer() {
 				slotEvents.push(events[i]);
 			}
 		}
-
 		if (opt('allDaySlot')) {
 			renderDayEvents(dayEvents, modifiedEventId);
 			setHeight(); // no params means set to viewHeight

@@ -1,6 +1,5 @@
 
 setDefaults({
-	allDaySlot: true,
 	allDayText: 'all-day',
 
 	scrollTime: '06:00:00',

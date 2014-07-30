@@ -18,6 +18,7 @@ var defaults = {
 	},
 	weekends: true,
 	weekNumbers: false,
+	allDaySlot: false,
 
 	weekNumberTitle: 'W',
 	weekNumberCalculation: 'local',
@@ -84,7 +85,7 @@ var defaults = {
 		nextYear: 'seek-next'
 	},
 	
-	//selectable: false,
+	selectable: true,
 	unselectAuto: true,
 	
 	dropAccept: '*',
