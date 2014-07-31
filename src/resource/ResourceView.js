@@ -103,6 +103,7 @@ function ResourceView(element, calendar, viewName) {
 	var dayTable;
 	var dayHead;
 	var dayHeadCells;
+	var fixedDayHeadCells;
 	var dayBody;
 	var dayBodyCells;
 	var dayBodyCellInners;
@@ -329,7 +330,8 @@ function ResourceView(element, calendar, viewName) {
 		dayTable = $(html).appendTo(element);
 
 		dayHead = dayTable.find('thead');
-		dayHeadCells = dayHead.find('th').slice(1, -1); // exclude gutter
+		fixedDayHeadCells = dayHead.find('.fc-fixed-subheader th').slice(1, -1)
+		dayHeadCells = dayHead.find('.fc-hidden-subheader th').slice(1, -1); // exclude gutter
 		dayBody = dayTable.find('tbody');
 		dayBodyCells = dayBody.find('td').slice(0, -1); // exclude gutter
 		dayBodyCellInners = dayBodyCells.find('> div');
@@ -338,7 +340,7 @@ function ResourceView(element, calendar, viewName) {
 		dayBodyFirstCell = dayBodyCells.eq(0);
 		dayBodyFirstCellStretcher = dayBodyCellInners.eq(0);
 		
-		markFirstLast(dayHead.add(dayHead.find('tr')));
+		//markFirstLast(dayHead.add(dayHead.find('tr')));
 		markFirstLast(dayBody.add(dayBody.find('tr')));
 
 		// TODO: now that we rebuild the cells every time, we should call dayRender
@@ -362,10 +364,13 @@ function ResourceView(element, calendar, viewName) {
 		var html = '';
 		var weekText;
 		var col;
+		var headerContent;
 
-		html +=
-			"<thead>" +
-			"<tr>";
+		html = "<thead>" 
+
+		headerContent = ""
+			//"<thead>" +
+			//"<tr>";
 
 		if (opt('weekNumbers')) {
 			date = cellToDate(0, 0);
@@ -376,27 +381,27 @@ function ResourceView(element, calendar, viewName) {
 			else {
 				weekText = opt('weekNumberTitle') + weekText;
 			}
-			html +=
+			headerContent +=
 				"<th class='fc-agenda-axis fc-week-number " + headerClass + "'>" +
 				htmlEscape(weekText) +
 				"</th>";
 		}
 		else {
-			html += "<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+			headerContent += "<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
 		}
 
 		for (col=0; col<colCnt; col++) {
 			date = cellToDate(0, col);
 
-			html += "<th class='fc-" + dayIDs[date.day()] + " fc-col" + col + ' ' + headerClass + "'>"
+			headerContent += "<th class='fc-" + dayIDs[date.day()] + " fc-col" + col + ' ' + headerClass + "'>"
 
 			if(resources[col]) {
-				html += resources[col].name;
+				headerContent += resources[col].name;
 			}
 			else {
-				html += resources[col];
+				headerContent += resources[col];
 			}
-			html += "</th>"
+			headerContent += "</th>"
 
 			/*
 			html +=
@@ -406,10 +411,12 @@ function ResourceView(element, calendar, viewName) {
 			*/
 		}
 
-		html +=
-			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>" +
-			"</tr>" +
-			"</thead>";
+		headerContent +=
+			"<th class='fc-agenda-gutter " + headerClass + "'>&nbsp;</th>"
+
+		html += "<tr class='fc-first fc-last fc-fixed-subheader'>" + headerContent + "</tr>"
+		html += "<tr class='fc-first fc-last fc-hidden-subheader'>" + headerContent + "</tr>"
+		html += "</thead>";
 
 		return html;
 	}
@@ -561,7 +568,8 @@ function ResourceView(element, calendar, viewName) {
 		}
 		
 		colWidth = Math.floor((slotTableWidth - axisWidth) / colCnt);
-		setOuterWidth(dayHeadCells.slice(0, -1), colWidth);
+		setOuterWidth(dayHeadCells, colWidth);
+		setOuterWidth(fixedDayHeadCells, colWidth);
 	}
 	
 

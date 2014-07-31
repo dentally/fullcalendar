@@ -24,7 +24,8 @@ function Header(calendar, options) {
 		var sections = options.header;
 		if (sections) {
 			element = $("<table class='fc-header' style='width:100%'/>")
-				.append(
+			element.append(renderResourseList())
+			element.append(
 					$("<tr/>")
 						.append(renderSection('left'))
 						.append(renderSection('center'))
@@ -136,6 +137,13 @@ function Header(calendar, options) {
 			});
 		}
 		return e;
+	}
+
+	function renderResourseList() {
+		var e = $("<tr></tr>")
+		//Temporary - just rendering the orginal text from the html demo for now.
+		e.append('<a href="javascript:void(0)" onClick="addRes();">Add resource</a> <a href="javascript:void(0)" onClick="remRes();">Remove resource</a>')
+	  return e
 	}
 	
 	

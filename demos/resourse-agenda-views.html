@@ -56,46 +56,46 @@
 							events: [
 								{
 									title: 'All Day Event',
-									start: new Date(y, m, 1),
+									start_time: new Date(y, m, 1),
 									resourceId: 1,
 									allDay: true
 								},
 								{
 									title: 'Long Event',
-									start: new Date(y, m, d-5),
-									end: new Date(y, m, d-2),
+									start_time: new Date(y, m, d-5),
+									finish_time: new Date(y, m, d-2),
 									resourceId: 1
 								},
 								{
 									id: 999,
 									title: 'Repeating Event',
-									start: new Date(y, m, d-3, 16, 0),
+									start_time: new Date(y, m, d-3, 16, 0),
 									allDay: false
 								},
 								{
 									id: 999,
 									title: 'Repeating Event',
-									start: new Date(y, m, d+4, 16, 0),
+									start_time: new Date(y, m, d+4, 16, 0),
 									allDay: false,
 									resourceId: 1
 								},
 								{
 									title: 'Meeting',
-									start: new Date(y, m, d, 10, 30),
+									start_time: new Date(y, m, d, 10, 30),
 									allDay: false,
 									resourceId: 3
 								},
 								{
 									title: 'Lunch',
-									start: new Date(y, m, d, 12, 0),
-									end: new Date(y, m, d, 14, 0),
+									start_time: new Date(y, m, d, 12, 0),
+									finish_time: new Date(y, m, d, 14, 0),
 									allDay: false,
 									resourceId: 2
 								},
 								{
 									title: 'Birthday Party',
-									start: "2014-07-29T16:00:00",
-									end:  "2014-07-29T17:00:00",
+									start_time: "2014-07-29T16:00:00",
+									finish_time:  "2014-07-29T17:00:00",
 									allDay: false,
 									resourceId: 2
 								}
@@ -121,22 +121,20 @@
 				<style type='text/css'>
 
 					body {
-						margin-top: 40px;
+						margin-top: 0px;
 						text-align: center;
 						font-size: 14px;
 						font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 						}
 
 					#calendar {
-						width: 900px;
+						width: 100%;
 						margin: 0 auto;
 						}
 
 				</style>
 				</head>
 				<body>
-				<a href="javascript:void(0)" onClick="addRes();">Add resource</a>
-				<a href="javascript:void(0)" onClick="remRes();">Remove resource</a>
 				<div id='calendar'></div>
 				</body>
 				</html>

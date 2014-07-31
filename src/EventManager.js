@@ -446,14 +446,14 @@ function EventManager(options) { // assumed to be a calendar
 			data = source.eventDataTransform(data);
 		}
 
-		start = t.moment(data.start || data.date); // "date" is an alias for "start"
+		start = t.moment(data.start_time || data.date); // "date" is an alias for "start"
 		if (!start.isValid()) {
 			return;
 		}
 
 		end = null;
-		if (data.end) {
-			end = t.moment(data.end);
+		if (data.finish_time) {
+			end = t.moment(data.finish_time);
 			if (!end.isValid()) {
 				return;
 			}

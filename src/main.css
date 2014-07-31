@@ -31,6 +31,27 @@ html .fc,
 /* Header
 ------------------------------------------------------------------------*/
 
+.fc-header {
+	position: fixed;
+	z-index: 10;
+	background-color: white;
+	height: 100px;
+	margin-top: -100px;
+}
+
+.fc-fixed-subheader {
+	position: fixed;
+	width: 100%;
+	background-color: white;
+	z-index: 3;
+}
+.fc-hidden-subheader {
+	width: 100%;
+	background-color: white;
+	z-index: 2;
+	visibility: hidden;
+}
+
 .fc-header td {
 	white-space: nowrap;
 	}
@@ -105,6 +126,7 @@ html .fc,
 	z-index: 1; /* scopes all other z-index's to be inside this container */
 	clear: both;
 	zoom: 1; /* for IE7, gives accurate coordinates for [un]freezeContentHeight */
+	margin-top: 100px;
 	}
 	
 .fc-view {
