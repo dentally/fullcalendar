@@ -1,11 +1,10 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'nj-calendar/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "nj-calendar"
-  spec.version       = NjCalendar::VERSION
+  spec.version       = "1.0"
   spec.authors       = ["Jonathan Wheeler"]
   spec.email         = ["jonny@njtechnologies.co.uk"]
   spec.summary       = "An adapted version of arshaws fullcalendar.js for use in company projects."
