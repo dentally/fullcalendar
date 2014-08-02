@@ -712,17 +712,16 @@ function EventManager(options) { // assumed to be a calendar
 	function associateResourceWithEvent(data, out) {
 		 var i = 0;
 		
-		if(!data.resourceId) {
+		if(!data[options.resourceParam]) {
 	          return;
 	      }
 	      
 	      $.each(
 	          resources,
 	      	function( intIndex, resource ){
-	  			if(resource.id == data.resourceId) {
+	  			if(resource.id == data[options.resourceParam]) {
 					out.resource = resource;
 					out.resource._col = i;
-					delete data.resourceId;
 				}
 				i++;
 	          }
