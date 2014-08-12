@@ -677,14 +677,23 @@ function EventManager(options) { // assumed to be a calendar
 
 			// if the dates have changed, and we know it is impossible to recompute the
 			// timezone offsets, strip the zone.
-			if (isAmbigTimezone) {
-				if (+dateDelta || +durationDelta) {
-					newStart.stripZone();
-					if (newEnd) {
-						newEnd.stripZone();
-					}
-				}
-			}
+      
+      /*
+      NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
+      If the user drags it to a time it should report that time back to the server any timezones issues
+      can be resolved by the server and corrected when sent back or we can incorporate moment timezone
+      and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
+      same hour which is not a true representation.
+
+      if (isAmbigTimezone) {
+      	if (+dateDelta || +durationDelta) {
+      		newStart.stripZone();
+      		if (newEnd) {
+      			newEnd.stripZone();
+      		}
+      	}
+      }
+      */
 
 			event.allDay = newAllDay;
 			event.start = newStart;
