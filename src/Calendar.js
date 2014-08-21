@@ -318,6 +318,8 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		header = new Header(t, options);
 		headerElement = header.render();
 		if (headerElement) {
+			menuContainer = $("<div class='fc-menu-container' />")
+			element.prepend(menuContainer);
 			element.prepend(headerElement);
 		}
 

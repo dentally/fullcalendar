@@ -11,11 +11,13 @@ function Header(calendar, options) {
 	t.deactivateButton = deactivateButton;
 	t.disableButton = disableButton;
 	t.enableButton = enableButton;
+	t.menu = menu;
 	
 	
 	// locals
 	var element = $([]);
 	var tm;
+	var menuShown
 	
 
 
@@ -24,13 +26,14 @@ function Header(calendar, options) {
 		var sections = options.header;
 		if (sections) {
 			element = $("<table class='fc-header' style='width:100%'/>")
-			element.append(renderResourseList())
+			//element.append(renderResourseList())
 			element.append(
-					$("<tr/>")
+					$("<tr class='header-buttons' />")
 						.append(renderSection('left'))
 						.append(renderSection('center'))
 						.append(renderSection('right'))
 				);
+			element.append("<tr><td colspan='3'/></tr>")
 			return element;
 		}
 	}
@@ -68,6 +71,9 @@ function Header(calendar, options) {
 								calendar.changeView(buttonName);
 							};
 						}
+						else if (t[buttonName]) {
+								buttonClick = t[buttonName]; // header method
+							}
 						if (buttonClick) {
 
 							// smartProperty allows different text per view button (ex: "Agenda Week" vs "Basic Week")
@@ -139,11 +145,55 @@ function Header(calendar, options) {
 		return e;
 	}
 
+	function menu() {
+		if (!menuShown){
+      var menuContent = $(renderMenu())
+      menuContent.find(".close").click(function() {
+      	closeMenu();
+      })
+			$(".fc-menu-container").append(menuContent)
+			setupDatePicker(menuContent)
+			menuShown = true
+		}
+	}
+
+	function renderMenu() {
+		var html;
+		html = "<div class='fc-menu-content'>";
+		html += "<span class='close'>X</span>";
+		html += "<div class='fc-date-picker'></div>";
+		html += "<span>Calendars</span>";
+		if (options.resourceList) {
+			html += "<div class='fc-resource-list'>" + renderResourseList() + "</div>";
+		}
+		html += "</div>";
+		return html;
+	}
+
+	function closeMenu() {
+		$(".fc-menu-container").html("")
+		menuShown = false
+	}
+
+	function setupDatePicker(menuElement) {
+		var datePickerEl = $(menuElement.find('.fc-date-picker'))
+		datePickerEl.datepicker({
+			dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
+			showOtherMonths: true
+		})
+	}
+
 	function renderResourseList() {
-		var e = $("<tr></tr>")
-		//Temporary - just rendering the orginal text from the html demo for now.
-		e.append('<a href="javascript:void(0)" onClick="addRes();">Add resource</a> <a href="javascript:void(0)" onClick="remRes();">Remove resource</a>')
-	  return e
+    var resources = "<ul>";
+    $.each(options.resourceList, function(index, res){
+    	resources += "<li>" + res.name
+    	resources += "<input "
+    	res.shown ? resources += 'checked': null 
+    	resources += " type='checkbox'/>"
+    	resources += "</li>";
+    })
+    resources += "</ul>"
+	  return resources;
 	}
 	
 	
