@@ -38,12 +38,13 @@
 		height: 100px;
 		margin-top: -100px;
 		background-color: white;
+		left: 0;
 
 		.header-buttons {
 			background-color: rgb(245, 245, 245);
-			height: 40px;
+			height: 50px;
 			td span{
-				margin-top: 10px
+				padding-top: 10px
 			}
 		}
 	}
@@ -68,6 +69,12 @@
 	.fc-header-left {
 		width: 25%;
 		text-align: left;
+		span:first-child{
+			margin-left: 198px;
+		}
+		span:last-child{
+			margin-right: -198px;
+		}
 		}
 		
 	.fc-header-center {
@@ -76,7 +83,7 @@
 		
 	.fc-header-right {
 		width: 25%;
-		/*text-align: right;*/
+		text-align: right;
 		}
 		
 	.fc-header-title {
@@ -94,9 +101,14 @@
 		}
 		
 	.fc-header .fc-button {
-		margin-bottom: 1em;
+		padding-bottom: 10px;
 		vertical-align: top;
+		font-weight: 500;
 		}
+
+	.fa-icon{
+		font-size: 20pt;
+	}
 		
 	/* buttons edges butting together */
 	
@@ -144,6 +156,13 @@
 		overflow: hidden;
 		}
 
+	.fc-fixed-subheader th{
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		border-bottom: 1px solid #ddd;
+	}
+
 	/* Menu
 	------------------------------------------------------------------------*/
 	.fc-menu-content {
@@ -165,6 +184,7 @@
 
 
 	.fc-date-picker {
+		min-height: 230px;
     padding-top: 35px;
     margin-left: 2px;
     margin-right: 10px;
@@ -191,20 +211,28 @@
 		.ui-datepicker-other-month {
 			background-color: transparent;
 		}
+
 		.ui-widget-content, .ui-widget-header{
 			border: none;
 			background-color: transparent;
 			background: none;
 		}
+
 		.ui-state-default {
 			background: none;
 			border: none;
 			font-weight: 700;
 		}
-		.ui-datepicker-today a{
+
+		.ui-datepicker-current-day a{
 			color: #fff!important;
 			background-color: #2789e4;
 		}
+
+		.ui-datepicker-today a{
+			border-top: 2px solid orange;
+		}
+
 		.ui-datepicker td span, .ui-datepicker td a{
 			text-align: center;
 			padding: 0px;
@@ -257,6 +285,7 @@
 		.ui-datepicker-next-hover {
 			right: 2px;
 		}
+
 		.ui-datepicker-prev-hover {
 			left: 2px;
 		}

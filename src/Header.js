@@ -7,6 +7,7 @@ function Header(calendar, options) {
 	t.render = render;
 	t.destroy = destroy;
 	t.updateTitle = updateTitle;
+	t.updateDatePicker = updateDatePicker;
 	t.activateButton = activateButton;
 	t.deactivateButton = deactivateButton;
 	t.disableButton = disableButton;
@@ -18,6 +19,7 @@ function Header(calendar, options) {
 	var element = $([]);
 	var tm;
 	var menuShown
+	var datePicker
 	
 
 
@@ -40,6 +42,7 @@ function Header(calendar, options) {
 	
 	
 	function destroy() {
+		closeMenu()
 		element.remove();
 	}
 	
@@ -81,10 +84,14 @@ function Header(calendar, options) {
 							var normalIcon = smartProperty(options.buttonIcons, buttonName);
 							var defaultText = smartProperty(options.defaultButtonText, buttonName);
 							var customText = smartProperty(options.buttonText, buttonName);
+							var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
 							var html;
-
+              console.log(fontAwsomeIcon)
 							if (customText) {
 								html = htmlEscape(customText);
+							}
+							else if(fontAwsomeIcon) {
+								html = "<i class='fa-icon " + fontAwsomeIcon + "'></i>";
 							}
 							else if (themeIcon && options.theme) {
 								html = "<span class='ui-icon ui-icon-" + themeIcon + "'></span>";
@@ -148,9 +155,7 @@ function Header(calendar, options) {
 	function menu() {
 		if (!menuShown){
       var menuContent = $(renderMenu())
-      menuContent.find(".close").click(function() {
-      	closeMenu();
-      })
+      menuContent.find(".close").click(function(){ closeMenu() })
 			$(".fc-menu-container").append(menuContent)
 			setupDatePicker(menuContent)
 			menuShown = true
@@ -171,16 +176,31 @@ function Header(calendar, options) {
 	}
 
 	function closeMenu() {
+		$(".fc-menu-container .close").unbind();
 		$(".fc-menu-container").html("")
 		menuShown = false
 	}
 
 	function setupDatePicker(menuElement) {
 		var datePickerEl = $(menuElement.find('.fc-date-picker'))
-		datePickerEl.datepicker({
+		datePicker = datePickerEl.datepicker({
 			dayNamesMin: ["S", "M", "T", "W", "T", "F", "S"],
-			showOtherMonths: true
+			showOtherMonths: true,
+			onSelect: setDate,
+			dateFormat: "yy-mm-dd",
+			selectOtherMonths: true,
+			defaultDate: calendar.getDate().format("YY-MM-DD")
 		})
+	}
+
+	function setDate(date) {
+		calendar.gotoDate(date)
+	}
+
+	function updateDatePicker(date) {
+		if (menuShown){
+			datePicker.datepicker("setDate", date.format("YY-MM-DD"))
+		}
 	}
 
 	function renderResourseList() {

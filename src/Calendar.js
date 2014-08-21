@@ -453,6 +453,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		(currentView.afterRender || noop)();
 
 		updateTitle();
+		updateDatePicker();
 		updateTodayButton();
 
 		trigger('viewRender', currentView, currentView, currentView.element);
@@ -648,6 +649,10 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 	function updateTitle() {
 		header.updateTitle(currentView.title);
+	}
+
+	function updateDatePicker() {
+		header.updateDatePicker(t.getDate());
 	}
 
 

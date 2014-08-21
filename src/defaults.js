@@ -73,7 +73,16 @@ var defaults = {
 		prev: 'left-single-arrow',
 		next: 'right-single-arrow',
 		prevYear: 'left-double-arrow',
-		nextYear: 'right-double-arrow'
+		nextYear: 'right-double-arrow',
+	},
+
+	fontAwsomeIcons: {
+		menu: 'icon-reorder',
+		month: 'icon-th',
+		week: 'icon-ellipsis-horizontal',
+		day: 'icon-th-list',
+		next: 'icon-angle-right',
+		prev: 'icon-angle-left'
 	},
 	
 	// jquery-ui theming
@@ -82,7 +91,7 @@ var defaults = {
 		prev: 'circle-triangle-w',
 		next: 'circle-triangle-e',
 		prevYear: 'seek-prev',
-		nextYear: 'seek-next'
+		nextYear: 'seek-next',
 	},
 	
 	selectable: true,
@@ -143,7 +152,8 @@ var rtlDefaults = {
 		prev: 'circle-triangle-e',
 		next: 'circle-triangle-w',
 		nextYear: 'seek-prev',
-		prevYear: 'seek-next'
+		prevYear: 'seek-next',
+		menu: 'icon-reorder'
 	}
 };
 
