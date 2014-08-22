@@ -53,7 +53,7 @@
 		position: fixed;
 		width: 100%;
 		background-color: white;
-		z-index: 3;
+		z-index: 10;
 	}
 	.fc-hidden-subheader {
 		width: 100%;
@@ -107,7 +107,8 @@
 		}
 
 	.fa-icon{
-		font-size: 20pt;
+		font-size: 18pt;
+		color: grey;
 	}
 		
 	/* buttons edges butting together */

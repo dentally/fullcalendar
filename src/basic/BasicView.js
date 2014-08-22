@@ -54,6 +54,7 @@ function BasicView(element, calendar, viewName) {
 	var table;
 	var head;
 	var headCells;
+	var fixedHeadCells;
 	var body;
 	var bodyRows;
 	var bodyCells;
@@ -124,7 +125,8 @@ function BasicView(element, calendar, viewName) {
 		table = $(html).appendTo(element);
 
 		head = table.find('thead');
-		headCells = head.find('.fc-day-header');
+    headCells = head.find('.fc-hidden-subheader th')
+    fixedHeadCells = head.find('.fc-fixed-subheader th')
 		body = table.find('tbody');
 		bodyRows = body.find('tr');
 		bodyCells = body.find('.fc-day');
@@ -133,7 +135,7 @@ function BasicView(element, calendar, viewName) {
 		firstRowCellInners = bodyRows.eq(0).find('.fc-day > div');
 		firstRowCellContentInners = bodyRows.eq(0).find('.fc-day-content > div');
 		
-		markFirstLast(head.add(head.find('tr'))); // marks first+last tr/th's
+		//markFirstLast(head.add(head.find('tr'))); // marks first+last tr/th's
 		markFirstLast(bodyRows); // marks first+last td's
 		bodyRows.eq(0).addClass('fc-first');
 		bodyRows.filter(':last').addClass('fc-last');
@@ -171,11 +173,12 @@ function BasicView(element, calendar, viewName) {
 		var html = '';
 		var col;
 		var date;
+		var headerContent = '';
 
-		html += "<thead><tr>";
+		html += "<thead>";
 
 		if (showWeekNumbers) {
-			html +=
+			headerContent +=
 				"<th class='fc-week-number " + headerClass + "'>" +
 				htmlEscape(opt('weekNumberTitle')) +
 				"</th>";
@@ -183,13 +186,15 @@ function BasicView(element, calendar, viewName) {
 
 		for (col=0; col<colCnt; col++) {
 			date = cellToDate(0, col);
-			html +=
+			headerContent += 
 				"<th class='fc-day-header fc-" + dayIDs[date.day()] + " " + headerClass + "'>" +
 				htmlEscape(formatDate(date, colFormat)) +
 				"</th>";
 		}
-
-		html += "</tr></thead>";
+    
+    html += "<tr class='fc-first fc-last fc-fixed-subheader'>" + headerContent + "</tr>"
+    html += "<tr class='fc-first fc-last fc-hidden-subheader'>" + headerContent + "</tr>"
+		html += "</thead>";
 
 		return html;
 	}
@@ -325,7 +330,8 @@ function BasicView(element, calendar, viewName) {
 		}
 
 		colWidth = Math.floor((viewWidth - weekNumberWidth) / colCnt);
-		setOuterWidth(headCells.slice(0, -1), colWidth);
+		setOuterWidth(headCells, colWidth);
+		setOuterWidth(fixedHeadCells, colWidth);
 	}
 	
 	

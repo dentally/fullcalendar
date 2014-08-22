@@ -86,7 +86,7 @@ function Header(calendar, options) {
 							var customText = smartProperty(options.buttonText, buttonName);
 							var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
 							var html;
-              console.log(fontAwsomeIcon)
+							
 							if (customText) {
 								html = htmlEscape(customText);
 							}
