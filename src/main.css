@@ -149,6 +149,8 @@
 		clear: both;
 		zoom: 1; /* for IE7, gives accurate coordinates for [un]freezeContentHeight */
 		margin-top: 100px;
+		margin-right: 10px;
+		margin-left: 10px;
 		}
 		
 	.fc-view {
@@ -161,7 +163,18 @@
 		border-top: none;
 		border-left: none;
 		border-right: none;
-		border-bottom: 1px solid #ddd;
+	}
+	.fc-agenda-axis {
+		border-top: none;
+		border-bottom: none;
+	}
+
+	.fc-agenda-axis.axis-left{
+		border-left: none;
+	}
+
+	.fc-agenda-axis.axis-right{
+		border-right: none;
 	}
 
 	/* Menu

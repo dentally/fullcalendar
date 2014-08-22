@@ -264,8 +264,8 @@ function AgendaView(element, calendar, viewName) {
 			minutes = slotDate.minutes();
 			s +=
 				"<tr class='fc-slot" + slotCnt + ' ' + (!minutes ? '' : 'fc-minor') + "'>" +
-				"<th class='fc-agenda-axis " + headerClass + "'>" +
-				((!slotNormal || !minutes) ?
+				"<th class='fc-agenda-axis axis-left " + headerClass + "'>" +
+				((minutes == 0) ?
 					htmlEscape(formatDate(slotDate, opt('axisFormat'))) :
 					'&nbsp;'
 					) +
@@ -273,8 +273,8 @@ function AgendaView(element, calendar, viewName) {
 				"<td class='" + contentClass + "'>" +
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</td>" +
-				"<td class='fc-agenda-axis " + headerClass + "' >" +
-				((!slotNormal || !minutes) ?
+				"<td class='fc-agenda-axis axis-right " + headerClass + "' >" +
+				((minutes == 0) ?
 					htmlEscape(formatDate(slotDate, opt('axisFormat'))) :
 					'&nbsp;'
 					) +
@@ -395,7 +395,7 @@ function AgendaView(element, calendar, viewName) {
 		html +=
 			"<tbody>" +
 			"<tr>" +
-			"<th class='fc-agenda-axis " + headerClass + "'>&nbsp;</th>";
+			"<th class='fc-agenda-axis axis-left " + headerClass + "'>&nbsp;</th>";
 
 		cellsHTML = '';
 
