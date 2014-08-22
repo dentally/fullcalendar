@@ -221,7 +221,7 @@ function AgendaView(element, calendar, viewName) {
 				"<td>" +
 				"<div class='fc-day-content'><div style='position:relative'/></div>" +
 				"</td>" +
-				"<th class='" + headerClass + " fc-agenda-gutter'>&nbsp;</th>" +
+				"<th class='" + headerClass + " fc-agenda-axis'>&nbsp;</th>" +
 				"</tr>" +
 				"</table>";
 			allDayTable = $(s).appendTo(slotLayer);
@@ -273,6 +273,12 @@ function AgendaView(element, calendar, viewName) {
 				"<td class='" + contentClass + "'>" +
 				"<div style='position:relative'>&nbsp;</div>" +
 				"</td>" +
+				"<td class='fc-agenda-axis " + headerClass + "' >" +
+				((!slotNormal || !minutes) ?
+					htmlEscape(formatDate(slotDate, opt('axisFormat'))) :
+					'&nbsp;'
+					) +
+				"</td>"
 				"</tr>";
 			slotTime.add(slotDuration);
 			slotCnt++;
@@ -366,7 +372,7 @@ function AgendaView(element, calendar, viewName) {
 				"</th>";
 		}
 
-		headerContent += "<th class='fc-agenda-axis fc-week-number " + headerClass + "'>&nbsp;" + "</th>";
+		headerContent += "<th class='fc-agenda-axis fc-week-number " + headerClass + "'>&nbsp;" + "</th>"
 		html += "<tr class='fc-first fc-last fc-fixed-subheader'>" + headerContent + "</tr>";
 		html += "<tr class='fc-first fc-last fc-hidden-subheader'>" + headerContent + "</tr>";
 		html += "</thead>";
@@ -429,7 +435,7 @@ function AgendaView(element, calendar, viewName) {
 
 		html += cellsHTML;
 		html +=
-			"<td class='fc-agenda-gutter " + contentClass + "'>&nbsp;</td>" +
+			"<td class='fc-agenda-axis " + contentClass + "'>&nbsp;</td>" +
 			"</tr>" +
 			"</tbody>";
 
@@ -520,7 +526,7 @@ function AgendaView(element, calendar, viewName) {
 				.addClass('fc-last');
 		}
 		
-		colWidth = Math.floor((slotTableWidth - axisWidth) / colCnt);
+		colWidth = Math.floor((slotTableWidth - axisWidth * 2) / colCnt);
 		setOuterWidth(dayHeadCells.slice(0, -1), colWidth);
 		setOuterWidth(fixedDayHeadCells, colWidth);
 	}
