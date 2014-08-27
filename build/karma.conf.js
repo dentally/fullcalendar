@@ -22,7 +22,7 @@ module.exports = function(config) {
 
 			'../lib/moment/moment.js',
 			'../lib/jquery/dist/jquery.js',
-			'../lib/jquery-ui/ui/jquery-ui.js',
+			'../lib/jquery-ui/jquery-ui.js',
 
 			// for jquery simulate
 			'../lib/jquery-simulate-ext/libs/bililiteRange.js',
@@ -43,12 +43,6 @@ module.exports = function(config) {
 			'../dist/lang-all.js',
 			'../dist/fullcalendar.css',
 			'../tests/base.css',
-
-			// For IE8 testing. Because it can't handle running all the tests at once.
-			// Comment out the *.js line and run karma with each of the lines below.
-			//'../tests/automated/{a,b,c,d,e,f,g,h,i,j,k,l}*.js'
-			//'../tests/automated/{m,n}*.js' // mostly moment tests
-			//'../tests/automated/{o,p,q,r,s,t,u,v,w,x,y,z}*.js'
 
 			'../tests/automated/*.js'
 		],
