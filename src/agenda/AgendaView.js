@@ -384,9 +384,9 @@ $.extend(AgendaView.prototype, {
 
 	// Renders a visual indication of an event being dragged over the view.
 	// A returned value of `true` signals that a mock "helper" event has been rendered.
-	renderDrag: function(start, end, seg) {
+	renderDrag: function(start, end, seg, col) {
 		if (start.hasTime()) {
-			return this.timeGrid.renderDrag(start, end, seg);
+			return this.timeGrid.renderDrag(start, end, seg, col);
 		}
 		else if (this.dayGrid) {
 			return this.dayGrid.renderDrag(start, end, seg);

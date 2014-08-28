@@ -89,6 +89,7 @@ $.extend(Grid.prototype, {
 		var start; // the inclusive start of the selection
 		var end; // the *exclusive* end of the selection
 		var dayEl;
+		var col;
 
 		// this listener tracks a mousedown on a day element, and a subsequent drag.
 		// if the drag ends on the same day, it is a 'dayClick'.
@@ -107,9 +108,10 @@ $.extend(Grid.prototype, {
 					dates = [ date, dragListener.origDate ].sort(dateCompare);
 					start = dates[0];
 					end = dates[1].clone().add(_this.cellDuration);
+					col = dragListener.cell.col;
 
 					if (isSelectable) {
-						_this.renderSelection(start, end);
+						_this.renderSelection(start, end, col);
 					}
 				}
 			},
@@ -124,7 +126,7 @@ $.extend(Grid.prototype, {
 					}
 					if (isSelectable) {
 						// the selection will already have been rendered. just report it
-						view.reportSelection(start, end, ev);
+						view.reportSelection(start, end, ev, this.cell);
 					}
 				}
 			}
@@ -176,9 +178,10 @@ $.extend(Grid.prototype, {
 	// Renders a mock event over the given date(s).
 	// `end` can be null, in which case the mock event that is rendered will have a null end time.
 	// `sourceSeg` is the internal segment object involved in the drag. If null, something external is dragging.
-	renderRangeHelper: function(start, end, sourceSeg) {
+	renderRangeHelper: function(start, end, sourceSeg, col) {
 		var view = this.view;
 		var fakeEvent;
+		var resources = view.calendar.getResources()
 
 		// compute the end time if forced to do so (this is what EventManager does)
 		if (!end && view.opt('forceEventDuration')) {
@@ -189,6 +192,7 @@ $.extend(Grid.prototype, {
 		fakeEvent.start = start;
 		fakeEvent.end = end;
 		fakeEvent.allDay = !(start.hasTime() || (end && end.hasTime())); // freshly compute allDay
+		fakeEvent.resource = resources[col]
 
 		// this extra className will be useful for differentiating real events from mock events in CSS
 		fakeEvent.className = (fakeEvent.className || []).concat('fc-helper');

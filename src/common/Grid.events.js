@@ -85,7 +85,7 @@ $.extend(Grid.prototype, {
 			segs = seg ? [ seg ] : [];
 		}
 		else {
-			segs = this.rangeToSegs(eventStart, eventEnd); // defined by the subclass
+			segs = this.rangeToSegs(eventStart, eventEnd, event); // defined by the subclass
 		}
 
 		// assign extra event-related properties to the segment objects
@@ -201,10 +201,11 @@ $.extend(Grid.prototype, {
 			cellOver: function(cell, date) {
 				var origDate = seg.cellDate || dragListener.origDate;
 				var res = _this.computeDraggedEventDates(seg, origDate, date);
+				var col = cell.col
 				newStart = res.start;
 				newEnd = res.end;
 
-				if (view.renderDrag(newStart, newEnd, seg)) { // have the view render a visual indication
+				if (view.renderDrag(newStart, newEnd, seg, col)) { // have the view render a visual indication
 					mouseFollower.hide(); // if the view is already using a mock event "helper", hide our own
 				}
 				else {
@@ -217,7 +218,13 @@ $.extend(Grid.prototype, {
 				mouseFollower.show(); // show in case we are moving out of all cells
 			},
 			dragStop: function(ev) {
+				var newCol = dragListener.cell.col;
 				var hasChanged = newStart && !newStart.isSame(event.start);
+				var resources = view.calendar.getResources();
+
+				if (view.calendar.getView().name=="resourceDay"){
+					event.resource = resources[newCol]
+				}
 
 				// do revert animation if hasn't changed. calls a callback when finished (whether animation or not)
 				mouseFollower.stop(!hasChanged, function() {
@@ -227,7 +234,7 @@ $.extend(Grid.prototype, {
 					view.trigger('eventDragStop', el[0], event, ev, {}); // last argument is jqui dummy
 
 					if (hasChanged) {
-						view.eventDrop(el[0], event, newStart, ev); // will rerender all events...
+						view.eventDrop(el[0], event, newStart, ev, newCol); // will rerender all events...
 					}
 				});
 			},

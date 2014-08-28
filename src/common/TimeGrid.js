@@ -124,32 +124,49 @@ $.extend(TimeGrid.prototype, {
 
 
 	// Slices up a date range into a segment for each column
-	rangeToSegs: function(rangeStart, rangeEnd) {
+	rangeToSegs: function(rangeStart, rangeEnd, event) {
 		var view = this.view;
+		var resources = view.calendar.getResources();
 		var segs = [];
 		var seg;
 		var col;
-		var cellDate;
-		var colStart, colEnd;
 
 		// normalize
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
 
-		for (col = 0; col < view.colCnt; col++) {
-			cellDate = view.cellToDate(0, col); // use the View's cell system for this
-			colStart = cellDate.clone().time(this.minTime);
-			colEnd = cellDate.clone().time(this.maxTime);
-			seg = intersectionToSeg(rangeStart, rangeEnd, colStart, colEnd);
+		if (event && event.resource){
+			col = resources.indexOf(event.resource);
+			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {
 				seg.col = col;
 				segs.push(seg);
+			}
+
+		}
+    else {
+			for (col = 0; col < view.colCnt; col++) {
+    	  seg = this.segWithinColRange(rangeStart, rangeEnd, col)
+				if (seg) {
+					seg.col = col;
+					segs.push(seg);
+				}
 			}
 		}
 
 		return segs;
 	},
 
+	segWithinColRange: function(rangeStart, rangeEnd, col){
+		var view = this.view;
+		var cellDate;
+		var colStart, colEnd;
+
+		cellDate = view.cellToDate(0, col); // use the View's cell system for this
+		colStart = cellDate.clone().time(this.minTime);
+		colEnd = cellDate.clone().time(this.maxTime);
+		return intersectionToSeg(rangeStart, rangeEnd, colStart, colEnd);
+	},
 
 	/* Coordinates
 	------------------------------------------------------------------------------------------------------------------*/
@@ -274,11 +291,11 @@ $.extend(TimeGrid.prototype, {
 
 	// Renders a visual indication of an event being dragged over the specified date(s).
 	// `end` and `seg` can be null. See View's documentation on renderDrag for more info.
-	renderDrag: function(start, end, seg) {
+	renderDrag: function(start, end, seg, col) {
 		var opacity;
 
 		if (seg) { // if there is event information for this drag, render a helper event
-			this.renderRangeHelper(start, end, seg);
+			this.renderRangeHelper(start, end, seg, col);
 
 			opacity = this.view.opt('dragOpacity');
 			if (opacity !== undefined) {
@@ -309,8 +326,8 @@ $.extend(TimeGrid.prototype, {
 
 
 	// Renders a visual indication of an event being resized
-	renderResize: function(start, end, seg) {
-		this.renderRangeHelper(start, end, seg);
+	renderResize: function(start, end, seg, col) {
+		this.renderRangeHelper(start, end, seg, col);
 	},
 
 
@@ -366,9 +383,9 @@ $.extend(TimeGrid.prototype, {
 
 
 	// Renders a visual indication of a selection. Overrides the default, which was to simply render a highlight.
-	renderSelection: function(start, end) {
+	renderSelection: function(start, end, col) {
 		if (this.view.opt('selectHelper')) { // this setting signals that a mock helper event should be rendered
-			this.renderRangeHelper(start, end);
+			this.renderRangeHelper(start, end, null, col);
 		}
 		else {
 			this.renderHighlight(start, end);

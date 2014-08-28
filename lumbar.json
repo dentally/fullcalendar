@@ -43,8 +43,8 @@
         "src/agenda/AgendaWeekView.js",
         "src/agenda/AgendaDayView.js",
         "src/resource/ResourceList.js",
-        "src/resource/ResourceDayView.js",
         "src/resource/ResourceView.js",
+        "src/resource/ResourceDayView.js",
         "src/common/View.js",
         "src/outro.js"
       ],

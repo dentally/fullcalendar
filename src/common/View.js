@@ -307,20 +307,14 @@ View.prototype = {
 
 
 	// Called when a new selection is made. Updates internal state and triggers handlers.
-	reportSelection: function(start, end, ev) {
-		console.log(start)
+	reportSelection: function(start, end, ev, cell) {
 		this.isSelected = true;
 		var resourceObj = false;
-				if(this.calendar.getView().name=="resourceDay")
-				{
-					//Get the cell associated with the select function
-					var hoverListener = t.getHoverListener();
-					var cell = hoverListener.stop();
-					var calendar = this.calendar;
-				  var resources = calendar.getResources();
-					//Get the resource from the selected cell and pass it to the select function as an argument		
-					resourceObj = resources[cell.col];			
-				}
+		var resources = this.calendar.getResources();
+		if(this.calendar.getView().name=="resourceDay"){
+			//Get the resource from the selected cell and pass it to the select function as an argument		
+			resourceObj = resources[cell.col];			
+		}
 		this.trigger('select', null, start, end, ev, resourceObj);
 	},
 
@@ -488,7 +482,7 @@ function View(calendar) {
 	---------------------------------------------------------------------------------*/
 
 	
-	function eventDrop(el, event, newStart, ev, ui, resource) {
+	function eventDrop(el, event, newStart, ev, ui) {
 		var mutateResult = calendar.mutateEvent(event, newStart, null);
 
 		trigger(
@@ -652,6 +646,12 @@ function View(calendar) {
 	// - row, col
 	// - { row:#, col:# }
 	function cellToCellOffset(row, col) {
+		if(calendar.getView().name=="resourceDay")
+		{
+			// Idealy this should be moved to the resouse day view when these functions are all moved into the prototype
+			return 0		
+		}
+
 		var colCnt = t.colCnt;
 
 		// rtl variables. wish we could pre-populate these. but where?

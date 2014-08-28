@@ -736,7 +736,7 @@ function EventManager(options) { // assumed to be a calendar
 	      	function( intIndex, resource ){
 	  			if(resource.id == data[options.resourceParam]) {
 					out.resource = resource;
-					out.resource._col = i;
+					//out.resource._col = i; watch if we need this
 				}
 				i++;
 	          }
