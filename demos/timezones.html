@@ -26,12 +26,12 @@
 		// when the timezone selector changes, rerender the calendar
 		$('#timezone-selector').on('change', function() {
 			currentTimezone = this.value || false;
-			$('#calendar').fullCalendar('destroy');
+			$('#calendar').njCalendar('destroy');
 			renderCalendar();
 		});
 
 		function renderCalendar() {
-			$('#calendar').fullCalendar({
+			$('#calendar').njCalendar({
 				header: {
 					left: 'prev,next today',
 					center: 'title',

@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("el", {
+$.njCalendar.lang("el", {
 	defaultButtonText: {
 		month: "Μήνας",
 		week: "Εβδομάδα",

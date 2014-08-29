@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("fi", {
+$.njCalendar.lang("fi", {
 	defaultButtonText: {
 		month: "Kuukausi",
 		week: "Viikko",

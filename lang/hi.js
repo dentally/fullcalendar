@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("hi", {
+$.njCalendar.lang("hi", {
 	defaultButtonText: {
 		month: "महीना",
 		week: "सप्ताह",

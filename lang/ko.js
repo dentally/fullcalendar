@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("ko", {
+$.njCalendar.lang("ko", {
 	defaultButtonText: {
 		month: "월",
 		week: "주",

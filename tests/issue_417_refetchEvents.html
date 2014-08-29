@@ -23,7 +23,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			year: 2010,
 			month: 9,
 			date: 31,
@@ -33,7 +33,7 @@
 				right: 'month,agendaDay'
 			},
 			editable: true,
-			events: $.fullCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic')
+			events: $.njCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic')
 		});
 		
 	});
@@ -56,7 +56,7 @@
 </style>
 </head>
 <body>
-<button onclick="$('#calendar').fullCalendar('refetchEvents')">refetchEvents</button>
+<button onclick="$('#calendar').njCalendar('refetchEvents')">refetchEvents</button>
 <div id='calendar'></div>
 </body>
 </html>

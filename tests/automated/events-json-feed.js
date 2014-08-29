@@ -30,7 +30,7 @@ describe('events as a json feed', function() {
 
 	it('requests correctly when no timezone', function() {
 		options.events = 'my-feed.php';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toEqual('2014-04-27');
 		expect(request.data.end).toEqual('2014-06-08');
@@ -40,7 +40,7 @@ describe('events as a json feed', function() {
 	it('requests correctly when local timezone', function() {
 		options.events = 'my-feed.php';
 		options.timezone = 'local';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toEqual('2014-04-27');
 		expect(request.data.end).toEqual('2014-06-08');
@@ -50,7 +50,7 @@ describe('events as a json feed', function() {
 	it('requests correctly when UTC timezone', function() {
 		options.events = 'my-feed.php';
 		options.timezone = 'UTC';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toEqual('2014-04-27');
 		expect(request.data.end).toEqual('2014-06-08');
@@ -60,7 +60,7 @@ describe('events as a json feed', function() {
 	it('requests correctly when custom timezone', function() {
 		options.events = 'my-feed.php';
 		options.timezone = 'America/Chicago';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toEqual('2014-04-27');
 		expect(request.data.end).toEqual('2014-06-08');
@@ -82,7 +82,7 @@ describe('events as a json feed', function() {
 			expect(eventElm).toHaveClass('customeventclass');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('accepts jQuery.ajax params', function(done) {
@@ -98,7 +98,7 @@ describe('events as a json feed', function() {
 			}
 		};
 		options.eventSources = [ eventSource ];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('accepts a dynamic data function', function(done) {
@@ -116,7 +116,7 @@ describe('events as a json feed', function() {
 			expect(request.data.customParam).toMatch('heckyeah');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 });

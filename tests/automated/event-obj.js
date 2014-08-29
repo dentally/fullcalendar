@@ -19,10 +19,10 @@ describe('event object creation', function() {
 	});
 
 	function init(singleEventData) {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			events: [ singleEventData ]
 		});
-		event = $('#cal').fullCalendar('clientEvents')[0];
+		event = $('#cal').njCalendar('clientEvents')[0];
 	}
 
 	it('accepts `date` property as alias for `start`', function() {

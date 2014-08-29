@@ -23,7 +23,7 @@
 		var y = date.getFullYear();
 		var prevDay = null;
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -32,7 +32,7 @@
 			editable: true,
 			dayClick: function(date, allDay, jsEvent, view) {
 				
-				$('#calendar').fullCalendar( 'gotoDate', date);
+				$('#calendar').njCalendar( 'gotoDate', date);
 				
 			},
 			events: [

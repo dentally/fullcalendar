@@ -7,7 +7,7 @@ describe('hiddenDays', function() {
 
 	describe('when using default', function() {
 		beforeEach(function() {
-			$('#cal').fullCalendar();
+			$('#cal').njCalendar();
 		});
 		it('should show 7 days of the week', function() {
 			var daysCount = $('.fc-day-header').length;
@@ -17,7 +17,7 @@ describe('hiddenDays', function() {
 
 	describe('when setting an empty hiddenDays', function() {
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				hiddenDays: []
 			});
 		});
@@ -29,7 +29,7 @@ describe('hiddenDays', function() {
 
 	describe('when setting hiddenDays with 1', function() {
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				hiddenDays: [ 1 ]
 			});
 		});
@@ -51,7 +51,7 @@ describe('hiddenDays', function() {
 
 	describe('when setting hiddenDays with 3,5', function() {
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				hiddenDays: [ 3, 5 ]
 			});
 		});
@@ -81,7 +81,7 @@ describe('hiddenDays', function() {
 				hiddenDays: [ 0, 1, 2, 3, 4, 5, 6 ]
 			};
 			expect(function() {
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 			}).toThrow('invalid hiddenDays');
 		});
 	});

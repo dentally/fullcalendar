@@ -6,20 +6,20 @@ describe('destroy', function() {
 
 	describe('when calendar is LTR', function() {
 		it('cleans up all classNames on the root element', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				isRTL: false
 			});
-			$('#cal').fullCalendar('destroy');
+			$('#cal').njCalendar('destroy');
 			expect($('#cal')[0].className).toBe('');
 		});
 	});
 
 	describe('when calendar is RTL', function() {
 		it('cleans up all classNames on the root element', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				isRTL: true
 			});
-			$('#cal').fullCalendar('destroy');
+			$('#cal').njCalendar('destroy');
 			expect($('#cal')[0].className).toBe('');
 		});
 	});

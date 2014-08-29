@@ -10,7 +10,7 @@
 <script>
 
 	$(document).ready(function() {
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			weekends: false,
 			header: {
 				left: 'prev,next today',
@@ -25,7 +25,7 @@
 					className: 'holiday'
 				},
 				/*
-				$.fullCalendar.gcalFeed(
+				$.njCalendar.gcalFeed(
 					"http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic",
 					{
 						editable: true,

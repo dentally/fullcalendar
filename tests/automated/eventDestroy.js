@@ -21,8 +21,8 @@ describe('eventDestroy', function() {
 			}
 		};
 
-		$('#cal').fullCalendar(options);
-		$('#cal').fullCalendar('removeEvents', singleEventData.id);
+		$('#cal').njCalendar(options);
+		$('#cal').njCalendar('removeEvents', singleEventData.id);
 	}
 
 	describe('when in month view', function() { // for issue 2017

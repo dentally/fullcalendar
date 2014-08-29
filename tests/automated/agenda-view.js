@@ -8,7 +8,7 @@ describe('agenda view rendering', function() {
 	describe('when isRTL is false', function() {
 
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				defaultView: 'agendaWeek',
 				isRTL: false
 			});
@@ -30,7 +30,7 @@ describe('agenda view rendering', function() {
 	describe('when isRTL is true', function() {
 
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				defaultView: 'agendaWeek',
 				isRTL: true
 			});

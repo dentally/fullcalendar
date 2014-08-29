@@ -15,7 +15,7 @@ describe('fixedWeekCount', function() {
 			options.fixedWeekCount = true;
 		});
 		it('renders a 5-week month with 6 rows', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			var weeks = $('.fc-week');
 			expect(weeks.length).toBe(6);
 		});
@@ -26,7 +26,7 @@ describe('fixedWeekCount', function() {
 			options.fixedWeekCount = false;
 		});
 		it('renders a 5-week month with 5 rows', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			var weeks = $('.fc-week');
 			expect(weeks.length).toBe(5);
 		});
@@ -39,7 +39,7 @@ describe('fixedWeekCount', function() {
 				options.defaultDate = '2014-08-01'; // has 6 weeks
 			});
 			it('should render a 6-week month consistently', function() {
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var weeks = $('.fc-week');
 				expect(weeks.length).toBe(6);
 			});

@@ -24,7 +24,7 @@ describe('events as an array', function() {
 			expect(eventObj.title).toEqual('my event');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('accepts an event using extended form', function(done) {
@@ -39,7 +39,7 @@ describe('events as an array', function() {
 			expect(eventElm).toHaveClass('customeventclass');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('doesn\'t mutate the original array', function(done) {
@@ -51,7 +51,7 @@ describe('events as an array', function() {
 			expect(origEvent).toEqual(eventArray[0]);
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 });

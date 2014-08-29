@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("it", {
+$.njCalendar.lang("it", {
 	defaultButtonText: {
 		month: "Mese",
 		week: "Settimana",

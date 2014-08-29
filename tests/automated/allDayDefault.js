@@ -8,7 +8,7 @@ describe('allDayDefault', function() {
 	describe('when undefined', function() {
 
 		it('guesses false if T in ISO8601 start date', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -16,12 +16,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(false);
 		});
 
 		it('guesses false if T in ISO8601 end date', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -30,12 +30,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(false);
 		});
 
 		it('guesses true if ISO8601 start date with no time and unspecified end date', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -43,12 +43,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(true);
 		});
 
 		it('guesses true if ISO8601 start and end date with no times', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -57,12 +57,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(true);
 		});
 
 		it('guesses false if start is a unix timestamp (which implies it has a time)', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -71,12 +71,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(false);
 		});
 
 		it('guesses false if end is a unix timestamp (which implies it has a time)', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				events: [
 					{
 						id: '1',
@@ -85,7 +85,7 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(false);
 		});
 
@@ -94,7 +94,7 @@ describe('allDayDefault', function() {
 	describe('when specified', function() {
 
 		it('has an effect when an event\'s allDay is not specified', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				allDayDefault: false,
 				events: [
 					{
@@ -103,12 +103,12 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(false);
 		});
 
 		it('has no effect when an event\'s allDay is specified', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				allDayDefault: false,
 				events: [
 					{
@@ -118,7 +118,7 @@ describe('allDayDefault', function() {
 					}
 				]
 			});
-			var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+			var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 			expect(eventObj.allDay).toEqual(true);
 		});
 
@@ -133,7 +133,7 @@ describe('source.allDayDefault', function() {
 	});
 
 	it('has an effect when an event\'s allDay is not specified', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			eventSources: [
 				{
 					allDayDefault: false,
@@ -146,12 +146,12 @@ describe('source.allDayDefault', function() {
 				}
 			]
 		});
-		var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+		var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 		expect(eventObj.allDay).toEqual(false);
 	});
 
 	it('a true value can override the global allDayDefault', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			allDayDefault: false,
 			eventSources: [
 				{
@@ -165,12 +165,12 @@ describe('source.allDayDefault', function() {
 				}
 			]
 		});
-		var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+		var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 		expect(eventObj.allDay).toEqual(true);
 	});
 
 	it('a false value can override the global allDayDefault', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			allDayDefault: true,
 			eventSources: [
 				{
@@ -184,12 +184,12 @@ describe('source.allDayDefault', function() {
 				}
 			]
 		});
-		var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+		var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 		expect(eventObj.allDay).toEqual(false);
 	});
 
 	it('has no effect when an event\'s allDay is specified', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			eventSources: [
 				{
 					allDayDefault: true,
@@ -203,7 +203,7 @@ describe('source.allDayDefault', function() {
 				}
 			]
 		});
-		var eventObj = $('#cal').fullCalendar('clientEvents', '1')[0];
+		var eventObj = $('#cal').njCalendar('clientEvents', '1')[0];
 		expect(eventObj.allDay).toEqual(false);
 	});
 

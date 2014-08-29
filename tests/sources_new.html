@@ -53,7 +53,7 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	$('#calendar').fullCalendar({
+	$('#calendar').njCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title',
@@ -82,7 +82,7 @@ $(document).ready(function() {
 			},
 			
 			/*
-			$.fullCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic', {
+			$.njCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic', {
 				color: 'orange',
 				className: 'gcal'
 			}),

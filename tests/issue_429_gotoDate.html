@@ -10,7 +10,7 @@
 
 	$(document).ready(function() {
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -41,7 +41,7 @@
 </style>
 </head>
 <body>
-<button onclick="$('#calendar').fullCalendar('gotoDate', 2015, 1)">gotoDate - feb 2015</button>
+<button onclick="$('#calendar').njCalendar('gotoDate', 2015, 1)">gotoDate - feb 2015</button>
 <div id='calendar'></div>
 </body>
 </html>

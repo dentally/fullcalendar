@@ -28,13 +28,13 @@ describe('month name', function() {
 
         moment.months().forEach(function(month, index, months) {
           it('should be ' + month, function(done) {
-            settings.defaultDate = $.fullCalendar.moment(referenceDate).add(index, 'months');
+            settings.defaultDate = $.njCalendar.moment(referenceDate).add(index, 'months');
             settings.eventAfterAllRender = function() {
               expect($('.fc-toolbar h2')).toContainText(month);
               done();
             };
 
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
           });
         });
       });
@@ -51,7 +51,7 @@ describe('month name', function() {
               var langMonths = moment.months();
               var langMonth = langMonths[index];
 
-              settings.defaultDate = $.fullCalendar.moment(referenceDate).add(index, 'months');
+              settings.defaultDate = $.njCalendar.moment(referenceDate).add(index, 'months');
               settings.eventAfterAllRender = function() {
                 if (viewClass == 'month') { // with month view check for occurence of the monthname in the title
                   expect($('.fc-toolbar h2')).toContainText(langMonth);
@@ -62,7 +62,7 @@ describe('month name', function() {
                 done();
               };
 
-              $('#cal').fullCalendar(settings);
+              $('#cal').njCalendar(settings);
             });
           });
         });
@@ -86,14 +86,14 @@ describe('month name', function() {
 
         months.forEach(function(month, index, months) { // `month` is our custom month name
           it('should be the translated name for ' + month, function(done) {
-            settings.defaultDate = $.fullCalendar.moment(referenceDate).add(index, 'months');
+            settings.defaultDate = $.njCalendar.moment(referenceDate).add(index, 'months');
             settings.monthNames = months;
             settings.eventAfterAllRender = function() {
               expect($('.fc-toolbar h2')).toContainText(month);
               done();
             };
 
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
           });
         });
       });

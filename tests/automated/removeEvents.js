@@ -29,10 +29,10 @@ describe('removeEvents', function() {
 				go(
 					events,
 					function() {
-						$('#cal').fullCalendar('removeEvents');
+						$('#cal').njCalendar('removeEvents');
 					},
 					function() {
-						expect($('#cal').fullCalendar('clientEvents').length).toEqual(0);
+						expect($('#cal').njCalendar('clientEvents').length).toEqual(0);
 						expect($('.fc-event').length).toEqual(0);
 					},
 					done
@@ -43,10 +43,10 @@ describe('removeEvents', function() {
 				go(
 					events,
 					function() {
-						$('#cal').fullCalendar('removeEvents', 1);
+						$('#cal').njCalendar('removeEvents', 1);
 					},
 					function() {
-						expect($('#cal').fullCalendar('clientEvents').length).toEqual(2);
+						expect($('#cal').njCalendar('clientEvents').length).toEqual(2);
 						expect($('.fc-event').length).toEqual(2);
 						expect($('.event-zero').length).toEqual(1);
 						expect($('.event-two').length).toEqual(1);
@@ -59,10 +59,10 @@ describe('removeEvents', function() {
 				go(
 					events,
 					function() {
-						$('#cal').fullCalendar('removeEvents', '1');
+						$('#cal').njCalendar('removeEvents', '1');
 					},
 					function() {
-						expect($('#cal').fullCalendar('clientEvents').length).toEqual(2);
+						expect($('#cal').njCalendar('clientEvents').length).toEqual(2);
 						expect($('.fc-event').length).toEqual(2);
 						expect($('.event-zero').length).toEqual(1);
 						expect($('.event-two').length).toEqual(1);
@@ -75,12 +75,12 @@ describe('removeEvents', function() {
 				go(
 					events,
 					function() {
-						$('#cal').fullCalendar('removeEvents', function(event) {
+						$('#cal').njCalendar('removeEvents', function(event) {
 							return $.inArray('event-one', event.className) !== -1;
 						});
 					},
 					function() {
-						expect($('#cal').fullCalendar('clientEvents').length).toEqual(2);
+						expect($('#cal').njCalendar('clientEvents').length).toEqual(2);
 						expect($('.fc-event').length).toEqual(2);
 						expect($('.event-zero').length).toEqual(1);
 						expect($('.event-two').length).toEqual(1);
@@ -93,10 +93,10 @@ describe('removeEvents', function() {
 				go(
 					events,
 					function() {
-						$('#cal').fullCalendar('removeEvents', 0);
+						$('#cal').njCalendar('removeEvents', 0);
 					},
 					function() {
-						expect($('#cal').fullCalendar('clientEvents').length).toEqual(2);
+						expect($('#cal').njCalendar('clientEvents').length).toEqual(2);
 						expect($('.fc-event').length).toEqual(2);
 						expect($('.event-zero').length).toEqual(0);
 						expect($('.event-non-zero').length).toEqual(2);
@@ -121,8 +121,8 @@ describe('removeEvents', function() {
 				checkFunc(); // check correctness
 
 				// move the calendar back out of view, then back in
-				$('#cal').fullCalendar('next');
-				$('#cal').fullCalendar('prev');
+				$('#cal').njCalendar('next');
+				$('#cal').njCalendar('prev');
 
 				// array event sources should maintain the same state
 				// whereas "dynamic" event sources should refetch and reset the state
@@ -136,14 +136,14 @@ describe('removeEvents', function() {
 				doneFunc();
 			}
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	}
 
 
 	// Checks to make sure all events have been rendered and that the calendar
 	// has internal info on all the events.
 	function checkAllEvents() {
-		expect($('#cal').fullCalendar('clientEvents').length).toEqual(3);
+		expect($('#cal').njCalendar('clientEvents').length).toEqual(3);
 		expect($('.fc-event').length).toEqual(3);
 	}
 

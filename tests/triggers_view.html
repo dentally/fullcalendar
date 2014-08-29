@@ -17,7 +17,7 @@
 	var verbose = false;
 
 	$(document).ready(function() {
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			
 			header: {
 				left: 'prev,next today',
@@ -138,9 +138,9 @@
 
 
 	function hyperJump() {console.log('hyperJump');
-		$('#calendar').fullCalendar('changeView', 'agendaWeek');
+		$('#calendar').njCalendar('changeView', 'agendaWeek');
 		//alert('pause');
-		$('#calendar').fullCalendar('gotoDate', new Date(y, m+2, d));
+		$('#calendar').njCalendar('gotoDate', new Date(y, m+2, d));
 	}
 
 </script>

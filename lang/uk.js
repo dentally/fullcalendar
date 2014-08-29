@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("uk", {
+$.njCalendar.lang("uk", {
 	defaultButtonText: {
 		month: "Місяць",
 		week: "Тиждень",

@@ -15,7 +15,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -79,7 +79,7 @@
 		}
 		
 		$(window).resize(function() {
-			$('#calendar').fullCalendar('option', 'height', calcCalendarHeight());
+			$('#calendar').njCalendar('option', 'height', calcCalendarHeight());
 		});
 		
 	});

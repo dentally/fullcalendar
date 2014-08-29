@@ -44,8 +44,8 @@ describe('external drag and drop', function() {
 				if (callCnt === 0) {
 					expect(date).toEqualMoment('2014-08-06');
 					$('#sidebar .event1').remove();
-					$('#cal').fullCalendar('next');
-					$('#cal').fullCalendar('prev');
+					$('#cal').njCalendar('next');
+					$('#cal').njCalendar('prev');
 					setTimeout(function() { // needed for IE8
 						$('#sidebar .event2').simulate('drag-n-drop', {
 							dropTarget: getMonthCell(1, 3)
@@ -59,7 +59,7 @@ describe('external drag and drop', function() {
 				callCnt++;
 			};
 
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			setTimeout(function() { // needed for IE8
 				$('#sidebar .event1').simulate('drag-n-drop', {
 					dropTarget: getMonthCell(1, 3)
@@ -83,8 +83,8 @@ describe('external drag and drop', function() {
 				if (callCnt === 0) {
 					expect(date).toEqualMoment('2014-08-20T01:00:00');
 					$('#sidebar .event1').remove();
-					$('#cal').fullCalendar('next');
-					$('#cal').fullCalendar('prev');
+					$('#cal').njCalendar('next');
+					$('#cal').njCalendar('prev');
 					setTimeout(function() { // needed for IE8, for firing the second time, for some reason
 						$('#sidebar .event2').simulate('drag-n-drop', {
 							dropTarget: $('.fc-slats tr:eq(2)') // middle is 1:00am on 2014-08-20
@@ -98,7 +98,7 @@ describe('external drag and drop', function() {
 				callCnt++;
 			};
 
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			setTimeout(function() { // needed for IE8
 				$('#sidebar .event1').simulate('drag-n-drop', {
 					dropTarget: $('.fc-slats tr:eq(2)') // middle is 1:00am on 2014-08-20
@@ -112,7 +112,7 @@ describe('external drag and drop', function() {
 				expect(date).toEqualMoment(moment('2014-08-20T01:00:00')); // compate it to a local moment
 				done();
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			setTimeout(function() { // needed for IE8
 				$('#sidebar .event1').simulate('drag-n-drop', {
 					dropTarget: $('.fc-slats tr:eq(2)') // middle is 1:00am on 2014-08-20, LOCAL TIME
@@ -126,7 +126,7 @@ describe('external drag and drop', function() {
 				expect(date).toEqualMoment('2014-08-20T01:00:00+00:00');
 				done();
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			setTimeout(function() { // needed for IE8
 				$('#sidebar .event1').simulate('drag-n-drop', {
 					dropTarget: $('.fc-slats tr:eq(2)') // middle is 1:00am on 2014-08-20, LOCAL TIME

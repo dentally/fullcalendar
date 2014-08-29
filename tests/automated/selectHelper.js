@@ -15,8 +15,8 @@ describe('selectHelper', function() {
 		options.eventRender = function(event, element, view) {
 			element.addClass('didEventRender');
 		};
-		$('#cal').fullCalendar(options);
-		$('#cal').fullCalendar('select', '2014-08-04T01:00:00', '2014-08-04T04:00:00');
+		$('#cal').njCalendar(options);
+		$('#cal').njCalendar('select', '2014-08-04T01:00:00', '2014-08-04T04:00:00');
 		expect($('.fc-helper')).toHaveClass('didEventRender');
 	});
 });

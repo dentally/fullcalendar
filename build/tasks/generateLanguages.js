@@ -37,7 +37,7 @@ module.exports = function(grunt) {
 
 		// code for resetting the language back to English
 		combinedJS += '\n(moment.locale || moment.lang).call(moment, "en");'; // works with moment-pre-2.8
-		combinedJS += '\n$.fullCalendar.lang("en");';
+		combinedJS += '\n$.njCalendar.lang("en");';
 		combinedJS += '\nif ($.datepicker) $.datepicker.setDefaults($.datepicker.regional[""]);';
 
 		if (config.allDest) {
@@ -80,7 +80,7 @@ module.exports = function(grunt) {
 
 			// if there is no definition, we still need to tell FC to set the default
 			if (!fullCalendarLangJS) {
-				fullCalendarLangJS = '$.fullCalendar.lang("' + langCode + '");';
+				fullCalendarLangJS = '$.njCalendar.lang("' + langCode + '");';
 			}
 
 			datepickerLangJS = datepickerLangJS || '';
@@ -171,7 +171,7 @@ module.exports = function(grunt) {
 				// remove 1 level of tab indentation
 				props = props.replace(/^\t/mg, '');
 
-				return "$.fullCalendar.datepickerLang(" +
+				return "$.njCalendar.datepickerLang(" +
 					"'" + (targetLangCode || langCode) + "', " + // for FullCalendar
 					"'" + datepickerLangCode + "', " + // for datepicker
 					props +
@@ -199,8 +199,8 @@ module.exports = function(grunt) {
 		// the declaration
 		if (targetLangCode && targetLangCode != langCode) {
 			js = js.replace(
-				/\$\.fullCalendar\.lang\(['"]([^'"]*)['"]/,
-				'$.fullCalendar.lang("' + targetLangCode + '"'
+				/\$\.njCalendar\.lang\(['"]([^'"]*)['"]/,
+				'$.njCalendar.lang("' + targetLangCode + '"'
 			);
 		}
 

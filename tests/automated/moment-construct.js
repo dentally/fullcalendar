@@ -1,15 +1,15 @@
 (function() {
 
-describe('$.fullCalendar.moment', function() {
-	testDefaultProcessing($.fullCalendar.moment);
+describe('$.njCalendar.moment', function() {
+	testDefaultProcessing($.njCalendar.moment);
 });
 
-describe('$.fullCalendar.moment.utc', function() {
-	testForcedUTCProcessing($.fullCalendar.moment.utc);
+describe('$.njCalendar.moment.utc', function() {
+	testForcedUTCProcessing($.njCalendar.moment.utc);
 });
 
-describe('$.fullCalendar.moment.parseZone', function() {
-	testLiteralProcessing($.fullCalendar.moment.parseZone);
+describe('$.njCalendar.moment.parseZone', function() {
+	testLiteralProcessing($.njCalendar.moment.parseZone);
 });
 
 describe('Calendar::moment', function() {
@@ -41,10 +41,10 @@ describe('Calendar::moment', function() {
 
 			beforeEach(function() {
 				affix('#cal');
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					timezone: scenario.timezone
 				});
-				calendarObj = $('#cal').fullCalendar('getCalendar');
+				calendarObj = $('#cal').njCalendar('getCalendar');
 			});
 
 			scenario.testMethod(function() {
@@ -141,7 +141,7 @@ function testDefaultProcessing(construct) {
 	describe('when given an existing FullCalendar moment', function() {
 
 		it('remains ambiguously-zoned', function() {
-			var noTzMoment = $.fullCalendar.moment.parseZone('2014-05-28T00:00:00');
+			var noTzMoment = $.njCalendar.moment.parseZone('2014-05-28T00:00:00');
 			var newMoment = construct(noTzMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(true);
@@ -149,7 +149,7 @@ function testDefaultProcessing(construct) {
 		});
 
 		it('remains ambiguously-timed', function() {
-			var noTimeMoment = $.fullCalendar.moment('2014-05-28');
+			var noTimeMoment = $.njCalendar.moment('2014-05-28');
 			var newMoment = construct(noTimeMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(false);
@@ -158,7 +158,7 @@ function testDefaultProcessing(construct) {
 	});
 
 	[
-		{ description: 'when given an existing FullCalendar moment', moment: $.fullCalendar.moment },
+		{ description: 'when given an existing FullCalendar moment', moment: $.njCalendar.moment },
 		{ description: 'when given an existing basic moment', moment: moment }
 	]
 	.forEach(function(scenario) {
@@ -290,7 +290,7 @@ function testForcedLocalProcessing(construct) {
 	describe('when given an existing FullCalendar moment', function() {
 
 		it('converts to local when ambiguously-zoned', function() {
-			var noTzMoment = $.fullCalendar.moment.parseZone('2014-05-28T00:00:00');
+			var noTzMoment = $.njCalendar.moment.parseZone('2014-05-28T00:00:00');
 			var newMoment = construct(noTzMoment);
 			var dateEquiv = new Date(2014, 4, 28);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
@@ -300,7 +300,7 @@ function testForcedLocalProcessing(construct) {
 		});
 
 		it('remains ambiguously-timed', function() {
-			var noTimeMoment = $.fullCalendar.moment('2014-05-28');
+			var noTimeMoment = $.njCalendar.moment('2014-05-28');
 			var newMoment = construct(noTimeMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(false);
@@ -309,7 +309,7 @@ function testForcedLocalProcessing(construct) {
 	});
 
 	[
-		{ description: 'when given an existing FullCalendar moment', moment: $.fullCalendar.moment },
+		{ description: 'when given an existing FullCalendar moment', moment: $.njCalendar.moment },
 		{ description: 'when given an existing basic moment', moment: moment }
 	]
 	.forEach(function(scenario) {
@@ -437,7 +437,7 @@ function testForcedUTCProcessing(construct) {
 	describe('when given an existing FullCalendar moment', function() {
 
 		it('converts to UTC when ambiguously-zoned', function() {
-			var noTzMoment = $.fullCalendar.moment.utc('2014-05-28T00:00:00');
+			var noTzMoment = $.njCalendar.moment.utc('2014-05-28T00:00:00');
 			var newMoment = construct(noTzMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(true);
@@ -446,7 +446,7 @@ function testForcedUTCProcessing(construct) {
 		});
 
 		it('remains ambiguously-timed', function() {
-			var noTimeMoment = $.fullCalendar.moment('2014-05-28');
+			var noTimeMoment = $.njCalendar.moment('2014-05-28');
 			var newMoment = construct(noTimeMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(false);
@@ -455,7 +455,7 @@ function testForcedUTCProcessing(construct) {
 	});
 
 	[
-		{ description: 'when given an existing FullCalendar moment', moment: $.fullCalendar.moment },
+		{ description: 'when given an existing FullCalendar moment', moment: $.njCalendar.moment },
 		{ description: 'when given an existing basic moment', moment: moment }
 	]
 	.forEach(function(scenario) {
@@ -580,7 +580,7 @@ function testLiteralProcessing(construct) {
 	describe('when given an existing FullCalendar moment', function() {
 
 		it('remains ambiguously-zoned', function() {
-			var noTzMoment = $.fullCalendar.moment.parseZone('2014-05-28T00:00:00');
+			var noTzMoment = $.njCalendar.moment.parseZone('2014-05-28T00:00:00');
 			var newMoment = construct(noTzMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(true);
@@ -588,7 +588,7 @@ function testLiteralProcessing(construct) {
 		});
 
 		it('remains ambiguously-timed', function() {
-			var noTimeMoment = $.fullCalendar.moment('2014-05-28');
+			var noTimeMoment = $.njCalendar.moment('2014-05-28');
 			var newMoment = construct(noTimeMoment);
 			expect(newMoment.toArray()).toEqual([ 2014, 4, 28, 0, 0, 0, 0 ]);
 			expect(newMoment.hasTime()).toBe(false);
@@ -597,7 +597,7 @@ function testLiteralProcessing(construct) {
 	});
 
 	[
-		{ description: 'when given an existing FullCalendar moment', moment: $.fullCalendar.moment },
+		{ description: 'when given an existing FullCalendar moment', moment: $.njCalendar.moment },
 		{ description: 'when given an existing basic moment', moment: moment }
 	]
 	.forEach(function(scenario) {

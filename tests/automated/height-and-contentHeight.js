@@ -16,12 +16,12 @@
 
 	function init(heightVal) {
 		if (asAMethod) {
-			$('#cal').fullCalendar(options);
-			$('#cal').fullCalendar('option', heightProp, heightVal);
+			$('#cal').njCalendar(options);
+			$('#cal').njCalendar('option', heightProp, heightVal);
 		}
 		else {
 			options[heightProp] = heightVal;
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		}
 
 		if (heightProp === 'height') {

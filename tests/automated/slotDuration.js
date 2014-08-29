@@ -13,7 +13,7 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
@@ -23,7 +23,7 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
@@ -36,7 +36,7 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
@@ -46,7 +46,7 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
@@ -67,7 +67,7 @@ describe('slotDuration', function() {
 						defaultView: 'agendaWeek',
 						slotDuration: { minutes: slotMinutes }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var slotCount = $('.fc-slats tr').length;
 					var expected = Math.ceil(minutesInADay / slotMinutes);
 					expect(slotCount).toEqual(expected);
@@ -85,7 +85,7 @@ describe('slotDuration', function() {
 						defaultView: 'agendaWeek',
 						slotDuration: { minutes: slotMinutes }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var slotCount = $('.fc-slats tr').length;
 					var expected = Math.ceil(minutesInADay / slotMinutes);
 					expect(slotCount).toEqual(expected);

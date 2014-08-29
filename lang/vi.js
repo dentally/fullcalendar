@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("vi", {
+$.njCalendar.lang("vi", {
 	defaultButtonText: {
 		month: "Tháng",
 		week: "Tuần",

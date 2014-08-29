@@ -6,7 +6,7 @@ describe('constructor', function() {
 	});
 
 	it('should return a jQuery object for chaining', function() {
-		var res = $('#calendar').fullCalendar();
+		var res = $('#calendar').njCalendar();
 		expect(res instanceof jQuery).toBe(true);
 	});
 
@@ -17,7 +17,7 @@ describe('constructor', function() {
 			slotDuration: { minutes: 45 }
 		};
 		var optionsCopy = $.extend({}, options, true);
-		$('#calendar').fullCalendar(options);
+		$('#calendar').njCalendar(options);
 		expect(options).toEqual(optionsCopy);
 	});
 
@@ -33,7 +33,7 @@ describe('constructor', function() {
 			]
 		};
 		var optionsCopy = $.extend(true, {}, options); // recursive copy
-		$('#calendar').fullCalendar(options);
+		$('#calendar').njCalendar(options);
 		expect(options).toEqual(optionsCopy);
 	});
 
@@ -51,14 +51,14 @@ describe('constructor', function() {
 			]
 		};
 		var optionsCopy = $.extend(true, {}, options); // recursive copy
-		$('#calendar').fullCalendar(options);
+		$('#calendar').njCalendar(options);
 		expect(options).toEqual(optionsCopy);
 	});
 
 	describe('when called on a div', function() {
 
 		beforeEach(function() {
-			$('#calendar').fullCalendar();
+			$('#calendar').njCalendar();
 		});
 
 		it('should contain a table fc-toolbar', function() {
@@ -78,7 +78,7 @@ describe('constructor', function() {
 
 		describe('and then called again', function() {
 			it('should still only have a single set of calendar [header,content]', function() {
-				$('#calendar').fullCalendar();
+				$('#calendar').njCalendar();
 				var count = $('#calendar >').length;
 				expect(count).toEqual(2);
 			});

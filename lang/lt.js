@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("lt", {
+$.njCalendar.lang("lt", {
 	defaultButtonText: {
 		month: "Mėnuo",
 		week: "Savaitė",

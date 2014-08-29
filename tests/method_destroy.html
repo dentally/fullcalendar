@@ -10,7 +10,7 @@
 
 	$(document).ready(function() {
 		
-		var cal = $('#calendar').fullCalendar({
+		var cal = $('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -19,11 +19,11 @@
 			theme: true
 		});
 		
-		console.log(cal.data('fullCalendar'));
+		console.log(cal.data('njCalendar'));
 		
-		cal.fullCalendar('destroy');
+		cal.njCalendar('destroy');
 		
-		console.log(cal.data('fullCalendar'));
+		console.log(cal.data('njCalendar'));
 		
 	});
 

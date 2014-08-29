@@ -33,9 +33,9 @@ describe('timezone', function() {
 
 	it('receives events correctly when no timezone', function(done) {
 		options.eventAfterAllRender = function() {
-			var allDayEvent = $('#cal').fullCalendar('clientEvents', '1')[0];
-			var timedEvent = $('#cal').fullCalendar('clientEvents', '2')[0];
-			var zonedEvent = $('#cal').fullCalendar('clientEvents', '3')[0];
+			var allDayEvent = $('#cal').njCalendar('clientEvents', '1')[0];
+			var timedEvent = $('#cal').njCalendar('clientEvents', '2')[0];
+			var zonedEvent = $('#cal').njCalendar('clientEvents', '3')[0];
 			expect(allDayEvent.start.hasZone()).toEqual(false);
 			expect(allDayEvent.start.hasTime()).toEqual(false);
 			expect(allDayEvent.start.format()).toEqual('2014-05-02');
@@ -47,15 +47,15 @@ describe('timezone', function() {
 			expect(zonedEvent.start.format()).toEqual('2014-05-10T14:00:00+11:00');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('receives events correctly when local timezone', function(done) {
 		options.timezone = 'local';
 		options.eventAfterAllRender = function() {
-			var allDayEvent = $('#cal').fullCalendar('clientEvents', '1')[0];
-			var timedEvent = $('#cal').fullCalendar('clientEvents', '2')[0];
-			var zonedEvent = $('#cal').fullCalendar('clientEvents', '3')[0];
+			var allDayEvent = $('#cal').njCalendar('clientEvents', '1')[0];
+			var timedEvent = $('#cal').njCalendar('clientEvents', '2')[0];
+			var zonedEvent = $('#cal').njCalendar('clientEvents', '3')[0];
 			expect(allDayEvent.start.hasZone()).toEqual(false);
 			expect(allDayEvent.start.hasTime()).toEqual(false);
 			expect(allDayEvent.start.format()).toEqual('2014-05-02');
@@ -67,15 +67,15 @@ describe('timezone', function() {
 			expect(zonedEvent.start.zone()).toEqual(new Date('Sat May 10 2014 14:00:00 GMT+1100').getTimezoneOffset());
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('receives events correctly when UTC timezone', function(done) {
 		options.timezone = 'UTC';
 		options.eventAfterAllRender = function() {
-			var allDayEvent = $('#cal').fullCalendar('clientEvents', '1')[0];
-			var timedEvent = $('#cal').fullCalendar('clientEvents', '2')[0];
-			var zonedEvent = $('#cal').fullCalendar('clientEvents', '3')[0];
+			var allDayEvent = $('#cal').njCalendar('clientEvents', '1')[0];
+			var timedEvent = $('#cal').njCalendar('clientEvents', '2')[0];
+			var zonedEvent = $('#cal').njCalendar('clientEvents', '3')[0];
 			expect(allDayEvent.start.hasZone()).toEqual(false);
 			expect(allDayEvent.start.hasTime()).toEqual(false);
 			expect(allDayEvent.start.format()).toEqual('2014-05-02');
@@ -87,15 +87,15 @@ describe('timezone', function() {
 			expect(zonedEvent.start.format()).toEqual('2014-05-10T03:00:00+00:00');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('receives events correctly when custom timezone', function(done) {
 		options.timezone = 'America/Chicago';
 		options.eventAfterAllRender = function() {
-			var allDayEvent = $('#cal').fullCalendar('clientEvents', '1')[0];
-			var timedEvent = $('#cal').fullCalendar('clientEvents', '2')[0];
-			var zonedEvent = $('#cal').fullCalendar('clientEvents', '3')[0];
+			var allDayEvent = $('#cal').njCalendar('clientEvents', '1')[0];
+			var timedEvent = $('#cal').njCalendar('clientEvents', '2')[0];
+			var zonedEvent = $('#cal').njCalendar('clientEvents', '3')[0];
 			expect(allDayEvent.start.hasZone()).toEqual(false);
 			expect(allDayEvent.start.hasTime()).toEqual(false);
 			expect(allDayEvent.start.format()).toEqual('2014-05-02');
@@ -107,7 +107,7 @@ describe('timezone', function() {
 			expect(zonedEvent.start.format()).toEqual('2014-05-10T14:00:00+11:00');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 });

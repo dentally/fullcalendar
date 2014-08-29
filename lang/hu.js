@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("hu", {
+$.njCalendar.lang("hu", {
 	defaultButtonText: {
 		month: "Hónap",
 		week: "Hét",

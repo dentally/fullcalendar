@@ -10,7 +10,7 @@ describe('nextDayThreshold', function() {
 	});
 
 	it('renders an event before the threshold', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			nextDayThreshold: '10:00:00',
 			defaultDate: '2014-06',
 			defaultView: 'month',
@@ -26,7 +26,7 @@ describe('nextDayThreshold', function() {
 	});
 
 	it('renders an event equal to the threshold', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			nextDayThreshold: '10:00:00',
 			defaultDate: '2014-06',
 			defaultView: 'month',
@@ -42,7 +42,7 @@ describe('nextDayThreshold', function() {
 	});
 
 	it('renders an event after the threshold', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			nextDayThreshold: '10:00:00',
 			defaultDate: '2014-06',
 			defaultView: 'month',

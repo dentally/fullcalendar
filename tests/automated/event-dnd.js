@@ -11,7 +11,7 @@ describe('eventDrop', function() {
 	});
 
 	afterEach(function() {
-		$('#cal').fullCalendar('destroy');
+		$('#cal').njCalendar('destroy');
 	});
 
 	describe('when in month view', function() {
@@ -417,7 +417,7 @@ describe('eventDrop', function() {
 		spyOn(options, 'eventDragStop').and.callThrough();
 
 		setTimeout(function() { // hack. agenda view scroll state would get messed up between tests
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		}, 0);
 	}
 });

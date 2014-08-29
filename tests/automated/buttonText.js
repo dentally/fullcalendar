@@ -18,7 +18,7 @@ describe('button text', function() {
     describe('with default buttonIcons', function() {
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have button icons, to text will be empty
         expect($('.fc-next-button')).toHaveText('');
@@ -45,7 +45,7 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         expect($('.fc-next-button')).toHaveText('->');
         expect($('.fc-nextYear-button')).toHaveText('-->');
@@ -69,7 +69,7 @@ describe('button text', function() {
       });
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have actual text now
         expect($('.fc-next-button')).toHaveText('next');
@@ -96,7 +96,7 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         expect($('.fc-next-button')).toHaveText('->');
         expect($('.fc-nextYear-button')).toHaveText('-->');
@@ -124,7 +124,7 @@ describe('button text', function() {
     describe('with default buttonIcons', function() {
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will contain icons, so will contain no text
         expect($('.fc-next-button')).toHaveText('');
@@ -151,7 +151,7 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         expect($('.fc-next-button')).toHaveText('->');
         expect($('.fc-nextYear-button')).toHaveText('-->');
@@ -175,7 +175,7 @@ describe('button text', function() {
       });
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have the language's actual text now
         expect($('.fc-next-button')).toHaveText('Suivant');
@@ -203,7 +203,7 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         expect($('.fc-next-button')).toHaveText('->');
         expect($('.fc-nextYear-button')).toHaveText('-->');

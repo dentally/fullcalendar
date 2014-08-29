@@ -17,7 +17,7 @@ describe('titleFormat', function() {
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12'
             });
         });
@@ -27,7 +27,7 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(SELECTOR).text()).toMatch(crtView.expected);
             };
         });
@@ -44,7 +44,7 @@ describe('titleFormat', function() {
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12',
                 titleFormat: {
                     month: 'YYYY, MMMM',
@@ -61,7 +61,7 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(SELECTOR).text()).toBe(crtView.expected);
             };
         });
@@ -78,7 +78,7 @@ describe('titleFormat', function() {
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12',
                 lang: 'fr'
             });
@@ -89,7 +89,7 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(SELECTOR).text()).toBe(crtView.expected);
             };
         });

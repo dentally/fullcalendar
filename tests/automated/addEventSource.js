@@ -18,7 +18,7 @@ describe('addEventSource', function() {
 	it('correctly adds an array source', function(done) {
 		go(
 			function() {
-				$('#cal').fullCalendar('addEventSource', eventArray);
+				$('#cal').njCalendar('addEventSource', eventArray);
 			},
 			null,
 			done
@@ -28,7 +28,7 @@ describe('addEventSource', function() {
 	it('correctly adds a function source', function(done) {
 		go(
 			function() {
-				$('#cal').fullCalendar('addEventSource', function(start, end, timezone, callback) {
+				$('#cal').njCalendar('addEventSource', function(start, end, timezone, callback) {
 					callback(eventArray);
 				});
 			},
@@ -40,7 +40,7 @@ describe('addEventSource', function() {
 	it('correctly adds an extended array source', function(done) {
 		go(
 			function() {
-				$('#cal').fullCalendar('addEventSource', {
+				$('#cal').njCalendar('addEventSource', {
 					className: 'arraysource',
 					events: eventArray
 				});
@@ -55,7 +55,7 @@ describe('addEventSource', function() {
 	it('correctly adds an extended array source', function(done) {
 		go(
 			function() {
-				$('#cal').fullCalendar('addEventSource', {
+				$('#cal').njCalendar('addEventSource', {
 					className: 'funcsource',
 					events: function(start, end, timezone, callback) {
 						callback(eventArray);
@@ -83,8 +83,8 @@ describe('addEventSource', function() {
 				}
 
 				// move the calendar back out of view, then back in (for issue 2191)
-				$('#cal').fullCalendar('next');
-				$('#cal').fullCalendar('prev');
+				$('#cal').njCalendar('next');
+				$('#cal').njCalendar('prev');
 
 				checkAllEvents();
 				if (extraTestFunc) {
@@ -94,14 +94,14 @@ describe('addEventSource', function() {
 				doneFunc();
 			}
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		addFunc();
 	}
 
 	// Checks to make sure all events have been rendered and that the calendar
 	// has internal info on all the events.
 	function checkAllEvents() {
-		expect($('#cal').fullCalendar('clientEvents').length).toEqual(3);
+		expect($('#cal').njCalendar('clientEvents').length).toEqual(3);
 		expect($('.fc-event').length).toEqual(3);
 	}
 

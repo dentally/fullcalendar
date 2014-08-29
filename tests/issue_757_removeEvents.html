@@ -15,7 +15,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -93,8 +93,8 @@
 </style>
 </head>
 <body>
-<button onclick="$('#calendar').fullCalendar('removeEvents')">removeEvents</button>
-<button onclick="$('#calendar').fullCalendar('renderEvent', { title:'hey', start:'2011-01-09' }, true)">addEvent (with stick)</button>
+<button onclick="$('#calendar').njCalendar('removeEvents')">removeEvents</button>
+<button onclick="$('#calendar').njCalendar('renderEvent', { title:'hey', start:'2011-01-09' }, true)">addEvent (with stick)</button>
 <div id='calendar'></div>
 </body>
 </html>

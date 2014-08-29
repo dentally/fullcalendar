@@ -24,7 +24,7 @@ describe('DayGrid event rendering', function() {
 				className: 'event2'
 			}
 		];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var row0 = $('.fc-day-grid .fc-row:eq(0)');
 		var row0event1 = row0.find('.event1');
 		var row0event2 = row0.find('.event2');

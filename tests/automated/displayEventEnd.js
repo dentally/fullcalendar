@@ -11,7 +11,7 @@ describe('displayEventEnd', function() {
 	});
 
 	afterEach(function() {
-		$('#cal').fullCalendar('destroy');
+		$('#cal').njCalendar('destroy');
 	});
 
 	[ 'month', 'agendaWeek' ].forEach(function(viewName) {
@@ -39,7 +39,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time').length).toBe(0);
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 
@@ -56,7 +56,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time')).toHaveText('1:00');
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 
@@ -74,7 +74,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time')).toHaveText('1:00');
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 			});
@@ -98,7 +98,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time').length).toBe(0);
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 
@@ -115,7 +115,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time')).toHaveText('1:00');
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 
@@ -133,7 +133,7 @@ describe('displayEventEnd', function() {
 							expect($('.fc-event .fc-time')).toHaveText('1:00 - 2:00');
 							done();
 						};
-						$('#cal').fullCalendar(options);
+						$('#cal').njCalendar(options);
 					});
 				});
 			});

@@ -10,7 +10,7 @@ describe('dayClick', function() {
 	});
 
 	afterEach(function() {
-		$('#cal').fullCalendar('destroy');
+		$('#cal').njCalendar('destroy');
 	});
 
 	[ false, true ].forEach(function(isRTL) {
@@ -37,7 +37,7 @@ describe('dayClick', function() {
 								expect(date).toEqualMoment('2014-05-07');
 							};
 							spyOn(options, 'dayClick').and.callThrough();
-							$('#cal').fullCalendar(options);
+							$('#cal').njCalendar(options);
 
 							var dayCell = $('.fc-day:eq(10)'); // 2014-05-07 (regardless of isRTL)
 
@@ -65,7 +65,7 @@ describe('dayClick', function() {
 								expect(date).toEqualMoment('2014-05-28');
 							};
 							spyOn(options, 'dayClick').and.callThrough();
-							$('#cal').fullCalendar(options);
+							$('#cal').njCalendar(options);
 
 							// 2014-05-28 (regardless of isRTL)
 							var dayContent = $('.fc-agenda-view .fc-day-grid .fc-day:eq(3)');
@@ -93,7 +93,7 @@ describe('dayClick', function() {
 								expect(date).toEqualMoment('2014-05-28T09:00:00');
 							};
 							spyOn(options, 'dayClick').and.callThrough();
-							$('#cal').fullCalendar(options);
+							$('#cal').njCalendar(options);
 
 							// the middle is 2014-05-28T09:00:00 (regardless of isRTL)
 							var slotRow = $('.fc-slats tr:eq(18) td:not(.fc-time)');
@@ -123,7 +123,7 @@ describe('dayClick', function() {
 								expect(date).toEqualMoment('2014-05-28T11:00:00');
 							};
 							spyOn(options, 'dayClick').and.callThrough();
-							$('#cal').fullCalendar(options);
+							$('#cal').njCalendar(options);
 
 							// the middle is 2014-05-28T11:00:00 (regardless of isRTL)
 							var slotRow = $('.fc-slats tr:eq(18) td:not(.fc-time)');

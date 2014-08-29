@@ -14,8 +14,8 @@ beforeEach(function() {
 		toEqualMoment: function() {
 			return {
 				compare: function(actual, expected) {
-					var actualStr = $.fullCalendar.moment.parseZone(actual).format();
-					var expectedStr = $.fullCalendar.moment.parseZone(expected).format();
+					var actualStr = $.njCalendar.moment.parseZone(actual).format();
+					var expectedStr = $.njCalendar.moment.parseZone(expected).format();
 					var result = {
 						pass: actualStr === expectedStr
 					};
@@ -29,7 +29,7 @@ beforeEach(function() {
 		toEqualNow: function() {
 			return {
 				compare: function(actual) {
-					var actualMoment = $.fullCalendar.moment.parseZone(actual);
+					var actualMoment = $.njCalendar.moment.parseZone(actual);
 					var result = {
 						pass: Math.abs(actualMoment - new Date()) < 1000 // within a second of current datetime
 					};
@@ -166,5 +166,5 @@ beforeEach(function() {
 // Destroy the calendar afterwards, to prevent memory leaks
 // (not the best place for this)
 afterEach(function() {
-	$('#calendar,#cal').fullCalendar('destroy'); // common id's for calendars in tests
+	$('#calendar,#cal').njCalendar('destroy'); // common id's for calendars in tests
 });

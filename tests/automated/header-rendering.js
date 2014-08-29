@@ -7,16 +7,16 @@ describe('header rendering', function() {
 
 	describe('when using default header options', function() {
 		it('should have title as default on left', function() {
-			$('#calendar').fullCalendar();
+			$('#calendar').njCalendar();
 			expect($('#calendar > .fc-toolbar > .fc-left > *')).toBeMatchedBy('h2');
 		});
 		it('should have empty center', function() {
-			$('#calendar').fullCalendar();
+			$('#calendar').njCalendar();
 			var center = $('#calendar > .fc-toolbar > .fc-center');
 			expect(center).toBeEmpty();
 		});
 		it('should have right with today|space|left|right', function() {
-			$('#calendar').fullCalendar();
+			$('#calendar').njCalendar();
 			var rightChildren = $('#calendar > .fc-toolbar > .fc-right > *');
 			var todayButton = rightChildren.eq(0);
 			var buttonGroup = rightChildren.eq(1);
@@ -37,7 +37,7 @@ describe('header rendering', function() {
 					right: 'title'
 				}
 			};
-			$('#calendar').fullCalendar(options);
+			$('#calendar').njCalendar(options);
 		});
 		it('should have title on the right', function() {
 			expect($('#calendar > .fc-toolbar > .fc-right > *')).toBeMatchedBy('h2');
@@ -61,7 +61,7 @@ describe('header rendering', function() {
 			var options = {
 				header: false
 			};
-			$('#calendar').fullCalendar(options);
+			$('#calendar').njCalendar(options);
 		});
 		it('should not have header table', function() {
 			expect($('.fc-toolbar')).not.toBeInDOM();
@@ -73,7 +73,7 @@ describe('header rendering', function() {
 			describe('when isRTL is ' + isRTL, function() {
 				beforeEach(function() {
 					var options = {};
-					$('#calendar').fullCalendar({
+					$('#calendar').njCalendar({
 						header: {
 							left: 'prev',
 							center: 'today',
@@ -123,7 +123,7 @@ describe('header rendering', function() {
 				$(window).off('beforeunload', beforeUnloadHandler);
 			}
 
-			$('#calendar').fullCalendar(options);
+			$('#calendar').njCalendar(options);
 			$('.fc-next-button').simulate('click');
 
 			setTimeout(function() { // wait to see if handler was called

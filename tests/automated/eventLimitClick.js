@@ -25,7 +25,7 @@ describe('eventLimitClick', function() { // simulate a click
 		});
 
 		it('renders a popover upon click', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			$('.fc-more').simulate('click');
 			expect($('.fc-more-popover')).toBeVisible();
 		});
@@ -45,9 +45,9 @@ describe('eventLimitClick', function() { // simulate a click
 				center: 'title',
 				right: 'month,basicWeek,basicDay'
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			$('.fc-more').simulate('click');
-			var view = $('#cal').fullCalendar('getView');
+			var view = $('#cal').njCalendar('getView');
 			expect(view.name).toBe('basicWeek');
 		});
 
@@ -57,9 +57,9 @@ describe('eventLimitClick', function() { // simulate a click
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			$('.fc-more').simulate('click');
-			var view = $('#cal').fullCalendar('getView');
+			var view = $('#cal').njCalendar('getView');
 			expect(view.name).toBe('agendaWeek');
 		});
 	});
@@ -76,9 +76,9 @@ describe('eventLimitClick', function() { // simulate a click
 				center: 'title',
 				right: 'month,basicWeek,basicDay'
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			$('.fc-more').simulate('click');
-			var view = $('#cal').fullCalendar('getView');
+			var view = $('#cal').njCalendar('getView');
 			expect(view.name).toBe('basicDay');
 		});
 
@@ -88,9 +88,9 @@ describe('eventLimitClick', function() { // simulate a click
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			$('.fc-more').simulate('click');
-			var view = $('#cal').fullCalendar('getView');
+			var view = $('#cal').njCalendar('getView');
 			expect(view.name).toBe('agendaDay');
 		});
 	});
@@ -102,9 +102,9 @@ describe('eventLimitClick', function() { // simulate a click
 			center: 'title',
 			right: 'month,basicWeek,basicDay'
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		$('.fc-more').simulate('click');
-		var view = $('#cal').fullCalendar('getView');
+		var view = $('#cal').njCalendar('getView');
 		expect(view.name).toBe('agendaWeek');
 	});
 
@@ -118,7 +118,7 @@ describe('eventLimitClick', function() { // simulate a click
 			expect(cellInfo.segs.length).toBe(4);
 			expect(cellInfo.moreEl).toHaveClass('fc-more');
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		$('.fc-more').simulate('click');
 	});
 
@@ -126,9 +126,9 @@ describe('eventLimitClick', function() { // simulate a click
 		options.eventLimitClick = function(cellInfo, jsEvent) {
 			return 'agendaDay';
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		$('.fc-more').simulate('click');
-		var view = $('#cal').fullCalendar('getView');
+		var view = $('#cal').njCalendar('getView');
 		expect(view.name).toBe('agendaDay');
 	});
 

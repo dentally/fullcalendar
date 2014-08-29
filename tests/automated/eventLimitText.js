@@ -20,7 +20,7 @@ describe('eventLimitText', function() {
 
 	it('allows a string', function() {
 		options.eventLimitText = 'extra';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect($('.fc-more')).toHaveText('+2 extra');
 	});
 
@@ -29,20 +29,20 @@ describe('eventLimitText', function() {
 			expect(typeof n).toBe('number');
 			return 'there are ' + n + ' more events!';
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect($('.fc-more')).toHaveText('there are 2 more events!');
 	});
 
 	it('has a default value that is affected by the custom locale', function() {
 		options.lang = 'fr';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect($('.fc-more')).toHaveText('+2 en plus');
 	});
 
 	it('is not affected by a custom locale when the value is explicitly specified', function() {
 		options.lang = 'fr';
 		options.eventLimitText = 'extra';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect($('.fc-more')).toHaveText('+2 extra');
 	});
 });

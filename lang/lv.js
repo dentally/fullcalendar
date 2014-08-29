@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("lv", {
+$.njCalendar.lang("lv", {
 	defaultButtonText: {
 		month: "Mēnesis",
 		week: "Nedēļa",

@@ -18,7 +18,7 @@ describe('dayPopoverFormat', function() {
 	});
 
 	function init() {
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		$('.fc-more').simulate('click');
 	}
 

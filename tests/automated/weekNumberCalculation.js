@@ -29,7 +29,7 @@ describe('weekNumberCalculation', function() {
 			it('should display the American standard when using \'local\'', function() {
 				options.defaultDate = '2013-11-23'; // a Saturday
 				options.weekNumberCalculation = 'local';
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect(getRenderedWeekNumber()).toBe(47);
 			});
 
@@ -37,7 +37,7 @@ describe('weekNumberCalculation', function() {
 				options.defaultDate = '2013-11-23'; // a Saturday
 				options.lang = 'ar';
 				options.weekNumberCalculation = 'local';
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect(getRenderedWeekNumber()).toBe(48);
 			});
 
@@ -45,14 +45,14 @@ describe('weekNumberCalculation', function() {
 			it('should display the American standard when using \'local\'', function() {
 				options.defaultDate = '2013-11-17'; // a Sunday
 				options.weekNumberCalculation = 'local';
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect(getRenderedWeekNumber()).toBe(47);
 			});
 
 			it('should display ISO standard when using \'ISO\'', function() {
 				options.defaultDate = '2013-11-17'; // a Sunday
 				options.weekNumberCalculation = 'ISO';
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect(getRenderedWeekNumber()).toBe(46);
 			});
 
@@ -60,7 +60,7 @@ describe('weekNumberCalculation', function() {
 				options.weekNumberCalculation = function() {
 					return 4;
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect(getRenderedWeekNumber()).toBe(4);
 			});
 		});

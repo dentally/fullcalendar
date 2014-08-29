@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("tl", {
+$.njCalendar.lang("tl", {
 	defaultButtonText: {
 		month: "Buwan",
 		week: "Linggo",

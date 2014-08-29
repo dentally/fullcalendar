@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("th", {
+$.njCalendar.lang("th", {
 	defaultButtonText: {
 		month: "เดือน",
 		week: "สัปดาห์",

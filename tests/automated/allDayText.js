@@ -11,7 +11,7 @@ describe('allDayText', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('all-day');
 			});
@@ -21,7 +21,7 @@ describe('allDayText', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('all-day');
 			});
@@ -35,7 +35,7 @@ describe('allDayText', function() {
 					defaultView: 'agendaWeek',
 					allDaySlot: true
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('all-day');
 			});
@@ -46,7 +46,7 @@ describe('allDayText', function() {
 					defaultView: 'agendaDay',
 					allDaySlot: true
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('all-day');
 			});
@@ -61,7 +61,7 @@ describe('allDayText', function() {
 					allDaySlot: true,
 					lang: 'pt-br'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('dia inteiro');
 			});
@@ -73,7 +73,7 @@ describe('allDayText', function() {
 					allDaySlot: true,
 					lang: 'pt-br'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('dia inteiro');
 			});
@@ -88,7 +88,7 @@ describe('allDayText', function() {
 					allDaySlot: true,
 					allDayText: 'axis-phosy'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('axis-phosy');
 			});
@@ -99,7 +99,7 @@ describe('allDayText', function() {
 					defaultView: 'agendaDay',
 					allDayText: 'axis-phosy'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var allDayText = $('.fc-day-grid > .fc-row > .fc-bg .fc-axis').text();
 				expect(allDayText).toEqual('axis-phosy');
 			});

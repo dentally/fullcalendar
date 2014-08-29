@@ -10,7 +10,7 @@ describe('eventResize', function() {
 	});
 
 	afterEach(function() {
-		$('#cal').fullCalendar('destroy');
+		$('#cal').njCalendar('destroy');
 	});
 
 	describe('when in month view', function() {
@@ -63,7 +63,7 @@ describe('eventResize', function() {
 					expect($('.fc-event .fc-resizer').length).toBe(0);
 					done();
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 			});
 		});
 	});
@@ -425,7 +425,7 @@ describe('eventResize', function() {
 		spyOn(options, 'eventResizeStop').and.callThrough();
 
 		setTimeout(function() { // hack. agenda view scroll state would get messed up between tests
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		}, 0);
 	}
 });

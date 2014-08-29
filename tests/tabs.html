@@ -13,7 +13,7 @@
 	
 		$('#tabs').tabs({
 			activate: function() {
-				$('#calendar').fullCalendar('render');
+				$('#calendar').njCalendar('render');
 			}
 		});
 	
@@ -22,7 +22,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			theme: true,
 			windowResize: function() {
 				//alert('recovered');

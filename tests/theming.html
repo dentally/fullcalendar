@@ -11,7 +11,7 @@
 
 function initCalendar() {
 
-	$('#calendar').fullCalendar({
+	$('#calendar').njCalendar({
 		theme: true,
 		header: {
 			left: 'prev,next today',
@@ -92,7 +92,7 @@ $(document).ready(function() {
 		height: 400,
 		onSelect: function(theme) {
 			setTimeout(function() {
-				$('#calendar').fullCalendar('render');
+				$('#calendar').njCalendar('render');
 			},1000);
 		}
 	});

@@ -16,8 +16,8 @@ describe('updateEvent', function() {
 	});
 
 	function init() {
-		$('#cal').fullCalendar(options);
-		var events = $('#cal').fullCalendar('clientEvents');
+		$('#cal').njCalendar(options);
+		var events = $('#cal').njCalendar('clientEvents');
 		event = events[0];
 		relatedEvent = events[1];
 	}
@@ -31,7 +31,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.start.add(2, 'days');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-03');
 				expect(event.end).toBeNull();
 				expect(relatedEvent.start).toEqualMoment('2014-05-12');
@@ -48,7 +48,7 @@ describe('updateEvent', function() {
 				event.start.add(2, 'days');
 				expect(event.start).toEqualMoment('2014-05-03');
 				expect(event.end).toBeNull();
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(relatedEvent.start).toEqualMoment('2014-05-12');
 				expect(relatedEvent.end).toEqualMoment('2014-05-14');
 			});
@@ -64,7 +64,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.start.add({ days: 2, hours: 2 });
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-03T14:00:00');
 				expect(event.end).toBeNull();
 				expect(relatedEvent.start).toEqualMoment('2014-05-12T08:00:00');
@@ -79,7 +79,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.start.add({ days: 2, hours: 2 });
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-03T14:00:00');
 				expect(event.end).toBeNull();
 				expect(relatedEvent.start).toEqualMoment('2014-05-12T08:00:00');
@@ -98,7 +98,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.end.add(1, 'days');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-01');
 				expect(event.end).toEqualMoment('2014-05-04');
 				expect(relatedEvent.start).toEqualMoment('2014-05-10');
@@ -113,7 +113,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.end.add(1, 'days');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-01');
 				expect(event.end).toEqualMoment('2014-05-04');
 				expect(relatedEvent.start).toEqualMoment('2014-05-10');
@@ -134,7 +134,7 @@ describe('updateEvent', function() {
 					];
 					init();
 					event.end.add({ days: 1, hours: 1 });
-					$('#cal').fullCalendar('updateEvent', event);
+					$('#cal').njCalendar('updateEvent', event);
 					expect(event.start).toEqualMoment('2014-05-01T12:00:00');
 					expect(event.end).toEqualMoment('2014-05-02T16:00:00');
 					expect(relatedEvent.start).toEqualMoment('2014-05-10T16:00:00');
@@ -152,7 +152,7 @@ describe('updateEvent', function() {
 					init();
 					event.end.add({ days: 1, hours: 1 });
 					relatedEvent.end = null;
-					$('#cal').fullCalendar('updateEvent', event);
+					$('#cal').njCalendar('updateEvent', event);
 					expect(event.start).toEqualMoment('2014-05-01T12:00:00');
 					expect(event.end).toEqualMoment('2014-05-02T16:00:00');
 					expect(relatedEvent.start).toEqualMoment('2014-05-10T16:00:00');
@@ -168,7 +168,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.end.add({ days: 1, hours: 1 });
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.start).toEqualMoment('2014-05-01T12:00:00');
 				expect(event.end).toEqualMoment('2014-05-02T15:00:00');
 				expect(relatedEvent.start).toEqualMoment('2014-05-10T16:00:00');
@@ -186,7 +186,7 @@ describe('updateEvent', function() {
 			init();
 			event.start.add(2, 'days');
 			event.end.add(3, 'day');
-			$('#cal').fullCalendar('updateEvent', event);
+			$('#cal').njCalendar('updateEvent', event);
 			expect(event.start).toEqualMoment('2014-05-03');
 			expect(event.end).toEqualMoment('2014-05-06');
 			expect(relatedEvent.start).toEqualMoment('2014-05-12');
@@ -203,7 +203,7 @@ describe('updateEvent', function() {
 			init();
 			event.start.add({ days: 2, hours: 1 });
 			event.end.add({ days: 3, hours: 2 });
-			$('#cal').fullCalendar('updateEvent', event);
+			$('#cal').njCalendar('updateEvent', event);
 			expect(event.start).toEqualMoment('2014-05-03T07:00:00');
 			expect(event.end).toEqualMoment('2014-05-06T08:00:00');
 			expect(relatedEvent.start).toEqualMoment('2014-05-12T07:00:00');
@@ -219,7 +219,7 @@ describe('updateEvent', function() {
 			];
 			init();
 			event.start.time('18:00');
-			$('#cal').fullCalendar('updateEvent', event);
+			$('#cal').njCalendar('updateEvent', event);
 			expect(event.allDay).toEqual(false);
 			expect(event.start).toEqualMoment('2014-05-01T18:00:00');
 			expect(event.end).toBeNull();
@@ -238,7 +238,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.allDay = false;
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.allDay).toEqual(false);
 				expect(event.start).toEqualMoment('2014-05-01T00:00:00');
 				expect(event.end).toBeNull();
@@ -256,7 +256,7 @@ describe('updateEvent', function() {
 				init();
 				event.allDay = false;
 				event.start.time('14:00');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.allDay).toEqual(false);
 				expect(event.start).toEqualMoment('2014-05-01T14:00:00');
 				expect(event.end).toBeNull();
@@ -274,7 +274,7 @@ describe('updateEvent', function() {
 				init();
 				event.allDay = false;
 				event.start.add(1, 'days');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 				expect(event.allDay).toEqual(false);
 				expect(event.start).toEqualMoment('2014-05-02T00:00:00');
 				expect(event.end).toBeNull();
@@ -293,7 +293,7 @@ describe('updateEvent', function() {
 			];
 			init();
 			event.allDay = true;
-			$('#cal').fullCalendar('updateEvent', event);
+			$('#cal').njCalendar('updateEvent', event);
 			expect(event.allDay).toEqual(true);
 			expect(event.start).toEqualMoment('2014-05-01');
 			expect(event.end).toBeNull();
@@ -309,7 +309,7 @@ describe('updateEvent', function() {
 			init();
 			event.allDay = true;
 			event.start.add(1, 'days');
-			$('#cal').fullCalendar('updateEvent', event);
+			$('#cal').njCalendar('updateEvent', event);
 			expect(event.allDay).toEqual(true);
 			expect(event.start).toEqualMoment('2014-05-02');
 			expect(event.end).toBeNull();
@@ -327,7 +327,7 @@ describe('updateEvent', function() {
 		init();
 		event.start = '2014-05-02T06:00:00'; // move by 1 day
 		event.end = '2014-05-05T06:00:00'; // increase duration by 1 day
-		$('#cal').fullCalendar('updateEvent', event);
+		$('#cal').njCalendar('updateEvent', event);
 		expect(event.allDay).toEqual(false);
 		expect(moment.isMoment(event.start)).toEqual(true);
 		expect(event.start).toEqualMoment('2014-05-02T06:00:00');
@@ -349,7 +349,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.start.add(2, 'hours');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 			});
 			should();
 		});
@@ -364,7 +364,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.end.add(2, 'hours');
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 			});
 			should();
 		});
@@ -379,7 +379,7 @@ describe('updateEvent', function() {
 				];
 				init();
 				event.allDay = false;
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 			});
 			should();
 		});
@@ -393,7 +393,7 @@ describe('updateEvent', function() {
 					{ id: '1', start: '2014-05-11T06:00:00+05:00', end: '2014-05-13T06:00:00+05:00', allDay: false }
 				];
 				init();
-				$('#cal').fullCalendar('updateEvent', event);
+				$('#cal').njCalendar('updateEvent', event);
 			});
 			should();
 		});

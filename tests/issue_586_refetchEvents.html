@@ -16,25 +16,25 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
 				right: 'month,agendaWeek,basicWeek,agendaDay,basicDay'
 			},
 			editable: true,
-			events: $.fullCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic')
+			events: $.njCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic')
 		});
 		
 	});
 	
 	function doit() {
 		var calendar = $('#calendar');
-		calendar.fullCalendar('removeEvents');
-		calendar.fullCalendar('refetchEvents');
-		calendar.fullCalendar('refetchEvents');
-		calendar.fullCalendar('refetchEvents');
-		calendar.fullCalendar('refetchEvents');
+		calendar.njCalendar('removeEvents');
+		calendar.njCalendar('refetchEvents');
+		calendar.njCalendar('refetchEvents');
+		calendar.njCalendar('refetchEvents');
+		calendar.njCalendar('refetchEvents');
 	}
 
 </script>

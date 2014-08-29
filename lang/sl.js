@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("sl", {
+$.njCalendar.lang("sl", {
 	defaultButtonText: {
 		month: "Mesec",
 		week: "Teden",

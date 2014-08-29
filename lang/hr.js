@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("hr", {
+$.njCalendar.lang("hr", {
 	defaultButtonText: {
 		month: "Mjesec",
 		week: "Tjedan",

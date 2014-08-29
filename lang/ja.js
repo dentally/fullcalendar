@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("ja", {
+$.njCalendar.lang("ja", {
 	defaultButtonText: {
 		month: "月",
 		week: "週",

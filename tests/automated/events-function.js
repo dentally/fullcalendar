@@ -26,7 +26,7 @@ describe('events as a function', function() {
 			callback([]);
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('requests correctly when local timezone', function(done) {
@@ -45,7 +45,7 @@ describe('events as a function', function() {
 			callback([]);
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('requests correctly when UTC timezone', function(done) {
@@ -64,7 +64,7 @@ describe('events as a function', function() {
 			callback([]);
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('requests correctly when custom timezone', function(done) {
@@ -83,7 +83,7 @@ describe('events as a function', function() {
 			callback([]);
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('requests correctly with event source extended form', function(done) {
@@ -115,7 +115,7 @@ describe('events as a function', function() {
 			expect(eventElm).toHaveClass('customeventclass');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 	it('requests the correct dates when days at the start/end of the month are hidden', function(done) {
@@ -128,7 +128,7 @@ describe('events as a function', function() {
 			expect(end).toEqualMoment('2013-06-29');
 			done();
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 	});
 
 });

@@ -24,7 +24,7 @@ describe('themeButtonIcons', function() {
 			options.theme = false;
 		});
 		it('should not have any of the default theme icon classes', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			defaultSelectors.forEach(function(selector) {
 				expect($(selector)).not.toBeInDOM();
 			});
@@ -38,7 +38,7 @@ describe('themeButtonIcons', function() {
 		});
 
 		it('should have all of the deafult theme icon classes', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			defaultSelectors.forEach(function(selector) {
 				expect($(selector)).toBeInDOM();
 			});
@@ -49,7 +49,7 @@ describe('themeButtonIcons', function() {
 				prev: 'arrowthickstop-1-w',
 				next: 'arrowthickstop-1-e'
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			[
 				'.ui-icon-arrowthickstop-1-w',
 				'.ui-icon-arrowthickstop-1-e',

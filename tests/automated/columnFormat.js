@@ -13,7 +13,7 @@ describe('columnFormat', function() {
             { view: 'agendaDay', expected: 'Sunday', selector: 'th.fc-widget-header.fc-sun' } ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-05-11'
             });
         });
@@ -23,7 +23,7 @@ describe('columnFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(crtView.selector).text()).toBe(crtView.expected);
             };
         });
@@ -38,7 +38,7 @@ describe('columnFormat', function() {
             { view: 'agendaDay', expected: 'Sunday 5/11', selector: 'th.fc-widget-header.fc-sun' } ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-05-11',
                 columnFormat: {
                     month: 'dddd',
@@ -55,7 +55,7 @@ describe('columnFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(crtView.selector).text()).toBe(crtView.expected);
             };
         });
@@ -70,7 +70,7 @@ describe('columnFormat', function() {
             { view: 'agendaDay', expected: 'dimanche', selector: 'th.fc-widget-header.fc-sun' } ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-05-11',
                 lang: 'fr'
             });
@@ -81,7 +81,7 @@ describe('columnFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(crtView.selector).text()).toBe(crtView.expected);
             };
         });
@@ -96,7 +96,7 @@ describe('columnFormat', function() {
             { view: 'agendaDay', expected: '일요일', selector: 'th.fc-widget-header.fc-sun' } ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-05-11',
                 lang: 'ko'
             });
@@ -107,7 +107,7 @@ describe('columnFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(crtView.selector).text()).toBe(crtView.expected);
             };
         });

@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("iw", {
+$.njCalendar.lang("iw", {
 	defaultButtonText: {
 		month: "חודש",
 		week: "שבוע",

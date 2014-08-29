@@ -17,7 +17,7 @@ describe('TimeGrid event rendering', function() {
 			start: '2014-08-18T02:00:00',
 			end: '2014-08-18T22:00:00'
 		} ];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect('.fc-event .fc-time').toHaveText('2:00 - 10:00');
 	});
 
@@ -27,7 +27,7 @@ describe('TimeGrid event rendering', function() {
 			start: '2014-08-18T02:00:00',
 			end: '2014-08-19T22:00:00'
 		} ];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var seg1 = $('.fc-event:eq(0)');
 		var seg2 = $('.fc-event:eq(1)');
 		expect(seg1.find('.fc-time')).toHaveText('2:00 - 12:00');
@@ -40,7 +40,7 @@ describe('TimeGrid event rendering', function() {
 			start: '2014-08-18T02:00:00',
 			end: '2014-08-20T22:00:00'
 		} ];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var seg2 = $('.fc-event:eq(1)');
 		expect(seg2).toBeInDOM();
 		expect(seg2.find('.fc-time')).not.toBeInDOM();

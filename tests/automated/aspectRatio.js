@@ -8,7 +8,7 @@ describe('aspectRatio', function() {
 	describe('when default settings are used', function() {
 		beforeEach(function() {
 			$('#cal').width(675);
-			$('#cal').fullCalendar();
+			$('#cal').njCalendar();
 		});
 		it('fc-content should use the ratio 1:35 to set height', function() {
 			var height = $('.fc-view-container').height();
@@ -25,7 +25,7 @@ describe('aspectRatio', function() {
 		describe('to 2', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: 2
 				});
 			});
@@ -44,7 +44,7 @@ describe('aspectRatio', function() {
 		describe('to 1', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: 1
 				});
 			});
@@ -63,7 +63,7 @@ describe('aspectRatio', function() {
 		describe('to less than 0.5', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: 0.4
 				});
 			});
@@ -82,7 +82,7 @@ describe('aspectRatio', function() {
 		describe('to negative', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: -2
 				});
 			});
@@ -101,7 +101,7 @@ describe('aspectRatio', function() {
 		describe('to zero', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: 0
 				});
 			});
@@ -120,7 +120,7 @@ describe('aspectRatio', function() {
 		describe('to very large', function() {
 			beforeEach(function() {
 				$('#cal').width(1000);
-				$('#cal').fullCalendar({
+				$('#cal').njCalendar({
 					aspectRatio: 4000
 				});
 			});

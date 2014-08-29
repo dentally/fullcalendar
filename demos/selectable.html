@@ -11,7 +11,7 @@
 
 	$(document).ready(function() {
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -29,9 +29,9 @@
 						start: start,
 						end: end
 					};
-					$('#calendar').fullCalendar('renderEvent', eventData, true); // stick? = true
+					$('#calendar').njCalendar('renderEvent', eventData, true); // stick? = true
 				}
-				$('#calendar').fullCalendar('unselect');
+				$('#calendar').njCalendar('unselect');
 			},
 			editable: true,
 			eventLimit: true, // allow "more" link when too many events

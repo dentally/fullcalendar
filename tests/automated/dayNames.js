@@ -42,7 +42,7 @@ describe('day names', function() {
           var weekdays = moment.weekdays();
           it('should be ' + weekdays[index], function() {
             settings.now = moment(referenceDate).add(index, 'days');
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
 
             expect($('.fc-view thead ' + dayClasses[index])).toHaveText(weekdays[index]);
           });
@@ -59,7 +59,7 @@ describe('day names', function() {
             it('should be the translation for ' + moment.weekdays()[index], function() {
               settings.lang = language;
               settings.now = moment(referenceDate).add(index, 'days');
-              $('#cal').fullCalendar(settings);
+              $('#cal').njCalendar(settings);
 
               expect($('.fc-view thead ' + dayClasses[index])).toHaveText(moment.weekdays()[index]);
             });
@@ -83,7 +83,7 @@ describe('day names', function() {
             settings.dayNames = [].slice.call(weekdays); // copy. in case there is a mutation
             settings.now = moment(referenceDate).add(idx, 'days');
 
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
 
             expect($('.fc-view thead ' + cls)).toHaveText(weekdays[idx]);
           });

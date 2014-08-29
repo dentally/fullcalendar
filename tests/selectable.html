@@ -18,7 +18,7 @@
 
 	$(document).ready(function() {
 		
-		calendar = $('#calendar').fullCalendar({
+		calendar = $('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -133,13 +133,13 @@
 </style>
 </head>
 <body>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d-1), new Date(y, m, d-2), true)">1day, allday</button>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d-1))">1day, noend, noallday</button>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d-1), null, false)">1day, noend, allday=false</button>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d, 5, 15), new Date(y, m, d, 15, 30), false)">1day, timed</button>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d-3), new Date(y, m, d), true)">3day, allday</button>
-<button onclick="calendar.fullCalendar('select', new Date(y, m, d-2, 5, 15), new Date(y, m, d+1, 15, 30), false)">3day, timed</button>
-<button onclick="calendar.fullCalendar('unselect')">unselect</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d-1), new Date(y, m, d-2), true)">1day, allday</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d-1))">1day, noend, noallday</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d-1), null, false)">1day, noend, allday=false</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d, 5, 15), new Date(y, m, d, 15, 30), false)">1day, timed</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d-3), new Date(y, m, d), true)">3day, allday</button>
+<button onclick="calendar.njCalendar('select', new Date(y, m, d-2, 5, 15), new Date(y, m, d+1, 15, 30), false)">3day, timed</button>
+<button onclick="calendar.njCalendar('unselect')">unselect</button>
 <div id='calendar'></div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("ru", {
+$.njCalendar.lang("ru", {
 	defaultButtonText: {
 		month: "Месяц",
 		week: "Неделя",

@@ -20,7 +20,7 @@ describe('minTime', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 				expect(firstSlotText).toEqual('12am');
 			});
@@ -31,7 +31,7 @@ describe('minTime', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 				expect(firstSlotText).toEqual('12am');
 			});
@@ -52,7 +52,7 @@ describe('minTime', function() {
 						defaultView: 'agendaWeek',
 						minTime: { hours: hourNumber }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 					var expected = numToStringConverter(hourNumber);
 					expect(firstSlotText).toEqual(expected);
@@ -70,7 +70,7 @@ describe('minTime', function() {
 						defaultView: 'agendaDay',
 						minTime: hourNumber + ':00' // in addition, test string duration input
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 					var expected = numToStringConverter(hourNumber);
 					expect(firstSlotText).toEqual(expected);
@@ -93,7 +93,7 @@ describe('minTime', function() {
 						defaultView: 'agendaWeek',
 						minTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var slatRows = $('.fc-slats tr');
 					expect(slatRows.eq(0)).toHaveClass('fc-minor');
 					expect(slatRows.eq(1)).toHaveClass('fc-minor');
@@ -113,7 +113,7 @@ describe('minTime', function() {
 						defaultView: 'agendaDay',
 						minTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var slatRows = $('.fc-slats tr');
 					expect(slatRows.eq(0)).toHaveClass('fc-minor');
 					expect(slatRows.eq(1)).toHaveClass('fc-minor');

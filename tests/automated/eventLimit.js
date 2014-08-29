@@ -29,7 +29,7 @@ describe('eventLimit', function() {
 						{ title: 'event1', start: '2014-07-29' },
 						{ title: 'event2', start: '2014-07-29' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					expect($('.fc-more').length).toBe(0);
 				});
 
@@ -39,7 +39,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-29' },
 						{ title: 'event2', start: '2014-07-29' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					expect($('.fc-more').length).toBe(0);
 				});
 
@@ -50,7 +50,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-29' },
 						{ title: 'event2', start: '2014-07-29' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					expect($('.fc-more').length).toBe(1);
 					expect($('.fc-more')).toHaveText('+2 more');
 				});
@@ -62,7 +62,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-29', end: '2014-07-31' },
 						{ title: 'event2', start: '2014-07-29', end: '2014-07-31' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					var cells = $('.fc-day-grid .fc-row:eq(0) .fc-bg td:not(.fc-axis)');
 					expect($('.fc-more').length).toBe(2);
 					expect($('.fc-more').eq(0)).toHaveText('+2 more');
@@ -80,7 +80,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-29', end: '2014-07-31' },
 						{ title: 'event2', start: '2014-07-29' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					var cells = $('.fc-day-grid .fc-row:eq(0) .fc-bg td:not(.fc-axis)');
 					expect($('.fc-more').length).toBe(2);
 					expect($('.fc-more').eq(0)).toHaveText('+2 more');
@@ -98,7 +98,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-28', end: '2014-07-30' },
 						{ title: 'event2', start: '2014-07-29', end: '2014-07-31' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					var cells = $('.fc-day-grid .fc-row:eq(0) .fc-bg td:not(.fc-axis)');
 					var link = $('.fc-more').eq(0); // will appear to be the third link, but will be in first row, so 0dom
 					expect(link.length).toBe(1);
@@ -113,7 +113,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-28' },
 						{ title: 'event2', start: '2014-07-28' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					var cells = $('.fc-day-grid .fc-row:eq(0) .fc-bg td:not(.fc-axis)');
 					var link = $('.fc-more').eq(0);
 					expect(link.length).toBe(1);
@@ -130,7 +130,7 @@ describe('eventLimit', function() {
 						{ title: 'event2', start: '2014-07-29' },
 						{ title: 'event2', start: '2014-07-29' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					var cells = $('.fc-day-grid .fc-row:eq(0) .fc-bg td:not(.fc-axis)');
 					var link = $('.fc-more').eq(0);
 					expect(link.length).toBe(1);
@@ -169,7 +169,7 @@ describe('eventLimit', function() {
 					{ title: 'event2', start: '2014-07-29' },
 					{ title: 'event2', start: '2014-07-29' }
 				];
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var rowEls = $('.fc-day-grid .fc-row').slice(0, -1); // remove last b/c it will be a different height
 				expect(rowEls.length).toBeGreaterThan(0);
 				var height = rowEls.height();
@@ -191,7 +191,7 @@ describe('eventLimit', function() {
 					options.events = [
 						{ title: 'event1', start: '2014-07-28', end: '2014-07-30' }
 					];
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					expect($('.fc-more').length).toBe(0);
 				});
 			});
@@ -213,7 +213,7 @@ describe('eventLimit', function() {
 					{ title: 'event2', start: '2014-07-29' },
 					{ title: 'event2', start: '2014-07-29' }
 				];
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				expect($('.fc-event:visible').length).toBe(4);
 				expect($('.fc-more').length).toBe(1);
 				expect($('.fc-more')).toHaveText('+3 more');

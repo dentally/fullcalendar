@@ -15,7 +15,7 @@
 		var currentLangCode = 'en';
 
 		// build the language selector's options
-		$.each($.fullCalendar.langs, function(langCode) {
+		$.each($.njCalendar.langs, function(langCode) {
 			$('#lang-selector').append(
 				$('<option/>')
 					.attr('value', langCode)
@@ -28,13 +28,13 @@
 		$('#lang-selector').on('change', function() {
 			if (this.value) {
 				currentLangCode = this.value;
-				$('#calendar').fullCalendar('destroy');
+				$('#calendar').njCalendar('destroy');
 				renderCalendar();
 			}
 		});
 
 		function renderCalendar() {
-			$('#calendar').fullCalendar({
+			$('#calendar').njCalendar({
 				header: {
 					left: 'prev,next today',
 					center: 'title',

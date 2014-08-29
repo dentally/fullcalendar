@@ -20,7 +20,7 @@ describe('maxTime', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 				expect(lastSlotText).toEqual('11pm');
 			});
@@ -31,7 +31,7 @@ describe('maxTime', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 				var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 				expect(lastSlotText).toEqual('11pm');
 			});
@@ -52,7 +52,7 @@ describe('maxTime', function() {
 						defaultView: 'agendaWeek',
 						maxTime: { hours: hourNumber }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 					var expected = numToStringConverter(hourNumber - 1);
 					expect(lastSlotText).toEqual(expected);
@@ -70,7 +70,7 @@ describe('maxTime', function() {
 						defaultView: 'agendaDay',
 						maxTime: hourNumber + ':00' // in addition, test string duration input
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 					var expected = numToStringConverter(hourNumber - 1);
 					expect(lastSlotText).toEqual(expected);
@@ -93,7 +93,7 @@ describe('maxTime', function() {
 						defaultView: 'agendaWeek',
 						maxTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 					// since exclusive end is :20, last slot will be on the current hour's 00:00
 					var expected = numToStringConverter(hourNumber);
@@ -112,7 +112,7 @@ describe('maxTime', function() {
 						defaultView: 'agendaDay',
 						maxTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
+					$('#cal2').njCalendar(options);
 					var lastSlotText = $('.fc-slats tr:not(.fc-minor):last .fc-time').text();
 					// since exclusive end is :20, last slot will be on the current hour's 00:00
 					var expected = numToStringConverter(hourNumber);

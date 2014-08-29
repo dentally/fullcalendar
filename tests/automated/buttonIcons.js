@@ -7,7 +7,7 @@ describe('buttonIcons', function() {
     describe('when buttonIcons is not set', function() {
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
@@ -32,7 +32,7 @@ describe('buttonIcons', function() {
     describe('when buttonIcons is set and theme is falsy', function() {
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 buttonIcons: {
                     prev: 'some-icon-left',
                     next: 'some-icon-right',
@@ -64,7 +64,7 @@ describe('buttonIcons', function() {
     describe('when theme is true', function() {
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 theme: true,
                 header: {
                     left: 'prev,next today',

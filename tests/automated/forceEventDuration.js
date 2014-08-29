@@ -26,8 +26,8 @@ describe('forceEventDuration', function() {
 					start: '2014-05-10T14:00:00'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var events = $('#cal').fullCalendar('clientEvents');
+			$('#cal').njCalendar(options);
+			var events = $('#cal').njCalendar('clientEvents');
 			expect(events[0].end).toBeNull();
 			expect(events[1].end).toBeNull();
 		});
@@ -48,8 +48,8 @@ describe('forceEventDuration', function() {
 					start: '2014-05-10T14:00:00'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var events = $('#cal').fullCalendar('clientEvents');
+			$('#cal').njCalendar(options);
+			var events = $('#cal').njCalendar('clientEvents');
 			expect(events[0].id).toEqual('1');
 			expect(moment.isMoment(events[0].end)).toEqual(true);
 			expect(events[1].id).toEqual('2');
