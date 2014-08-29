@@ -530,7 +530,7 @@ function Calendar(element, instanceOptions) {
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
-			if (options['refetchResources']) refetchResources(); // refetch resources every time new events are loaded
+			if (options['refetchResources']) { refetchResources() }; // refetch resources every time new events are loaded
 			fetchAndRenderEvents();
 		}
 		else {

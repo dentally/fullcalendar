@@ -6,12 +6,10 @@ function ResourceDayView(calendar) {
 }
   
 ResourceDayView.prototype = createObject(ResourceView.prototype); // define the super-class
-console.log(ResourceDayView.prototype)
 $.extend(ResourceDayView.prototype, {
 
   name: 'resourceDay',
-
-
+  
   incrementDate: function(date, delta) {
     var out = date.clone().stripTime().add(delta, 'days');
     out = this.skipHiddenDays(out, delta < 0 ? -1 : 1);

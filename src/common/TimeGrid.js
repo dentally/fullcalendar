@@ -135,7 +135,7 @@ $.extend(TimeGrid.prototype, {
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
 
-		if (event && event.resource){
+		if (event && event.resource && view.name=="resourceDay" ){
 			col = resources.indexOf(event.resource);
 			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {

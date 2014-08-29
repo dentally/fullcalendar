@@ -219,8 +219,10 @@ $.extend(Grid.prototype, {
 			},
 			dragStop: function(ev) {
 				var newCol = dragListener.cell.col;
-				var hasChanged = newStart && !newStart.isSame(event.start);
 				var resources = view.calendar.getResources();
+				var resourceView = view.calendar.getView().name == "resourceDay";
+				var resourceChange = resourceView && (newCol != resources.indexOf(event.resource));
+				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
 				if (view.calendar.getView().name=="resourceDay"){
 					event.resource = resources[newCol]
@@ -308,6 +310,7 @@ $.extend(Grid.prototype, {
 				view.trigger('eventResizeStart', el[0], event, ev, {}); // last argument is jqui dummy
 			},
 			cellOver: function(cell, date) {
+				var col = cell.col
 				// compute the new end. don't allow it to go before the event's start
 				if (date.isBefore(start)) { // allows comparing ambig to non-ambig
 					date = start;
@@ -319,7 +322,7 @@ $.extend(Grid.prototype, {
 					destroy();
 				}
 				else {
-					_this.renderResize(start, newEnd, seg);
+					_this.renderResize(start, newEnd, seg, col);
 					view.hideEvent(event);
 				}
 			},
