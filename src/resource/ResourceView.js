@@ -212,6 +212,10 @@ $.extend(ResourceView.prototype, {
 			return '<td class="fc-axis" ' + this.axisStyleAttr() + '></td>';
 		},
 
+		outroHtml: function() {
+			return '<td class="fc-axis" ' + this.axisStyleAttr() + '></td>';
+		},
+
 
 		// Generates an HTML attribute string for setting the width of the axis, if it is known
 		axisStyleAttr: function() {

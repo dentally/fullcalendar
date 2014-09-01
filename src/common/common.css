@@ -310,8 +310,8 @@
 		text-align: center;
 	}
 	
-	.fc th,
-	.fc td {
+	.fc-widget-content td,
+	.fc-widget-content th {
 		border-style: solid;
 		border-width: 1px;
 		padding: 0;
@@ -338,8 +338,9 @@
 		border-left: 0 hidden transparent;
 		border-right: 0 hidden transparent;
 	
-		/* no bottom borders on rows */
+		/* no bottom borders on rows dissabled for aggenda views but watch on basic views may have to scope further
 		border-bottom: 0 hidden transparent; 
+		*/
 	}
 	
 	.fc-row:first-child table {

@@ -59,6 +59,13 @@
 	.fc-rtl .fc-basic-view .fc-day-number {
 		text-align: left;
 	}
+
+	.fc-basic-view{
+		/* think the width calulation is off by 1px so the td border on the right is being hidden- lookk into fixing properly */ 
+		border-style: solid;
+		border-width: 1px;
+		border-color:rgb(221, 221, 221);
+	}
 	
 	.fc-day-number.fc-other-month {
 		opacity: 0.3;
