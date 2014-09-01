@@ -24,7 +24,7 @@ function Header(calendar, options) {
 	var tm;
 	var menuShown;
 	var datePicker;
-	var menuContainer = $("<div class='.fc-menu-container' />")
+	var menuContainer = $("<div class='fc-menu-container' />")
 
 
 	function render() {
@@ -38,7 +38,7 @@ function Header(calendar, options) {
 				.append(renderSection('left'))
 				.append(renderSection('right'))
 				.append(renderSection('center'))
-				.append('<div class="fc-clear"/>');
+				.append('<div class="fc-clear"/>')
 			return el;
 		}
 	}

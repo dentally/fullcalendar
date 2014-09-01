@@ -32,75 +32,49 @@
 	/* Header
 	------------------------------------------------------------------------*/
 	
-	.fc-header {
+	.fc-toolbar {
+		background-color: rgb(245, 245, 245);
 		position: fixed;
 		z-index: 10;
-		height: 100px;
-		margin-top: -100px;
-		background-color: white;
+		height: 45px;
 		left: 0;
+		width: 100%;
+		margin-top: -100px;
 
-		.header-buttons {
+		button {
 			background-color: rgb(245, 245, 245);
-			height: 50px;
-			td span{
-				padding-top: 10px
-			}
+			height: 45px;
+			padding-top: 10px;
 		}
-	}
-	
-	.fc-fixed-subheader {
-		position: fixed;
-		width: 100%;
-		background-color: white;
-		z-index: 10;
-	}
-	.fc-hidden-subheader {
-		width: 100%;
-		background-color: white;
-		z-index: 2;
-		visibility: hidden;
-	}
-	
-	.fc-header td {
-		white-space: nowrap;
-		}
-	
-	.fc-header-left {
-		width: 25%;
-		text-align: left;
-		span:first-child{
+		.fc-left{
 			margin-left: 198px;
 		}
-		span:last-child{
-			margin-right: -198px;
-		}
-		}
-		
-	.fc-header-center {
-		text-align: center;
-		}
-		
-	.fc-header-right {
-		width: 25%;
-		text-align: right;
-		}
-		
-	.fc-header-title {
-		display: inline-block;
-		vertical-align: top;
-		}
-		
-	.fc-header-title h2 {
-		margin-top: 0;
+	}
+	
+	td.fc-widget-header {
+		top: 85px;
+		position: fixed;
+		background-color: white;
+		z-index: 100;
+		margin-right: 10px;
+	}
+	
+	.fc-toolbar td {
 		white-space: nowrap;
 		}
+	
 		
 	.fc .fc-header-space {
 		padding-left: 10px;
+		height: 45px;
+		position: fixed;
+		width: 100%;
+		background-color: white;
+		z-index: 9;
+		margin-top: -60px;
 		}
 		
-	.fc-header .fc-button {
+	.fc-toolbar .fc-button {
 		padding-bottom: 10px;
 		vertical-align: top;
 		font-weight: 500;
@@ -143,15 +117,16 @@
 	/* Content
 	------------------------------------------------------------------------*/
 		
-	.fc-content {
+	.fc-view-container {
 		position: relative;
 		z-index: 1; /* scopes all other z-index's to be inside this container */
 		clear: both;
 		zoom: 1; /* for IE7, gives accurate coordinates for [un]freezeContentHeight */
-		margin-top: 100px;
 		margin-right: 10px;
 		margin-left: 10px;
+		margin-top: 100px;
 		}
+
 		
 	.fc-view {
 		position: relative;
