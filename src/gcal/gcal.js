@@ -14,7 +14,7 @@
 })(function($) {
 
 
-var fc = $.fullCalendar;
+var fc = $.njCalendar;
 var applyAll = fc.applyAll;
 
 

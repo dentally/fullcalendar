@@ -1,6 +1,6 @@
 describe('titleFormat', function() {
 
-    var SELECTOR = '.fc-header-title h2';
+    var SELECTOR = '.fc-toolbar h2';
 
     beforeEach(function() {
         affix('#cal');
@@ -10,14 +10,14 @@ describe('titleFormat', function() {
 
         var viewWithFormat = [
             { view: 'month', expected: 'June 2014' },
-            { view: 'basicWeek', expected: 'Jun 8 - 14 2014' },
-            { view: 'agendaWeek', expected: 'Jun 8 - 14 2014' },
-            { view: 'basicDay', expected: 'June 12 2014' },
-            { view: 'agendaDay', expected: 'June 12 2014' }
+            { view: 'basicWeek', expected: /Jun 8 - 14,? 2014/ },  // moment changed LL defaults after 2.8
+            { view: 'agendaWeek', expected: /Jun 8 - 14,? 2014/ }, // "
+            { view: 'basicDay', expected: /June 12,? 2014/ },      // "
+            { view: 'agendaDay', expected: /June 12,? 2014/ }      // "
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12'
             });
         });
@@ -27,8 +27,8 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
-                expect(cal.find(SELECTOR).text()).toBe(crtView.expected);
+                cal.njCalendar('changeView', crtView.view);
+                expect(cal.find(SELECTOR).text()).toMatch(crtView.expected);
             };
         });
     });
@@ -44,7 +44,7 @@ describe('titleFormat', function() {
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12',
                 titleFormat: {
                     month: 'YYYY, MMMM',
@@ -61,7 +61,7 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(SELECTOR).text()).toBe(crtView.expected);
             };
         });
@@ -78,7 +78,7 @@ describe('titleFormat', function() {
         ];
 
         beforeEach(function() {
-            $('#cal').fullCalendar({
+            $('#cal').njCalendar({
                 defaultDate: '2014-06-12',
                 lang: 'fr'
             });
@@ -89,7 +89,7 @@ describe('titleFormat', function() {
 
             for (var i = 0; i <  viewWithFormat.length; i++) {
                 var crtView = viewWithFormat[i];
-                cal.fullCalendar('changeView', crtView.view);
+                cal.njCalendar('changeView', crtView.view);
                 expect(cal.find(SELECTOR).text()).toBe(crtView.expected);
             };
         });

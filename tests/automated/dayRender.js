@@ -19,7 +19,7 @@ describe('dayRender', function() {
 		};
 
 		spyOn(options, 'dayRender').and.callThrough();
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect(options.dayRender.calls.count()).toEqual(42);
 	});
 
@@ -32,9 +32,9 @@ describe('dayRender', function() {
 		};
 
 		spyOn(options, 'dayRender').and.callThrough();
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		options.dayRender.calls.reset();
-		$('#cal').fullCalendar('changeView', 'basicWeek');
+		$('#cal').njCalendar('changeView', 'basicWeek');
 		expect(options.dayRender.calls.count()).toEqual(7);
 	});
 
@@ -47,9 +47,9 @@ describe('dayRender', function() {
 		};
 
 		spyOn(options, 'dayRender').and.callThrough();
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		options.dayRender.calls.reset();
-		$('#cal').fullCalendar('gotoDate', '2014-05-04'); // a day in the next week
+		$('#cal').njCalendar('gotoDate', '2014-05-04'); // a day in the next week
 		expect(options.dayRender.calls.count()).toEqual(7);
 	});
 
@@ -61,9 +61,9 @@ describe('dayRender', function() {
 		};
 
 		spyOn(options, 'dayRender').and.callThrough();
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		options.dayRender.calls.reset();
-		$('#cal').fullCalendar('gotoDate', '2014-05-02'); // a day in the same week
+		$('#cal').njCalendar('gotoDate', '2014-05-02'); // a day in the same week
 		expect(options.dayRender.calls.count()).toEqual(0);
 	});
 
@@ -79,7 +79,7 @@ describe('dayRender', function() {
 			}
 		};
 
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		expect($('#cal td[data-date="2014-05-01"]')).toHaveClass('mycustomclass');
 	});
 

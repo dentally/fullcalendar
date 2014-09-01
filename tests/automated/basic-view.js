@@ -8,7 +8,7 @@ describe('basic view rendering', function() {
 	describe('when isRTL is false', function() {
 
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				defaultView: 'month',
 				isRTL: false
 			});
@@ -29,7 +29,7 @@ describe('basic view rendering', function() {
 	describe('when isRTL is true', function() {
 
 		beforeEach(function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				defaultView: 'month',
 				isRTL: true
 			});

@@ -5,7 +5,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script>
@@ -14,7 +13,7 @@
 	
 		$('#tabs').tabs({
 			activate: function() {
-				$('#calendar').fullCalendar('render');
+				$('#calendar').njCalendar('render');
 			}
 		});
 	
@@ -23,7 +22,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			theme: true,
 			windowResize: function() {
 				//alert('recovered');

@@ -4,7 +4,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script src='../dist/gcal.js'></script>
@@ -17,7 +16,7 @@
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	var gcalFeed = $.fullCalendar.gcalFeed("http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic");
+	var gcalFeed = $.njCalendar.gcalFeed("http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic");
 	
 	var jsonFeed = "../demos/json-events.php";
 	
@@ -120,7 +119,7 @@
 	*/
 
 	$(document).ready(function() {
-		cal = $('#calendar').fullCalendar({
+		cal = $('#calendar').njCalendar({
 			ignoreTimezone: false,
 			//lazyFetching: false,
 			editable: true,
@@ -175,7 +174,7 @@
 <body style='font-size:12px'>
 <div id='loading' style='position:absolute;top:0;left:0;display:none'>loading...</div>
 <p>
-<button onclick="cal.fullCalendar('refetchEvents')">refetch</button>
+<button onclick="cal.njCalendar('refetchEvents')">refetch</button>
 </p>
 <div id='calendar' style='width:900px;margin:20px auto 0;font-family:arial'></div>
 </body>

@@ -1,10 +1,13 @@
 
-$.fullCalendar.lang("fa", {
+$.njCalendar.lang("fa", {
 	defaultButtonText: {
 		month: "ماه",
 		week: "هفته",
 		day: "روز",
 		list: "برنامه"
 	},
-	allDayText: "تمام روز"
+	allDayText: "تمام روز",
+	eventLimitText: function(n) {
+		return "بیش از " + n;
+	}
 });

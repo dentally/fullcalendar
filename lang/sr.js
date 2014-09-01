@@ -1,10 +1,13 @@
 
-$.fullCalendar.lang("sr", {
+$.njCalendar.lang("sr", {
 	defaultButtonText: {
 		month: "Месец",
 		week: "Недеља",
 		day: "Дан",
 		list: "Планер"
 	},
-	allDayText: "Цео дан"
+	allDayText: "Цео дан",
+	eventLimitText: function(n) {
+		return "+ још " + n;
+	}
 });

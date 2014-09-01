@@ -25,8 +25,8 @@ describe('defaultTimedEventDuration', function() {
 					start: '2014-05-05T04:00:00'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var event = $('#cal').fullCalendar('clientEvents')[0];
+			$('#cal').njCalendar(options);
+			var event = $('#cal').njCalendar('clientEvents')[0];
 			expect(event.end).toEqualMoment('2014-05-05T06:30:00');
 		});
 
@@ -38,8 +38,8 @@ describe('defaultTimedEventDuration', function() {
 					start: '2014-05-05T04:00:00'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var event = $('#cal').fullCalendar('clientEvents')[0];
+			$('#cal').njCalendar(options);
+			var event = $('#cal').njCalendar('clientEvents')[0];
 			expect(event.end).toEqualMoment('2014-05-05T07:15:00');
 		});
 	});
@@ -78,7 +78,7 @@ describe('defaultTimedEventDuration', function() {
 					expect(height0).toEqual(height1);
 					done();
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 			});
 		});
 
@@ -110,7 +110,7 @@ describe('defaultTimedEventDuration', function() {
 					expect(width0).toEqual(width1);
 					done();
 				};
-				$('#cal').fullCalendar(options);
+				$('#cal').njCalendar(options);
 			});
 		});
 	});

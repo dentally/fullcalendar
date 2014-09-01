@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("fr", {
+$.njCalendar.lang("fr", {
 	defaultButtonText: {
 		month: "Mois",
 		week: "Semaine",
 		day: "Jour",
 		list: "Mon planning"
 	},
-	allDayHTML: "Toute&nbsp;la journée" // allDayHTML is discouraged but used here as a hack to get the breaking correct
+	allDayHtml: "Toute la<br/>journée",
+	eventLimitText: "en plus"
 });

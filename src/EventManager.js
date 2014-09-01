@@ -252,14 +252,20 @@ function EventManager(options) { // assumed to be a calendar
 		}
 		else if (typeof sourceInput === 'object') {
 			source = $.extend({}, sourceInput); // shallow copy
-
-			if (typeof source.className === 'string') {
-				// TODO: repeat code, same code for event classNames
-				source.className = source.className.split(/\s+/);
-			}
 		}
 
 		if (source) {
+
+			// TODO: repeat code, same code for event classNames
+			if (source.className) {
+				if (typeof source.className === 'string') {
+					source.className = source.className.split(/\s+/);
+				}
+				// otherwise, assumed to be an array
+			}
+			else {
+				source.className = [];
+			}
 
 			// for array sources, we convert to standard Event Objects up front
 			if ($.isArray(source.events)) {
@@ -550,6 +556,7 @@ function EventManager(options) { // assumed to be a calendar
 		var oldAllDay = event._allDay;
 		var oldStart = event._start;
 		var oldEnd = event._end;
+		var oldResource = event._resource;
 		var clearEnd = false;
 		var newAllDay;
 		var dateDelta;
@@ -641,6 +648,7 @@ function EventManager(options) { // assumed to be a calendar
 			var oldAllDay = event._allDay;
 			var oldStart = event._start;
 			var oldEnd = event._end;
+			var oldResource = event._resource;
 			var newAllDay = forceAllDay != null ? forceAllDay : oldAllDay;
 			var newStart = oldStart.clone();
 			var newEnd = (!clearEnd && oldEnd) ? oldEnd.clone() : null;
@@ -704,6 +712,7 @@ function EventManager(options) { // assumed to be a calendar
 				event.allDay = oldAllDay;
 				event.start = oldStart;
 				event.end = oldEnd;
+				event.resource = oldResource;
 				backupEventDates(event);
 			});
 		});
@@ -730,7 +739,7 @@ function EventManager(options) { // assumed to be a calendar
 	      	function( intIndex, resource ){
 	  			if(resource.id == data[options.resourceParam]) {
 					out.resource = resource;
-					out.resource._col = i;
+					//out.resource._col = i; watch if we need this
 				}
 				i++;
 	          }
@@ -745,4 +754,5 @@ function backupEventDates(event) {
 	event._allDay = event.allDay;
 	event._start = event.start.clone();
 	event._end = event.end ? event.end.clone() : null;
+	event._resource = event.resource
 }

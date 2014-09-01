@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-jscs-checker');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-karma');
@@ -23,6 +24,7 @@ module.exports = function(grunt) {
 	var config = {
 		concat: {},
 		uglify: {},
+		cssmin: {},
 		copy: {},
 		compress: {},
 		shell: {},
@@ -71,7 +73,8 @@ module.exports = function(grunt) {
 		'concat:moduleVariables',
 		'jshint:builtModules',
 		'uglify:modules',
-		'copyToApp'
+		'copyToApp',
+		'cssmin:modules'
 	]);
 
 	// assemble modules
@@ -100,7 +103,7 @@ module.exports = function(grunt) {
 		dest: 'dist/'
 	};
 
-	// create minified versions (*.min.js)
+	// create minified versions of JS
 	config.uglify.modules = {
 		options: {
 			preserveComments: 'some' // keep comments starting with /*!
@@ -108,6 +111,13 @@ module.exports = function(grunt) {
 		expand: true,
 		src: 'dist/fullcalendar.js', // only do it for fullcalendar.js
 		ext: '.min.js'
+	};
+
+	// create minified versions of CSS
+	config.cssmin.modules = {
+		expand: true,
+		src: 'dist/fullcalendar.css', // only do it for fullcalendar.css
+		ext: '.min.css'
 	};
 
 	config.clean.modules = [
@@ -130,7 +140,7 @@ module.exports = function(grunt) {
 	]);
 
 	config.generateLanguages = {
-		moment: 'lib/moment/lang/',
+		moment: grunt.file.expand('lib/moment/{locale,lang}/')[0], // lang directory is pre-moment-2.8
 		datepicker: 'lib/jquery-ui/ui/i18n/',
 		fullCalendar: 'lang/',
 		dest: 'build/temp/lang/',
@@ -246,11 +256,10 @@ module.exports = function(grunt) {
 
 	config.concat.archiveJQueryUI = {
 		src: [
-			'lib/jquery-ui/ui/minified/jquery.ui.core.min.js',
-			'lib/jquery-ui/ui/minified/jquery.ui.widget.min.js',
-			'lib/jquery-ui/ui/minified/jquery.ui.mouse.min.js',
-			'lib/jquery-ui/ui/minified/jquery.ui.draggable.min.js',
-			'lib/jquery-ui/ui/minified/jquery.ui.resizable.min.js'
+			'lib/jquery-ui/ui/minified/core.min.js',
+			'lib/jquery-ui/ui/minified/widget.min.js',
+			'lib/jquery-ui/ui/minified/mouse.min.js',
+			'lib/jquery-ui/ui/minified/draggable.min.js'
 		],
 		dest: 'build/temp/archive/lib/jquery-ui.custom.min.js'
 	};
@@ -281,7 +290,7 @@ module.exports = function(grunt) {
 	function transformDemoPath(path) {
 		path = path.replace('../lib/moment/moment.js', '../lib/moment.min.js');
 		path = path.replace('../lib/jquery/dist/jquery.js', '../lib/jquery.min.js');
-		path = path.replace('../lib/jquery-ui/ui/jquery-ui.js', '../lib/jquery-ui.custom.min.js');
+		path = path.replace('../lib/jquery-ui/jquery-ui.js', '../lib/jquery-ui.custom.min.js');
 		path = path.replace('../lib/jquery-ui/themes/cupertino/', '../lib/cupertino/');
 		path = path.replace('../dist/', '../');
 		path = path.replace('/fullcalendar.js', '/fullcalendar.min.js');

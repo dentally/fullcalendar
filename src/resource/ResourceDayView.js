@@ -1,38 +1,49 @@
 
 fcViews.resourceDay = ResourceDayView;
 
-function ResourceDayView(element, calendar) { // TODO: make a DayView mixin
-	var t = this;
-	
-	
-	// exports
-	t.incrementDate = incrementDate;
-	t.render = render;
-	
-	
-	// imports
-	ResourceView.call(t, element, calendar, 'resourceDay');
-	var getResources = calendar.getResources;
-
-
-	function incrementDate(date, delta) {
-		var out = date.clone().stripTime().add('days', delta);
-		out = t.skipHiddenDays(out, delta < 0 ? -1 : 1);
-		return out;
-	}
-
-
-	function render(date) {
-
-		t.start = t.intervalStart = date.clone().stripTime();
-		t.end = t.intervalEnd = t.start.clone().add('days', 1);
-
-		t.title = calendar.formatDate(t.start, t.opt('titleFormat'));
-
-		var rows = getResources.length;
-		var cols = Math.round((t.start - t.end) / 1000 / 60 / t.opt('slotMinutes'));
-		t.renderResourceView(rows, 1, false);
-	}
-	
-
+function ResourceDayView(calendar) {
+  ResourceView.call(this, calendar); // call the super-constructor
 }
+  
+ResourceDayView.prototype = createObject(ResourceView.prototype); // define the super-class
+$.extend(ResourceDayView.prototype, {
+
+  name: 'resourceDay',
+  
+  incrementDate: function(date, delta) {
+    var out = date.clone().stripTime().add(delta, 'days');
+    out = this.skipHiddenDays(out, delta < 0 ? -1 : 1);
+    return out;
+  },
+
+
+  render: function(date) {
+    var cols = this.calendar.getResources().length;
+
+    this.start = this.intervalStart = date.clone().stripTime();
+    this.end = this.intervalEnd = this.start.clone().add(1, 'days');
+
+    this.title = this.calendar.formatDate(this.start, this.opt('titleFormat'));
+
+    ResourceView.prototype.render.call(this, cols); // call the super-method
+  },
+
+  headCellHtml: function(row, col, date) {
+    var calendar = this.calendar;
+    var resources = calendar.getResources();
+    var name
+  
+    if(resources[col]) {
+      name = resources[col].name;
+    }
+    else {
+      name = "Unknown";
+    }
+  
+    return '' +
+      '<th class="fc-day-header ' + this.widgetHeaderClass + ' fc-' + dayIDs[date.day()] + '">' +
+        htmlEscape(name) +
+      '</th>';
+  },
+
+});

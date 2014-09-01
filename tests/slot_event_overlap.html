@@ -4,14 +4,13 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script>
 
 	$(document).ready(function() {
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -29,7 +28,7 @@
 			}
 		});
 
-		$('#calendar-nooverlap').fullCalendar({
+		$('#calendar-nooverlap').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -48,7 +47,7 @@
 			}
 		});
 
-		$('#calendar-rtl').fullCalendar({
+		$('#calendar-rtl').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -67,7 +66,7 @@
 			}
 		});
 
-		$('#calendar-rtl-nooverlap').fullCalendar({
+		$('#calendar-rtl-nooverlap').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',

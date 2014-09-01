@@ -4,7 +4,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script>
@@ -16,7 +15,7 @@
 		var m = date.getMonth();
 		var y = date.getFullYear();
 		
-		$('#calendar').fullCalendar({
+		$('#calendar').njCalendar({
 			header: {
 				left: 'prev,next today',
 				center: 'title',
@@ -94,8 +93,8 @@
 </style>
 </head>
 <body>
-<button onclick="$('#calendar').fullCalendar('removeEvents')">removeEvents</button>
-<button onclick="$('#calendar').fullCalendar('renderEvent', { title:'hey', start:'2011-01-09' }, true)">addEvent (with stick)</button>
+<button onclick="$('#calendar').njCalendar('removeEvents')">removeEvents</button>
+<button onclick="$('#calendar').njCalendar('renderEvent', { title:'hey', start:'2011-01-09' }, true)">addEvent (with stick)</button>
 <div id='calendar'></div>
 </body>
 </html>

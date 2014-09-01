@@ -41,8 +41,8 @@ describe('day names', function() {
         dayClasses.forEach(function(cls, index, classes) {
           var weekdays = moment.weekdays();
           it('should be ' + weekdays[index], function() {
-            settings.now = moment(referenceDate).add('days', index);
-            $('#cal').fullCalendar(settings);
+            settings.now = moment(referenceDate).add(index, 'days');
+            $('#cal').njCalendar(settings);
 
             expect($('.fc-view thead ' + dayClasses[index])).toHaveText(weekdays[index]);
           });
@@ -58,8 +58,8 @@ describe('day names', function() {
           dayClasses.forEach(function(cls, index, classes) {
             it('should be the translation for ' + moment.weekdays()[index], function() {
               settings.lang = language;
-              settings.now = moment(referenceDate).add('days', index);
-              $('#cal').fullCalendar(settings);
+              settings.now = moment(referenceDate).add(index, 'days');
+              $('#cal').njCalendar(settings);
 
               expect($('.fc-view thead ' + dayClasses[index])).toHaveText(moment.weekdays()[index]);
             });
@@ -81,9 +81,9 @@ describe('day names', function() {
         dayClasses.forEach(function(cls, idx, classes) {
           it('should be ' + weekdays[idx], function() {
             settings.dayNames = [].slice.call(weekdays); // copy. in case there is a mutation
-            settings.now = moment(referenceDate).add('days', idx);
+            settings.now = moment(referenceDate).add(idx, 'days');
 
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
 
             expect($('.fc-view thead ' + cls)).toHaveText(weekdays[idx]);
           });

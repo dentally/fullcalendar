@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("sv", {
+$.njCalendar.lang("sv", {
 	defaultButtonText: {
 		month: "Månad",
 		week: "Vecka",
 		day: "Dag",
 		list: "Program"
 	},
-	allDayText: "Heldag"
+	allDayText: "Heldag",
+	eventLimitText: "till"
 });

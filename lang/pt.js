@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("pt", {
+$.njCalendar.lang("pt", {
 	defaultButtonText: {
 		month: "Mês",
 		week: "Semana",
 		day: "Dia",
 		list: "Agenda"
 	},
-	allDayText: "Todo o dia"
+	allDayText: "Todo o dia",
+	eventLimitText: "mais"
 });

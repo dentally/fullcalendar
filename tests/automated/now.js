@@ -15,7 +15,7 @@ describe('now', function() {
 		});
 		it('changes the highlighted day when customized', function() {
 			options.now = '2014-05-06';
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			var todayCell = $('#cal td.fc-today');
 			var todayDate = todayCell.data('date');
 			expect(todayDate).toEqual('2014-05-06');
@@ -28,9 +28,9 @@ describe('now', function() {
 		});
 		it('changes the highlighted day when customized', function() {
 			options.now = '2014-04-29T12:00:00';
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 			var todayCell = $('#cal td.fc-today');
-			expect(todayCell).toHaveClass('fc-col2'); // no date metadata, but we know which column #
+			expect(todayCell.data('date')).toBe('2014-04-29');
 		});
 	});
 
@@ -39,7 +39,7 @@ describe('now', function() {
 		options.now = function() {
 			return moment.utc('2014-05-01');
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var todayCell = $('#cal td.fc-today');
 		var todayDate = todayCell.data('date');
 		expect(todayDate).toEqual('2014-05-01');
@@ -50,7 +50,7 @@ describe('now', function() {
 		options.now = function() {
 			return '2014-05-01';
 		};
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var todayCell = $('#cal td.fc-today');
 		var todayDate = todayCell.data('date');
 		expect(todayDate).toEqual('2014-05-01');

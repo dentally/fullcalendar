@@ -33,7 +33,7 @@ describe('event feed params', function() {
 		options.startParam = 'mystart';
 		options.endParam = 'myend';
 		options.timezoneParam = 'currtz';
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toBeUndefined();
 		expect(request.data.end).toBeUndefined();
@@ -56,7 +56,7 @@ describe('event feed params', function() {
 				timezoneParam: 'feedctz'
 			}
 		];
-		$('#cal').fullCalendar(options);
+		$('#cal').njCalendar(options);
 		var request = $.mockjax.mockedAjaxCalls()[0];
 		expect(request.data.start).toBeUndefined();
 		expect(request.data.end).toBeUndefined();

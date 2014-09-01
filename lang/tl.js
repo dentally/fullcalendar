@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("tl", {
+$.njCalendar.lang("tl", {
 	defaultButtonText: {
 		month: "Buwan",
 		week: "Linggo",
 		day: "Araw",
 		list: "Pakay"
 	},
-	allDayText: "Lahat ng araw"
+	allDayText: "Lahat ng araw",
+	eventLimitText: "dagdag pa"
 });

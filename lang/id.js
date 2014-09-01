@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("id", {
+$.njCalendar.lang("id", {
 	defaultButtonText: {
 		month: "Bulan",
 		week: "Minggu",
 		day: "Hari",
 		list: "Agenda"
 	},
-	allDayText: "Sehari penuh"
+	allDayHtml: "Sehari<br/>penuh",
+	eventLimitText: "lebih"
 });

@@ -7,7 +7,7 @@ describe('First Day', function() {
 
 	describe('when using default settings', function() {
 		beforeEach(function() {
-			$('#cal').fullCalendar();
+			$('#cal').njCalendar();
 		});
 		it('should make Sunday the first day of the week', function() {
 			var dayFirst = $('.fc-day-header')[0];
@@ -20,7 +20,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 0
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Sunday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -39,7 +39,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 1
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Monday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -58,7 +58,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 2
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Tuesday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -77,7 +77,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 3
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Wednesday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -96,7 +96,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 4
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Thursday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -115,7 +115,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 5
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Friday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -134,7 +134,7 @@ describe('First Day', function() {
 			var options = {
 				firstDay: 6
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should make Saturday the first day of the week', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -150,13 +150,13 @@ describe('First Day', function() {
 
 	describe('when new firstDay options are set', function() {
 		it('should change the first day of week to Monday', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				firstDay: 1
 			});
 			expect($('.fc-day-header')[0]).toHaveClass('fc-mon');
 		});
 		it('shoule change the first day of week to Thursday', function() {
-			$('#cal').fullCalendar({
+			$('#cal').njCalendar({
 				firstDay: 4
 			});
 			expect($('.fc-day-header')[0]).toHaveClass('fc-thu');
@@ -169,7 +169,7 @@ describe('First Day', function() {
 				firstDay: 2,
 				isRTL: true
 			};
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 		it('should put days mon, sun, sat ...', function() {
 			var daysOfWeek = $('.fc-day-header');
@@ -184,7 +184,7 @@ describe('First Day', function() {
 	});
 
 	it('should have a different default value based on the language', function() {
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			lang: 'en-gb'
 		});
 		// firstDay will be 1 (Monday) in Great Britain

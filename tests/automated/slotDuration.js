@@ -13,8 +13,8 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
-				var slotCount = $('.fc-agenda-slots tr').length;
+				$('#cal').njCalendar(options);
+				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
 		});
@@ -23,8 +23,8 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
-				var slotCount = $('.fc-agenda-slots tr').length;
+				$('#cal').njCalendar(options);
+				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
 		});
@@ -36,8 +36,8 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
-				var slotCount = $('.fc-agenda-slots tr').length;
+				$('#cal').njCalendar(options);
+				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
 		});
@@ -46,8 +46,8 @@ describe('slotDuration', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
-				var slotCount = $('.fc-agenda-slots tr').length;
+				$('#cal').njCalendar(options);
+				var slotCount = $('.fc-slats tr').length;
 				expect(slotCount).toEqual(Math.ceil(minutesInADay / 30));
 			});
 		});
@@ -67,8 +67,8 @@ describe('slotDuration', function() {
 						defaultView: 'agendaWeek',
 						slotDuration: { minutes: slotMinutes }
 					};
-					$('#cal2').fullCalendar(options);
-					var slotCount = $('.fc-agenda-slots tr').length;
+					$('#cal2').njCalendar(options);
+					var slotCount = $('.fc-slats tr').length;
 					var expected = Math.ceil(minutesInADay / slotMinutes);
 					expect(slotCount).toEqual(expected);
 				});
@@ -85,8 +85,8 @@ describe('slotDuration', function() {
 						defaultView: 'agendaWeek',
 						slotDuration: { minutes: slotMinutes }
 					};
-					$('#cal2').fullCalendar(options);
-					var slotCount = $('.fc-agenda-slots tr').length;
+					$('#cal2').njCalendar(options);
+					var slotCount = $('.fc-slats tr').length;
 					var expected = Math.ceil(minutesInADay / slotMinutes);
 					expect(slotCount).toEqual(expected);
 				});

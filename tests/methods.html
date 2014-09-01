@@ -4,7 +4,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script src='../dist/gcal.js'></script>
@@ -18,7 +17,7 @@
 	var y = date.getFullYear();
 
 	$(document).ready(function() {
-		cal = $('#calendar').fullCalendar({
+		cal = $('#calendar').njCalendar({
 			editable: true,
 			weekends: false,
 			header: {
@@ -84,17 +83,17 @@
 	});
 	
 	function updateEventStart() {
-		var event = cal.fullCalendar('clientEvents', 777)[0];
+		var event = cal.njCalendar('clientEvents', 777)[0];
 		event.start = new Date(y, m, d, 13, 30);
 		event.end = new Date(y, m, d, 14, 50);
 		//event.start = new Date(y, m, 25, 10, 30); // move big days
 		//event.end = new Date(y, m, 26);
 		//event.allDay = true;
-		cal.fullCalendar('updateEvent', event);
+		cal.njCalendar('updateEvent', event);
 	}
 	
 	function updateRepeatingEvent() {
-		var event = cal.fullCalendar('clientEvents', 999)[0];
+		var event = cal.njCalendar('clientEvents', 999)[0];
 		event.start = new Date(y, m, 4, 13, 30);
 		event.end = new Date(y, m, 5, 2, 0);
 		event.allDay = true;
@@ -103,31 +102,31 @@
 		event.url = "http://google.com/";
 		event.color = 'red';
 		event.textColor = 'green';
-		cal.fullCalendar('updateEvent', event);
-		//console.log(cal.fullCalendar('clientEvents', 2));
+		cal.njCalendar('updateEvent', event);
+		//console.log(cal.njCalendar('clientEvents', 2));
 	}
 	
 	function renderEvent(stick) {
-		cal.fullCalendar('renderEvent', {
+		cal.njCalendar('renderEvent', {
 			start: new Date(y, m, 17),
 			title: 'heyman'
 		}, stick);
 	}
 	
 	function getView() {
-		var view = cal.fullCalendar('getView');
+		var view = cal.njCalendar('getView');
 		console.log(view.start + ' --- ' + view.end + ' "' + view.title + '"');
 	}
 	
 	function getDate() {
-		console.log(cal.fullCalendar('getDate'));
+		console.log(cal.njCalendar('getDate'));
 	}
 	
 	function optionGetter() {
-		console.log(cal.fullCalendar('option', 'editable'));
+		console.log(cal.njCalendar('option', 'editable'));
 	}
 	
-	var gcalFeed = $.fullCalendar.gcalFeed("http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic");
+	var gcalFeed = $.njCalendar.gcalFeed("http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic");
 	
 	var jsonFeed = "../demos/json-events.php";
 
@@ -143,13 +142,13 @@
 <body style='font-size:12px'>
 <p>
 
-<button onclick="cal.fullCalendar('prev')">prev</button>
-<button onclick="cal.fullCalendar('next')">next</button>
-<button onclick="cal.fullCalendar('today')">today</button>
-<button onclick="cal.fullCalendar('gotoDate', 1999, 9, 31)">Oct 31 1999</button>
-<button onclick="cal.fullCalendar('gotoDate', new Date(1999, 9, 30))">Oct 30 1999 (Date)</button>
-<button onclick="cal.fullCalendar('incrementDate', 1, 1, 1)">+1 +1 +1</button>
-<button onclick="cal.fullCalendar('incrementDate', -1, -1, -1)">-1 -1 -1</button>
+<button onclick="cal.njCalendar('prev')">prev</button>
+<button onclick="cal.njCalendar('next')">next</button>
+<button onclick="cal.njCalendar('today')">today</button>
+<button onclick="cal.njCalendar('gotoDate', 1999, 9, 31)">Oct 31 1999</button>
+<button onclick="cal.njCalendar('gotoDate', new Date(1999, 9, 30))">Oct 30 1999 (Date)</button>
+<button onclick="cal.njCalendar('incrementDate', 1, 1, 1)">+1 +1 +1</button>
+<button onclick="cal.njCalendar('incrementDate', -1, -1, -1)">-1 -1 -1</button>
 
 <button onclick="updateEventStart()">update event start</button>
 <button onclick="updateRepeatingEvent()">update repeating event</button>
@@ -157,34 +156,34 @@
 <button onclick="renderEvent(true)">render new sticky event</button>
 <br />
 
-<button onclick="cal.fullCalendar('removeEvents')">remove all</button>
-<button onclick="cal.fullCalendar('removeEvents', 999)">remove repeating events</button>
-<button onclick="cal.fullCalendar('removeEvents', function(e){return !e.allDay})">remove timed events</button>
-<button onclick="console.log(cal.fullCalendar('clientEvents'))">log events</button>
-<button onclick="console.log(cal.fullCalendar('clientEvents', '999'))">log repeating events</button>
-<button onclick="console.log(cal.fullCalendar('clientEvents', function(e){return e.allDay}))">log all-day events</button>
+<button onclick="cal.njCalendar('removeEvents')">remove all</button>
+<button onclick="cal.njCalendar('removeEvents', 999)">remove repeating events</button>
+<button onclick="cal.njCalendar('removeEvents', function(e){return !e.allDay})">remove timed events</button>
+<button onclick="console.log(cal.njCalendar('clientEvents'))">log events</button>
+<button onclick="console.log(cal.njCalendar('clientEvents', '999'))">log repeating events</button>
+<button onclick="console.log(cal.njCalendar('clientEvents', function(e){return e.allDay}))">log all-day events</button>
 <br />
 
-<button onclick="cal.fullCalendar('addEventSource', staticEvents)">+ static events</button>
-<button onclick="cal.fullCalendar('removeEventSource', staticEvents)">- static events</button>
-<button onclick="cal.fullCalendar('addEventSource', gcalFeed)">+ gcal</button>
-<button onclick="cal.fullCalendar('removeEventSource', gcalFeed)">- gcal</button>
-<button onclick="cal.fullCalendar('addEventSource', jsonFeed)">+ json</button>
-<button onclick="cal.fullCalendar('removeEventSource', jsonFeed)">- json</button>
+<button onclick="cal.njCalendar('addEventSource', staticEvents)">+ static events</button>
+<button onclick="cal.njCalendar('removeEventSource', staticEvents)">- static events</button>
+<button onclick="cal.njCalendar('addEventSource', gcalFeed)">+ gcal</button>
+<button onclick="cal.njCalendar('removeEventSource', gcalFeed)">- gcal</button>
+<button onclick="cal.njCalendar('addEventSource', jsonFeed)">+ json</button>
+<button onclick="cal.njCalendar('removeEventSource', jsonFeed)">- json</button>
 
-<button onclick="cal.fullCalendar('rerenderEvents')">rerender events</button>
-<button onclick="cal.fullCalendar('refetchEvents')">refetch events</button>
+<button onclick="cal.njCalendar('rerenderEvents')">rerender events</button>
+<button onclick="cal.njCalendar('refetchEvents')">refetch events</button>
 <br />
 
-<button onclick="cal.fullCalendar('changeView', 'month')">change to month</button>
-<button onclick="cal.fullCalendar('changeView', 'basicWeek')">change to basicWeek</button>
-<button onclick="cal.fullCalendar('changeView', 'basicDay')">change to basicDay</button>
+<button onclick="cal.njCalendar('changeView', 'month')">change to month</button>
+<button onclick="cal.njCalendar('changeView', 'basicWeek')">change to basicWeek</button>
+<button onclick="cal.njCalendar('changeView', 'basicDay')">change to basicDay</button>
 <button onclick="getView()">getView</button>
 <button onclick="getDate()">getDate</button>
 <button onclick="optionGetter()">option getter</button>
 <button onclick="cal.width(1100)">change width (passive)</button>
-<button onclick="cal.fullCalendar('render')">render</button>
-<button onclick="cal.fullCalendar('option', 'height', 1000)">change height</button>
+<button onclick="cal.njCalendar('render')">render</button>
+<button onclick="cal.njCalendar('option', 'height', 1000)">change height</button>
 
 </p>
 <div id='loading' style='position:absolute;display:none'>loading...</div>

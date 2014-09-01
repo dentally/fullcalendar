@@ -4,7 +4,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script src='../dist/gcal.js'></script>
@@ -54,7 +53,7 @@ $(document).ready(function() {
 	var m = date.getMonth();
 	var y = date.getFullYear();
 	
-	$('#calendar').fullCalendar({
+	$('#calendar').njCalendar({
 		header: {
 			left: 'prev,next today',
 			center: 'title',
@@ -83,7 +82,7 @@ $(document).ready(function() {
 			},
 			
 			/*
-			$.fullCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic', {
+			$.njCalendar.gcalFeed('http://www.google.com/calendar/feeds/usa__en%40holiday.calendar.google.com/public/basic', {
 				color: 'orange',
 				className: 'gcal'
 			}),

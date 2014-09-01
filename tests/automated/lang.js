@@ -8,8 +8,8 @@ describe('lang', function() {
 	it('is not affected by global moment lang when unset', function() {
 		moment.lang('fr');
 		affix('#cal');
-		$('#cal').fullCalendar();
-		var calendar = $('#cal').fullCalendar('getCalendar');
+		$('#cal').njCalendar();
+		var calendar = $('#cal').njCalendar('getCalendar');
 		var mom = calendar.moment('2014-05-01');
 		var s = mom.format('dddd MMMM Do YYYY');
 		expect(s).toEqual('Thursday May 1st 2014');
@@ -18,10 +18,10 @@ describe('lang', function() {
 	it('is not affected by global moment lang when unset', function() {
 		moment.lang('fr');
 		affix('#cal');
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			lang: 'es'
 		});
-		var calendar = $('#cal').fullCalendar('getCalendar');
+		var calendar = $('#cal').njCalendar('getCalendar');
 		var mom = calendar.moment('2014-05-01');
 		var s = mom.format('dddd MMMM Do YYYY');
 		expect(s).toEqual('jueves mayo 1º 2014');
@@ -30,7 +30,7 @@ describe('lang', function() {
 	it('doesn\'t side-effect the global moment lang when customized', function() {
 		moment.lang('fr');
 		affix('#cal');
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			lang: 'es'
 		});
 		var mom = moment.utc('2014-05-01');
@@ -41,10 +41,10 @@ describe('lang', function() {
 
 	it('defaults to English when configured to language that isn\'t loaded', function() {
 		affix('#cal');
-		$('#cal').fullCalendar({
+		$('#cal').njCalendar({
 			lang: 'zz'
 		});
-		var calendar = $('#cal').fullCalendar('getCalendar');
+		var calendar = $('#cal').njCalendar('getCalendar');
 		var mom = calendar.moment('2014-05-01');
 		var s = mom.format('dddd MMMM Do YYYY');
 		expect(s).toEqual('Thursday May 1st 2014');

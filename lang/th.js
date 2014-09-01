@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("th", {
+$.njCalendar.lang("th", {
 	defaultButtonText: {
 		month: "เดือน",
 		week: "สัปดาห์",
 		day: "วัน",
 		list: "แผนงาน"
 	},
-	allDayText: "ตลอดวัน"
+	allDayText: "ตลอดวัน",
+	eventLimitText: "เพิ่มเติม"
 });

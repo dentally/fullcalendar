@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("en-gb", {
+$.njCalendar.lang("en-gb", {
 	columnFormat: {
 		week: 'ddd D/M'
 	}

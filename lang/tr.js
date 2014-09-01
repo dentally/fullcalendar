@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("tr", {
+$.njCalendar.lang("tr", {
 	defaultButtonText: {
 		next: "ileri", // override JQUI's, which has a non-closing HTML entity in it
 		month: "Ay",
@@ -7,5 +7,6 @@ $.fullCalendar.lang("tr", {
 		day: "Gün",
 		list: "Ajanda"
 	},
-	allDayText: "Tüm gün"
+	allDayText: "Tüm gün",
+	eventLimitText: "daha fazla"
 });

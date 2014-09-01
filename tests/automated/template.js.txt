@@ -11,7 +11,7 @@ ddescribe('', function() {
 	});
 
 	afterEach(function() {
-		//$('#cal').fullCalendar('destroy');
+		//$('#cal').njCalendar('destroy');
 	});
 
 	describe('', function() {
@@ -20,7 +20,7 @@ ddescribe('', function() {
 		});
 
 		iit('', function() {
-			$('#cal').fullCalendar(options);
+			$('#cal').njCalendar(options);
 		});
 	});
 

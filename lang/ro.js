@@ -1,5 +1,5 @@
 
-$.fullCalendar.lang("ro", {
+$.njCalendar.lang("ro", {
 	defaultButtonText: {
 		prev: "precedentă", // override JQUI's translations, which contains the word "month"
 		next: "următoare",  // "
@@ -8,5 +8,8 @@ $.fullCalendar.lang("ro", {
 		day: "Zi",
 		list: "Agendă"
 	},
-	allDayText: "Toată ziua"
+	allDayText: "Toată ziua",
+	eventLimitText: function(n) {
+		return "+alte " + n;
+	}
 });

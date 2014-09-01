@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("sl", {
+$.njCalendar.lang("sl", {
 	defaultButtonText: {
 		month: "Mesec",
 		week: "Teden",
 		day: "Dan",
 		list: "Dnevni red"
 	},
-	allDayText: "Ves dan"
+	allDayText: "Ves dan",
+	eventLimitText: "več"
 });

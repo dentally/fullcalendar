@@ -1,6 +1,4 @@
-
- 
-function Calendar(element, instanceOptions, eventSources, eventResources) {
+function Calendar(element, instanceOptions) {
 	var t = this;
 
 
@@ -13,7 +11,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 	var options = mergeOptions({}, defaults, instanceOptions);
 
-	var eventResources = eventResources || instanceOptions.resources
+	var eventResources = instanceOptions.resources
 	var langOptions;
 
 	// determine language options
@@ -44,7 +42,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	t.reportEvents = reportEvents;
 	t.refetchResources = refetchResources;
 	t.reportEventChange = reportEventChange;
-	t.rerenderEvents = rerenderEvents;
+	t.rerenderEvents = renderEvents; // `renderEvents` serves as a rerender. an API method
 	t.changeView = changeView;
 	t.select = select;
 	t.unselect = unselect;
@@ -55,6 +53,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	t.today = today;
 	t.gotoDate = gotoDate;
 	t.incrementDate = incrementDate;
+	t.zoomTo = zoomTo;
 	t.getDate = getDate;
 	t.getCalendar = getCalendar;
 	t.getView = getView;
@@ -72,26 +71,34 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	// -----------------------------------------------------------------------------------
 	// Apply overrides to the current language's data
 
-	var langData = createObject( // make a cheap clone
-		moment.langData(options.lang)
-	);
+
+	// Returns moment's internal locale data. If doesn't exist, returns English.
+	// Works with moment-pre-2.8
+	function getLocaleData(langCode) {
+		var f = moment.localeData || moment.langData;
+		return f.call(moment, langCode) ||
+			f.call(moment, 'en'); // the newer localData could return null, so fall back to en
+	}
+
+
+	var localeData = createObject(getLocaleData(options.lang)); // make a cheap copy
 
 	if (options.monthNames) {
-		langData._months = options.monthNames;
+		localeData._months = options.monthNames;
 	}
 	if (options.monthNamesShort) {
-		langData._monthsShort = options.monthNamesShort;
+		localeData._monthsShort = options.monthNamesShort;
 	}
 	if (options.dayNames) {
-		langData._weekdays = options.dayNames;
+		localeData._weekdays = options.dayNames;
 	}
 	if (options.dayNamesShort) {
-		langData._weekdaysShort = options.dayNamesShort;
+		localeData._weekdaysShort = options.dayNamesShort;
 	}
 	if (options.firstDay != null) {
-		var _week = createObject(langData._week); // _week: { dow: # }
+		var _week = createObject(localeData._week); // _week: { dow: # }
 		_week.dow = options.firstDay;
-		langData._week = _week;
+		localeData._week = _week;
 	}
 
 
@@ -124,7 +131,12 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 			mom = fc.moment.parseZone.apply(null, arguments); // let the input decide the zone
 		}
 
-		mom._lang = langData;
+		if ('_locale' in mom) { // moment 2.8 and above
+			mom._locale = localeData;
+		}
+		else { // pre-moment-2.8
+			mom._lang = localeData;
+		}
 
 		return mom;
 	};
@@ -212,7 +224,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 		// a function that returns a formatStr // TODO: in future, precompute this
 		if (typeof formatStr === 'function') {
-			formatStr = formatStr.call(t, options, langData);
+			formatStr = formatStr.call(t, options, localeData);
 		}
 
 		return formatRange(m1, m2, formatStr, null, options.isRTL);
@@ -224,7 +236,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 		// a function that returns a formatStr // TODO: in future, precompute this
 		if (typeof formatStr === 'function') {
-			formatStr = formatStr.call(t, options, langData);
+			formatStr = formatStr.call(t, options, localeData);
 		}
 
 		return formatDate(mom, formatStr);
@@ -236,8 +248,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	// -----------------------------------------------------------------------------------
 
 
-	// njnote which one? EventManager.call(t, options);
-	EventManager.call(t, options, eventSources, eventResources);
+	EventManager.call(t, options);
 	var isFetchNeeded = t.isFetchNeeded;
 	var fetchEvents = t.fetchEvents;
 	var fetchResources = t.fetchResources;
@@ -258,13 +269,11 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	var content;
 	var tm; // for making theme classes
 	var currentView;
-	var elementOuterWidth;
 	var suggestedViewHeight;
-	var resizeUID = 0;
+	var windowResizeProxy; // wraps the windowResize function
 	var ignoreWindowResize = 0;
 	var date;
 	var events = [];
-	var _dragElement;
 	
 	
 	
@@ -287,7 +296,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		else if (elementVisible()) {
 			// mainly for the public API
 			calcSize();
-			_renderView(inc);
+			renderView(inc);
 		}
 	}
 	
@@ -295,18 +304,22 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	function initialRender() {
 		tm = options.theme ? 'ui' : 'fc';
 		element.addClass('fc');
+
 		if (options.isRTL) {
 			element.addClass('fc-rtl');
 		}
 		else {
 			element.addClass('fc-ltr');
 		}
+
 		if (options.theme) {
 			element.addClass('ui-widget');
 		}
+		else {
+			element.addClass('fc-unthemed');
+		}
 
-		content = $("<div class='fc-content' />")
-			.prependTo(element);
+		content = $("<div class='fc-view-container'/>").prependTo(element);
 
 		// Render out the resource list before the Calendar (not applicable to all views?)
 		resourceList = new ResourceList(t, options, eventResources);
@@ -319,56 +332,30 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		headerElement = header.render();
 		if (headerElement) {
 			menuContainer = $("<div class='fc-menu-container' />")
-			element.prepend(menuContainer);
+			element.prepend(headerElement);
 			element.prepend(headerElement);
 		}
 
 		changeView(options.defaultView);
 
 		if (options.handleWindowResize) {
-			$(window).resize(windowResize);
+			windowResizeProxy = debounce(windowResize, options.windowResizeDelay); // prevents rapid calls
+			$(window).resize(windowResizeProxy);
 		}
-
-		// needed for IE in a 0x0 iframe, b/c when it is resized, never triggers a windowResize
-		if (!bodyVisible()) {
-			lateRender();
-		}
-	}
-	
-	
-	// called when we know the calendar couldn't be rendered when it was initialized,
-	// but we think it's ready now
-	function lateRender() {
-		setTimeout(function() { // IE7 needs this so dimensions are calculated correctly
-			if (!currentView.start && bodyVisible()) { // !currentView.start makes sure this never happens more than once
-				renderView();
-			}
-		},0);
 	}
 	
 	
 	function destroy() {
 
 		if (currentView) {
-			trigger('viewDestroy', currentView, currentView, currentView.element);
-			currentView.triggerEventDestroy();
-		}
-
-		$(window).unbind('resize', windowResize);
-
-		if (options.droppable) {
-			$(document)
-				.off('dragstart', droppableDragStart)
-				.off('dragstop', droppableDragStop);
-		}
-
-		if (currentView.selectionManagerDestroy) {
-			currentView.selectionManagerDestroy();
+			currentView.destroy();
 		}
 
 		header.destroy();
 		content.remove();
-		element.removeClass('fc fc-ltr fc-rtl ui-widget');
+		element.removeClass('fc fc-ltr fc-rtl fc-unthemed ui-widget');
+
+		$(window).unbind('resize', windowResizeProxy);
 	}
 	
 	
@@ -377,115 +364,122 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	}
 	
 	
-	function bodyVisible() {
-		return $('body').is(':visible');
-	}
-	
-	
 
 	// View Rendering
 	// -----------------------------------------------------------------------------------
-	
 
-	function changeView(newViewName) {
-		if (!currentView || newViewName != currentView.name) {
-			_changeView(newViewName);
-		}
+
+	function changeView(viewName) {
+		renderView(0, viewName);
 	}
 
 
-	function _changeView(newViewName) {
+	// Renders a view because of a date change, view-type change, or for the first time
+	function renderView(delta, viewName) {
 		ignoreWindowResize++;
+
+		// if viewName is changing, destroy the old view
+		if (currentView && viewName && currentView.name !== viewName) {
+			header.deactivateButton(currentView.name);
+			freezeContentHeight(); // prevent a scroll jump when view element is removed
+			if (currentView.start) { // rendered before?
+				currentView.destroy();
+			}
+			currentView.el.remove();
+			currentView = null;
+		}
+
+		// if viewName changed, or the view was never created, create a fresh view
+		if (!currentView && viewName) {
+			currentView = new fcViews[viewName](t);
+			currentView.el =  $("<div class='fc-view fc-" + viewName + "-view' />").appendTo(content);
+			header.activateButton(viewName);
+		}
 
 		if (currentView) {
-			trigger('viewDestroy', currentView, currentView, currentView.element);
-			unselect();
-			currentView.triggerEventDestroy(); // trigger 'eventDestroy' for each event
-			freezeContentHeight();
-			currentView.element.remove();
-			header.deactivateButton(currentView.name);
-		}
 
-		header.activateButton(newViewName);
+			// let the view determine what the delta means
+			if (delta) {
+				date = currentView.incrementDate(date, delta);
+			}
 
-		currentView = new fcViews[newViewName](
-			$("<div class='fc-view fc-view-" + newViewName + "' />")
-				.appendTo(content),
-			t // the calendar object
-		);
+			// render or rerender the view
+			if (
+				!currentView.start || // never rendered before
+				delta || // explicit date window change
+				!date.isWithin(currentView.intervalStart, currentView.intervalEnd) // implicit date window change
+			) {
+				if (elementVisible()) {
 
-		renderView();
-		unfreezeContentHeight();
+					freezeContentHeight();
+					if (currentView.start) { // rendered before?
+						currentView.destroy();
+					}
+					currentView.render(date);
+					unfreezeContentHeight();
 
-		ignoreWindowResize--;
-	}
+					// need to do this after View::render, so dates are calculated
+					updateTitle();
+					updateDatePicker();
+					updateTodayButton();
 
-
-	function renderView(inc) {
-		if (
-			!currentView.start || // never rendered before
-			inc || // explicit date window change
-			!date.isWithin(currentView.intervalStart, currentView.intervalEnd) // implicit date window change
-		) {
-			if (elementVisible()) {
-				_renderView(inc);
+					getAndRenderEvents();
+				}
 			}
 		}
-	}
 
-
-	function _renderView(inc) { // assumes elementVisible
-		ignoreWindowResize++;
-
-		if (currentView.start) { // already been rendered?
-			trigger('viewDestroy', currentView, currentView, currentView.element);
-			unselect();
-			clearEvents();
-		}
-
-		freezeContentHeight();
-		if (inc) {
-			date = currentView.incrementDate(date, inc);
-		}
-		currentView.render(date.clone()); // the view's render method ONLY renders the skeleton, nothing else
-		setSize();
-		unfreezeContentHeight();
-		(currentView.afterRender || noop)();
-
-		updateTitle();
-		updateDatePicker();
-		updateTodayButton();
-
-		trigger('viewRender', currentView, currentView, currentView.element);
-
+		unfreezeContentHeight(); // undo any lone freezeContentHeight calls
 		ignoreWindowResize--;
-
-		getAndRenderEvents();
 	}
 	
 	
 
 	// Resizing
 	// -----------------------------------------------------------------------------------
-	
-	
-	function updateSize() {
-		if (elementVisible()) {
-			unselect();
-			clearEvents();
+
+
+	t.getSuggestedViewHeight = function() {
+		if (suggestedViewHeight === undefined) {
 			calcSize();
-			setSize();
-			renderEvents();
+		}
+		return suggestedViewHeight;
+	};
+
+
+	t.isHeightAuto = function() {
+		return options.contentHeight === 'auto' || options.height === 'auto';
+	};
+	
+	
+	function updateSize(shouldRecalc) {
+		if (elementVisible()) {
+
+			if (shouldRecalc) {
+				_calcSize();
+			}
+
+			ignoreWindowResize++;
+			currentView.updateSize(true); // isResize=true. will poll getSuggestedViewHeight() and isHeightAuto()
+			ignoreWindowResize--;
+
+			return true; // signal success
+		}
+	}
+
+
+	function calcSize() {
+		if (elementVisible()) {
+			_calcSize();
 		}
 	}
 	
 	
-	function calcSize() { // assumes elementVisible
-		if (options.contentHeight) {
+	function _calcSize() { // assumes elementVisible
+		if (typeof options.contentHeight === 'number') { // exists and not 'auto'
 			suggestedViewHeight = options.contentHeight;
 		}
-		else if (options.height) {
-			suggestedViewHeight = options.height - (headerElement ? headerElement.height() : 0) - vsides(content);
+		else if (typeof options.height === 'number') { // exists and not 'auto'
+			suggestedViewHeight = options.height - (headerElement ? headerElement.outerHeight(true) : 0);
 		}
 		else {
 			suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
@@ -493,43 +487,14 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	}
 	
 	
-	function setSize() { // assumes elementVisible
-
-		if (suggestedViewHeight === undefined) {
-			calcSize(); // for first time
-				// NOTE: we don't want to recalculate on every renderView because
-				// it could result in oscillating heights due to scrollbars.
-		}
-
-		ignoreWindowResize++;
-		currentView.setHeight(suggestedViewHeight);
-		currentView.setWidth(content.width());
-		ignoreWindowResize--;
-
-		elementOuterWidth = element.outerWidth();
-	}
-	
-	
 	function windowResize(ev) {
 		if (
 			!ignoreWindowResize &&
-			ev.target === window // so we don't process jqui "resize" events that have bubbled up
+			ev.target === window && // so we don't process jqui "resize" events that have bubbled up
+			currentView.start // view has already been rendered
 		) {
-			if (currentView.start) { // view has already been rendered
-				var uid = ++resizeUID;
-				setTimeout(function() { // add a delay
-					if (uid == resizeUID && !ignoreWindowResize && elementVisible()) {
-						if (elementOuterWidth != (elementOuterWidth = element.outerWidth())) {
-							ignoreWindowResize++; // in case the windowResize callback changes the height
-							updateSize();
-							currentView.trigger('windowResize', _element);
-							ignoreWindowResize--;
-						}
-					}
-				}, options.windowResizeDelay);
-			}else{
-				// calendar must have been initialized in a 0x0 iframe that has just been resized
-				lateRender();
+			if (updateSize(true)) {
+				currentView.trigger('windowResize', _element);
 			}
 		}
 	}
@@ -542,35 +507,31 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 
 	function refetchEvents() { // can be called as an API method
-		clearEvents();
+		destroyEvents(); // so that events are cleared before user starts waiting for AJAX
 		fetchAndRenderEvents();
 	}
 
 
-	function rerenderEvents(modifiedEventID) { // can be called as an API method
-		clearEvents();
-		renderEvents(modifiedEventID);
-	}
-
-
-	function renderEvents(modifiedEventID) { // TODO: remove modifiedEventID hack
+	function renderEvents() { // destroys old events if previously rendered
 		if (elementVisible()) {
-			currentView.renderEvents(events, modifiedEventID); // actually render the DOM elements
-			currentView.trigger('eventAfterAllRender');
+			freezeContentHeight();
+			currentView.destroyEvents(); // no performance cost if never rendered
+			currentView.renderEvents(events);
+			unfreezeContentHeight();
 		}
 	}
 
 
-	function clearEvents() {
-		currentView.triggerEventDestroy(); // trigger 'eventDestroy' for each event
-		currentView.clearEvents(); // actually remove the DOM elements
-		currentView.clearEventData(); // for View.js, TODO: unify with clearEvents
+	function destroyEvents() {
+		freezeContentHeight();
+		currentView.destroyEvents();
+		unfreezeContentHeight();
 	}
 	
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
-			if (options['refetchResources']) refetchResources(); // refetch resources every time new events are loaded
+			if (options['refetchResources']) { refetchResources() }; // refetch resources every time new events are loaded
 			fetchAndRenderEvents();
 		}
 		else {
@@ -604,8 +565,8 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 
 
 	// called when a single event's data has been changed
-	function reportEventChange(eventID) {
-		rerenderEvents(eventID);
+	function reportEventChange() {
+		renderEvents();
 	}
 
 	function addEventResource(resource) {
@@ -651,10 +612,6 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		header.updateTitle(currentView.title);
 	}
 
-	function updateDatePicker() {
-		header.updateDatePicker(t.getDate());
-	}
-
 
 	function updateTodayButton() {
 		var now = t.getNow();
@@ -665,6 +622,10 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 			header.enableButton('today');
 		}
 	}
+
+	function updateDatePicker() {
+	  header.updateDatePicker(t.getDate());
+	}
 	
 
 
@@ -673,6 +634,18 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	
 
 	function select(start, end) {
+
+		start = t.moment(start);
+		if (end) {
+			end = t.moment(end);
+		}
+		else if (start.hasTime()) {
+			end = start.clone().add(t.defaultTimedEventDuration);
+		}
+		else {
+			end = start.clone().add(t.defaultAllDayEventDuration);
+		}
+
 		currentView.select(start, end);
 	}
 	
@@ -700,13 +673,13 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	
 	
 	function prevYear() {
-		date.add('years', -1);
+		date.add(-1, 'years');
 		renderView();
 	}
 	
 	
 	function nextYear() {
-		date.add('years', 1);
+		date.add(1, 'years');
 		renderView();
 	}
 	
@@ -726,6 +699,32 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 	function incrementDate(delta) {
 		date.add(moment.duration(delta));
 		renderView();
+	}
+
+
+	// Forces navigation to a view for the given date.
+	// `viewName` can be a specific view name or a generic one like "week" or "day".
+	function zoomTo(newDate, viewName) {
+		var viewStr;
+		var match;
+
+		if (!viewName || fcViews[viewName] === undefined) { // a general view name, or "auto"
+			viewName = viewName || 'day';
+			viewStr = header.getViewsWithButtons().join(' '); // space-separated string of all the views in the header
+
+			// try to match a general view name, like "week", against a specific one, like "agendaWeek"
+			match = viewStr.match(new RegExp('\\w+' + capitaliseFirstLetter(viewName)));
+
+			// fall back to the day view being used in the header
+			if (!match) {
+				match = viewStr.match(/\w+Day/);
+			}
+
+			viewName = match ? match[0] : 'agendaDay'; // fall back to agendaDay
+		}
+
+		date = newDate;
+		changeView(viewName);
 	}
 	
 	
@@ -778,7 +777,7 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 		}
 		if (name == 'height' || name == 'contentHeight' || name == 'aspectRatio') {
 			options[name] = value;
-			updateSize();
+			updateSize(true); // true = allow recalculation of height
 		}
 	}
 	
@@ -791,38 +790,5 @@ function Calendar(element, instanceOptions, eventSources, eventResources) {
 			);
 		}
 	}
-	
-	
-	
-	/* External Dragging
-	------------------------------------------------------------------------*/
-	
-	if (options.droppable) {
-		// TODO: unbind on destroy
-		$(document)
-			.on('dragstart', droppableDragStart)
-			.on('dragstop', droppableDragStop);
-		// this is undone in destroy
-	}
-
-	function droppableDragStart(ev, ui) {
-		var _e = ev.target;
-		var e = $(_e);
-		if (!e.parents('.fc').length) { // not already inside a calendar
-			var accept = options.dropAccept;
-			if ($.isFunction(accept) ? accept.call(_e, e) : e.is(accept)) {
-				_dragElement = _e;
-				currentView.dragStart(_dragElement, ev, ui);
-			}
-		}
-	}
-
-	function droppableDragStop(ev, ui) {
-		if (_dragElement) {
-			currentView.dragStop(_dragElement, ev, ui);
-			_dragElement = null;
-		}
-	}
-	
 
 }

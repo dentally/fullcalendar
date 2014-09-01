@@ -1,7 +1,7 @@
 /*!
- * FullCalendar v2.0.2 Google Calendar Plugin
- * Docs & License: http://arshaw.com/fullcalendar/
- * (c) 2013 Adam Shaw
+ * <%= meta.title %> v<%= meta.version %> Google Calendar Plugin
+ * Docs & License: <%= meta.homepage %>
+ * (c) <%= meta.copyright %>
  */
  
 (function(factory) {
@@ -14,7 +14,7 @@
 })(function($) {
 
 
-var fc = $.fullCalendar;
+var fc = $.njCalendar;
 var applyAll = fc.applyAll;
 
 
@@ -98,3 +98,5 @@ fc.gcalFeed = function(url, sourceOptions) {
 
 
 });
+
+//@ sourceMappingURL=gcal.js.map

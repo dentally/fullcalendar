@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("nl", {
+$.njCalendar.lang("nl", {
 	defaultButtonText: {
 		month: "Maand",
 		week: "Week",
 		day: "Dag",
 		list: "Agenda"
 	},
-	allDayText: "Hele dag"
+	allDayText: "Hele dag",
+	eventLimitText: "extra"
 });

@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("is", {
+$.njCalendar.lang("is", {
 	defaultButtonText: {
 		month: "Mánuður",
 		week: "Vika",
 		day: "Dagur",
 		list: "Dagskrá"
 	},
-	allDayText: "Allan daginn"
+	allDayHtml: "Allan<br/>daginn",
+	eventLimitText: "meira"
 });

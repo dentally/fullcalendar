@@ -11,7 +11,7 @@ describe('select callback', function() {
 	});
 
 	afterEach(function() {
-		$('#cal').fullCalendar('destroy');
+		$('#cal').njCalendar('destroy');
 	});
 
 	[ false, true ].forEach(function(isRTL) {
@@ -35,7 +35,7 @@ describe('select callback', function() {
 						expect(end).toEqualMoment('2014-05-07');
 					};
 					spyOn(options, 'select').and.callThrough();
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					$('.fc-day[data-date="2014-04-28"]').simulate('drag-n-drop', {
 						dropTarget: '.fc-day[data-date="2014-05-06"]',
 						callback: function() {
@@ -56,7 +56,7 @@ describe('select callback', function() {
 						expect(end).toEqualMoment('2014-04-29');
 					};
 					spyOn(options, 'select').and.callThrough();
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 					$('.fc-day[data-date="2014-04-28"]').simulate('drag-n-drop', {
 						dropTarget: '.fc-day[data-date="2014-04-28"]',
 						callback: function() {
@@ -84,8 +84,8 @@ describe('select callback', function() {
 							expect(end).toEqualMoment('2014-05-30');
 						};
 						spyOn(options, 'select').and.callThrough();
-						$('#cal').fullCalendar(options);
-						$('.fc-agenda-allday .fc-day-content').simulate('drag-n-drop', { // middle will be 2014-05-28
+						$('#cal').njCalendar(options);
+						$('.fc-agenda-view .fc-day-grid .fc-day:eq(3)').simulate('drag-n-drop', { // will be 2014-05-28 for LTR and RTL
 							dx: $('.fc-sun').outerWidth() * (isRTL ? -1 : 1), // the width of one column
 							callback: function() {
 								expect(options.select).toHaveBeenCalled();
@@ -105,8 +105,8 @@ describe('select callback', function() {
 							expect(end).toEqualMoment('2014-05-29');
 						};
 						spyOn(options, 'select').and.callThrough();
-						$('#cal').fullCalendar(options);
-						$('.fc-agenda-allday .fc-day-content').simulate('drag-n-drop', { // middle will be 2014-05-28
+						$('#cal').njCalendar(options);
+						$('.fc-agenda-view .fc-day-grid .fc-day:eq(3)').simulate('drag-n-drop', { // will be 2014-05-28 for LTR and RTL
 							callback: function() {
 								expect(options.select).toHaveBeenCalled();
 								done();
@@ -127,9 +127,31 @@ describe('select callback', function() {
 							expect(end).toEqualMoment('2014-05-28T10:30:00');
 						};
 						spyOn(options, 'select').and.callThrough();
-						$('#cal').fullCalendar(options);
-						$('tr.fc-slot18 td').simulate('drag-n-drop', { // middle will be 2014-05-28T09:00:00
-							dy: $('tr.fc-slot18 td').outerHeight() * 2, // move down two slots
+						$('#cal').njCalendar(options);
+						$('.fc-slats tr:eq(18) td:not(.fc-time)').simulate('drag-n-drop', { // middle will be 2014-05-28T09:00:00
+							dy: $('.fc-slats tr:eq(18)').outerHeight() * 2, // move down two slots
+							callback: function() {
+								expect(options.select).toHaveBeenCalled();
+								done();
+							}
+						});
+					});
+					it('gets fired correctly when the user selects slots in a different day', function(done) {
+						options.select = function(start, end, jsEvent, view) {
+							expect(moment.isMoment(start)).toEqual(true);
+							expect(moment.isMoment(end)).toEqual(true);
+							expect(typeof jsEvent).toEqual('object'); // TODO: more descrimination
+							expect(typeof view).toEqual('object'); // "
+							expect(start.hasTime()).toEqual(true);
+							expect(end.hasTime()).toEqual(true);
+							expect(start).toEqualMoment('2014-05-28T09:00:00');
+							expect(end).toEqualMoment('2014-05-29T10:30:00');
+						};
+						spyOn(options, 'select').and.callThrough();
+						$('#cal').njCalendar(options);
+						$('.fc-slats tr:eq(18) td:not(.fc-time)').simulate('drag-n-drop', { // middle will be 2014-05-28T09:00:00
+							dx: $('.fc-day-header:first').outerWidth() * .9 * (isRTL ? -1 : 1), // one day ahead
+							dy: $('.fc-slats tr:eq(18)').outerHeight() * 2, // move down two slots
 							callback: function() {
 								expect(options.select).toHaveBeenCalled();
 								done();
@@ -148,8 +170,8 @@ describe('select callback', function() {
 							expect(end).toEqualMoment('2014-05-28T09:30:00');
 						};
 						spyOn(options, 'select').and.callThrough();
-						$('#cal').fullCalendar(options);
-						$('tr.fc-slot18 td').simulate('drag-n-drop', { // middle will be 2014-05-28T09:00:00
+						$('#cal').njCalendar(options);
+						$('.fc-slats tr:eq(18) td:not(.fc-time)').simulate('drag-n-drop', { // middle will be 2014-05-28T09:00:00
 							callback: function() {
 								expect(options.select).toHaveBeenCalled();
 								done();

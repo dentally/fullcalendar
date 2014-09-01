@@ -6,7 +6,6 @@
 <link href='../dist/fullcalendar.css' rel='stylesheet' />
 <link href='../dist/fullcalendar.print.css' rel='stylesheet' media='print' />
 <script src='../lib/jquery/dist/jquery.js'></script>
-<script src='../lib/jquery-ui/ui/jquery-ui.js'></script>
 <script src='../lib/moment/moment.js'></script>
 <script src='../dist/fullcalendar.js'></script>
 <script src='../dist/lang-all.js'></script>
@@ -16,7 +15,7 @@
 		var currentLangCode = 'en';
 
 		// build the language selector's options
-		$.each($.fullCalendar.langs, function(langCode) {
+		$.each($.njCalendar.langs, function(langCode) {
 			$('#lang-selector').append(
 				$('<option/>')
 					.attr('value', langCode)
@@ -32,7 +31,7 @@
 				// change the language on the datepicker
 				$('#datepicker').datepicker('option', $.datepicker.regional[currentLangCode]);
 				// rerender the calendar
-				$('#calendar').fullCalendar('destroy');
+				$('#calendar').njCalendar('destroy');
 				renderCalendar();
 			}
 		});
@@ -50,7 +49,7 @@
 		});
 
 		function renderCalendar() {
-			$('#calendar').fullCalendar({
+			$('#calendar').njCalendar({
 				header: {
 					left: 'prev,next today',
 					center: 'title',

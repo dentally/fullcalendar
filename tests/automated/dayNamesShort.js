@@ -34,7 +34,7 @@ describe('short day names', function() {
       describe('when lang is default', function() {
         it('should be in English', function() {
           moment.lang('en');
-          $('#cal').fullCalendar(settings);
+          $('#cal').njCalendar(settings);
           var weekdays = moment.weekdaysShort();
 
           dayClasses.forEach(function(cls, index, classes) {
@@ -47,7 +47,7 @@ describe('short day names', function() {
         languages.forEach(function(language, index, languages) {
           it('should be in the selected language', function() {
             settings.lang = language;
-            $('#cal').fullCalendar(settings);
+            $('#cal').njCalendar(settings);
 
             moment.lang(language);
             var dow = moment.langData(language)._week.dow;
@@ -66,7 +66,7 @@ describe('short day names', function() {
             'Hov.', 'maS.', 'veS.', 'mech.', 'parmaq.', 'HoS.'
           ];
           settings.dayNamesShort = days;
-          $('#cal').fullCalendar(settings);
+          $('#cal').njCalendar(settings);
 
           dayClasses.forEach(function(cls, index, classes) {
             expect($('.fc-view thead ' + cls)[0]).toContainText(days[index]);

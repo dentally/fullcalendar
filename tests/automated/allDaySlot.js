@@ -11,8 +11,8 @@ describe('allDaySlots', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(1);
 			});
 		});
@@ -21,8 +21,8 @@ describe('allDaySlots', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(1);
 			});
 		});
@@ -35,8 +35,8 @@ describe('allDaySlots', function() {
 					defaultView: 'agendaWeek',
 					allDaySlot: true
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(1);
 			});
 		});
@@ -46,8 +46,8 @@ describe('allDaySlots', function() {
 					defaultView: 'agendaDay',
 					allDaySlot: true
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(1);
 			});
 		});
@@ -60,8 +60,8 @@ describe('allDaySlots', function() {
 					defaultView: 'agendaWeek',
 					allDaySlot: false
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(0);
 			});
 		});
@@ -71,8 +71,8 @@ describe('allDaySlots', function() {
 					defaultView: 'agendaDay',
 					allDaySlot: false
 				};
-				$('#cal').fullCalendar(options);
-				var allDaySlotCount = $('table.fc-agenda-allday').length;
+				$('#cal').njCalendar(options);
+				var allDaySlotCount = $('.fc-day-grid').length;
 				expect(allDaySlotCount).toEqual(0);
 			});
 		});

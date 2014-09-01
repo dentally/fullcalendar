@@ -1,10 +1,13 @@
 
-$.fullCalendar.lang("in", {
+$.njCalendar.lang("in", {
 	defaultButtonText: {
 		month: "Bulan",
 		week: "Minggu",
 		day: "Hari",
 		list: "Agenda"
 	},
-	allDayText: "Sepanjang hari"
+	allDayText: "Sepanjang hari",
+	eventLimitText: function(n) {
+		return "masih ada " + n + " acara";
+	}
 });

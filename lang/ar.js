@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("ar", {
+$.njCalendar.lang("ar", {
 	defaultButtonText: {
 		month: "شهر",
 		week: "أسبوع",
 		day: "يوم",
 		list: "أجندة"
 	},
-	allDayText: "اليوم كله"
+	allDayText: "اليوم كله",
+	eventLimitText: "أخرى"
 });

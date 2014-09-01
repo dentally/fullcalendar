@@ -9,7 +9,7 @@ describe('when weekends option is set', function() {
 		var options = {
 			weekends: true
 		};
-		$('#calendar').fullCalendar(options);
+		$('#calendar').njCalendar(options);
 		var sun = $('.fc-day-header.fc-sun')[0];
 		var sat = $('.fc-day-header.fc-sun')[0];
 		expect(sun).toBeDefined();
@@ -20,7 +20,7 @@ describe('when weekends option is set', function() {
 		var options = {
 			weekends: false
 		};
-		$('#calendar').fullCalendar(options);
+		$('#calendar').njCalendar(options);
 		var sun = $('.fc-day-header.fc-sun')[0];
 		var sat = $('.fc-day-header.fc-sun')[0];
 		expect(sun).not.toBeDefined();

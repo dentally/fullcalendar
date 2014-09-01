@@ -18,20 +18,20 @@ describe('button text', function() {
     describe('with default buttonIcons', function() {
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have button icons, to text will be empty
-        expect($('.fc-button-next')).toHaveText('');
-        expect($('.fc-button-nextYear')).toHaveText('');
-        expect($('.fc-button-prev')).toHaveText('');
-        expect($('.fc-button-prevYear')).toHaveText('');
+        expect($('.fc-next-button')).toHaveText('');
+        expect($('.fc-nextYear-button')).toHaveText('');
+        expect($('.fc-prev-button')).toHaveText('');
+        expect($('.fc-prevYear-button')).toHaveText('');
 
-        expect($('.fc-button-today')).toHaveText('today');
-        expect($('.fc-button-month')).toHaveText('month');
-        expect($('.fc-button-basicWeek')).toHaveText('week');
-        expect($('.fc-button-agendaWeek')).toHaveText('week');
-        expect($('.fc-button-basicDay')).toHaveText('day');
-        expect($('.fc-button-agendaDay')).toHaveText('day');
+        expect($('.fc-today-button')).toHaveText('today');
+        expect($('.fc-month-button')).toHaveText('month');
+        expect($('.fc-basicWeek-button')).toHaveText('week');
+        expect($('.fc-agendaWeek-button')).toHaveText('week');
+        expect($('.fc-basicDay-button')).toHaveText('day');
+        expect($('.fc-agendaDay-button')).toHaveText('day');
       });
 
       it('should contain specified text values', function() {
@@ -45,19 +45,19 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
-        expect($('.fc-button-next')).toHaveText('->');
-        expect($('.fc-button-nextYear')).toHaveText('-->');
-        expect($('.fc-button-prev')).toHaveText('<-');
-        expect($('.fc-button-prevYear')).toHaveText('<--');
+        expect($('.fc-next-button')).toHaveText('->');
+        expect($('.fc-nextYear-button')).toHaveText('-->');
+        expect($('.fc-prev-button')).toHaveText('<-');
+        expect($('.fc-prevYear-button')).toHaveText('<--');
 
-        expect($('.fc-button-today')).toHaveText('tidei');
-        expect($('.fc-button-month')).toHaveText('mun');
-        expect($('.fc-button-agendaDay')).toHaveText('dei');
-        expect($('.fc-button-agendaWeek')).toHaveText('wiki');
-        expect($('.fc-button-basicDay')).toHaveText('dei');
-        expect($('.fc-button-basicWeek')).toHaveText('wiki');
+        expect($('.fc-today-button')).toHaveText('tidei');
+        expect($('.fc-month-button')).toHaveText('mun');
+        expect($('.fc-agendaDay-button')).toHaveText('dei');
+        expect($('.fc-agendaWeek-button')).toHaveText('wiki');
+        expect($('.fc-basicDay-button')).toHaveText('dei');
+        expect($('.fc-basicWeek-button')).toHaveText('wiki');
       });
 
     });
@@ -69,20 +69,20 @@ describe('button text', function() {
       });
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have actual text now
-        expect($('.fc-button-next')).toHaveText('next');
-        expect($('.fc-button-nextYear')).toHaveText('next year');
-        expect($('.fc-button-prev')).toHaveText('prev');
-        expect($('.fc-button-prevYear')).toHaveText('prev year');
+        expect($('.fc-next-button')).toHaveText('next');
+        expect($('.fc-nextYear-button')).toHaveText('next year');
+        expect($('.fc-prev-button')).toHaveText('prev');
+        expect($('.fc-prevYear-button')).toHaveText('prev year');
 
-        expect($('.fc-button-today')).toHaveText('today');
-        expect($('.fc-button-month')).toHaveText('month');
-        expect($('.fc-button-basicWeek')).toHaveText('week');
-        expect($('.fc-button-agendaWeek')).toHaveText('week');
-        expect($('.fc-button-basicDay')).toHaveText('day');
-        expect($('.fc-button-agendaDay')).toHaveText('day');
+        expect($('.fc-today-button')).toHaveText('today');
+        expect($('.fc-month-button')).toHaveText('month');
+        expect($('.fc-basicWeek-button')).toHaveText('week');
+        expect($('.fc-agendaWeek-button')).toHaveText('week');
+        expect($('.fc-basicDay-button')).toHaveText('day');
+        expect($('.fc-agendaDay-button')).toHaveText('day');
       });
 
       it('should contain specified text values', function() {
@@ -96,19 +96,19 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
-        expect($('.fc-button-next')).toHaveText('->');
-        expect($('.fc-button-nextYear')).toHaveText('-->');
-        expect($('.fc-button-prev')).toHaveText('<-');
-        expect($('.fc-button-prevYear')).toHaveText('<--');
+        expect($('.fc-next-button')).toHaveText('->');
+        expect($('.fc-nextYear-button')).toHaveText('-->');
+        expect($('.fc-prev-button')).toHaveText('<-');
+        expect($('.fc-prevYear-button')).toHaveText('<--');
 
-        expect($('.fc-button-today')).toHaveText('tidei');
-        expect($('.fc-button-month')).toHaveText('mun');
-        expect($('.fc-button-agendaDay')).toHaveText('dei');
-        expect($('.fc-button-agendaWeek')).toHaveText('wiki');
-        expect($('.fc-button-basicDay')).toHaveText('dei');
-        expect($('.fc-button-basicWeek')).toHaveText('wiki');
+        expect($('.fc-today-button')).toHaveText('tidei');
+        expect($('.fc-month-button')).toHaveText('mun');
+        expect($('.fc-agendaDay-button')).toHaveText('dei');
+        expect($('.fc-agendaWeek-button')).toHaveText('wiki');
+        expect($('.fc-basicDay-button')).toHaveText('dei');
+        expect($('.fc-basicWeek-button')).toHaveText('wiki');
       });
 
     });
@@ -124,20 +124,20 @@ describe('button text', function() {
     describe('with default buttonIcons', function() {
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will contain icons, so will contain no text
-        expect($('.fc-button-next')).toHaveText('');
-        expect($('.fc-button-nextYear')).toHaveText('');
-        expect($('.fc-button-prev')).toHaveText('');
-        expect($('.fc-button-prevYear')).toHaveText('');
+        expect($('.fc-next-button')).toHaveText('');
+        expect($('.fc-nextYear-button')).toHaveText('');
+        expect($('.fc-prev-button')).toHaveText('');
+        expect($('.fc-prevYear-button')).toHaveText('');
 
-        expect($('.fc-button-today')).toHaveText('Aujourd\'hui');
-        expect($('.fc-button-month')).toHaveText('Mois');
-        expect($('.fc-button-basicWeek')).toHaveText('Semaine');
-        expect($('.fc-button-agendaWeek')).toHaveText('Semaine');
-        expect($('.fc-button-basicDay')).toHaveText('Jour');
-        expect($('.fc-button-agendaDay')).toHaveText('Jour');
+        expect($('.fc-today-button')).toHaveText('Aujourd\'hui');
+        expect($('.fc-month-button')).toHaveText('Mois');
+        expect($('.fc-basicWeek-button')).toHaveText('Semaine');
+        expect($('.fc-agendaWeek-button')).toHaveText('Semaine');
+        expect($('.fc-basicDay-button')).toHaveText('Jour');
+        expect($('.fc-agendaDay-button')).toHaveText('Jour');
       });
 
       it('should contain specified text values', function() {
@@ -151,19 +151,19 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
-        expect($('.fc-button-next')).toHaveText('->');
-        expect($('.fc-button-nextYear')).toHaveText('-->');
-        expect($('.fc-button-prev')).toHaveText('<-');
-        expect($('.fc-button-prevYear')).toHaveText('<--');
+        expect($('.fc-next-button')).toHaveText('->');
+        expect($('.fc-nextYear-button')).toHaveText('-->');
+        expect($('.fc-prev-button')).toHaveText('<-');
+        expect($('.fc-prevYear-button')).toHaveText('<--');
 
-        expect($('.fc-button-today')).toHaveText('tidei');
-        expect($('.fc-button-month')).toHaveText('mun');
-        expect($('.fc-button-agendaDay')).toHaveText('dei');
-        expect($('.fc-button-agendaWeek')).toHaveText('wiki');
-        expect($('.fc-button-basicDay')).toHaveText('dei');
-        expect($('.fc-button-basicWeek')).toHaveText('wiki');
+        expect($('.fc-today-button')).toHaveText('tidei');
+        expect($('.fc-month-button')).toHaveText('mun');
+        expect($('.fc-agendaDay-button')).toHaveText('dei');
+        expect($('.fc-agendaWeek-button')).toHaveText('wiki');
+        expect($('.fc-basicDay-button')).toHaveText('dei');
+        expect($('.fc-basicWeek-button')).toHaveText('wiki');
       });
 
     });
@@ -175,21 +175,21 @@ describe('button text', function() {
       });
 
       it('should contain default text values', function() {
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
         // will have the language's actual text now
-        expect($('.fc-button-next')).toHaveText('Suivant');
-        expect($('.fc-button-prev')).toHaveText('Précédent');
+        expect($('.fc-next-button')).toHaveText('Suivant');
+        expect($('.fc-prev-button')).toHaveText('Précédent');
         //// languages files don't have data for prev/next *year*
-        //expect($('.fc-button-nextYear')).toHaveText('Suivant');
-        //expect($('.fc-button-prevYear')).toHaveText('Précédent');
+        //expect($('.fc-nextYear-button')).toHaveText('Suivant');
+        //expect($('.fc-prevYear-button')).toHaveText('Précédent');
 
-        expect($('.fc-button-today')).toHaveText('Aujourd\'hui');
-        expect($('.fc-button-month')).toHaveText('Mois');
-        expect($('.fc-button-basicWeek')).toHaveText('Semaine');
-        expect($('.fc-button-agendaWeek')).toHaveText('Semaine');
-        expect($('.fc-button-basicDay')).toHaveText('Jour');
-        expect($('.fc-button-agendaDay')).toHaveText('Jour');
+        expect($('.fc-today-button')).toHaveText('Aujourd\'hui');
+        expect($('.fc-month-button')).toHaveText('Mois');
+        expect($('.fc-basicWeek-button')).toHaveText('Semaine');
+        expect($('.fc-agendaWeek-button')).toHaveText('Semaine');
+        expect($('.fc-basicDay-button')).toHaveText('Jour');
+        expect($('.fc-agendaDay-button')).toHaveText('Jour');
       });
 
       it('should contain specified text values', function() {
@@ -203,19 +203,19 @@ describe('button text', function() {
           week: 'wiki',
           day: 'dei'
         };
-        $('#cal').fullCalendar(settings);
+        $('#cal').njCalendar(settings);
 
-        expect($('.fc-button-next')).toHaveText('->');
-        expect($('.fc-button-nextYear')).toHaveText('-->');
-        expect($('.fc-button-prev')).toHaveText('<-');
-        expect($('.fc-button-prevYear')).toHaveText('<--');
+        expect($('.fc-next-button')).toHaveText('->');
+        expect($('.fc-nextYear-button')).toHaveText('-->');
+        expect($('.fc-prev-button')).toHaveText('<-');
+        expect($('.fc-prevYear-button')).toHaveText('<--');
 
-        expect($('.fc-button-today')).toHaveText('tidei');
-        expect($('.fc-button-month')).toHaveText('mun');
-        expect($('.fc-button-agendaDay')).toHaveText('dei');
-        expect($('.fc-button-agendaWeek')).toHaveText('wiki');
-        expect($('.fc-button-basicDay')).toHaveText('dei');
-        expect($('.fc-button-basicWeek')).toHaveText('wiki');
+        expect($('.fc-today-button')).toHaveText('tidei');
+        expect($('.fc-month-button')).toHaveText('mun');
+        expect($('.fc-agendaDay-button')).toHaveText('dei');
+        expect($('.fc-agendaWeek-button')).toHaveText('wiki');
+        expect($('.fc-basicDay-button')).toHaveText('dei');
+        expect($('.fc-basicWeek-button')).toHaveText('wiki');
       });
 
     });

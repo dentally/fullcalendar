@@ -20,8 +20,8 @@ describe('minTime', function() {
 				var options = {
 					defaultView: 'agendaWeek'
 				};
-				$('#cal').fullCalendar(options);
-				var firstSlotText = $('.fc-slot0 th').text();
+				$('#cal').njCalendar(options);
+				var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 				expect(firstSlotText).toEqual('12am');
 			});
 		});
@@ -31,8 +31,8 @@ describe('minTime', function() {
 				var options = {
 					defaultView: 'agendaDay'
 				};
-				$('#cal').fullCalendar(options);
-				var firstSlotText = $('.fc-slot0 th').text();
+				$('#cal').njCalendar(options);
+				var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 				expect(firstSlotText).toEqual('12am');
 			});
 		});
@@ -52,8 +52,8 @@ describe('minTime', function() {
 						defaultView: 'agendaWeek',
 						minTime: { hours: hourNumber }
 					};
-					$('#cal2').fullCalendar(options);
-					var firstSlotText = $('.fc-slot0 th').text();
+					$('#cal2').njCalendar(options);
+					var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 					var expected = numToStringConverter(hourNumber);
 					expect(firstSlotText).toEqual(expected);
 				});
@@ -70,8 +70,8 @@ describe('minTime', function() {
 						defaultView: 'agendaDay',
 						minTime: hourNumber + ':00' // in addition, test string duration input
 					};
-					$('#cal2').fullCalendar(options);
-					var firstSlotText = $('.fc-slot0 th').text();
+					$('#cal2').njCalendar(options);
+					var firstSlotText = $('.fc-slats tr:eq(0) .fc-time').text();
 					var expected = numToStringConverter(hourNumber);
 					expect(firstSlotText).toEqual(expected);
 				});
@@ -93,13 +93,11 @@ describe('minTime', function() {
 						defaultView: 'agendaWeek',
 						minTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
-					var firstSlotElement = $('.fc-slot0')[0];
-					var secondSlotElement = $('.fc-slot1')[0];
-					var thirdSlotElement = $('.fc-slot2')[0];
-					expect(firstSlotElement).toHaveClass('fc-minor');
-					expect(secondSlotElement).toHaveClass('fc-minor');
-					expect(thirdSlotElement).toHaveClass('fc-minor');
+					$('#cal2').njCalendar(options);
+					var slatRows = $('.fc-slats tr');
+					expect(slatRows.eq(0)).toHaveClass('fc-minor');
+					expect(slatRows.eq(1)).toHaveClass('fc-minor');
+					expect(slatRows.eq(2)).toHaveClass('fc-minor');
 					// TODO: fix bad behavior in src where no slots have text
 				});
 			});
@@ -115,13 +113,11 @@ describe('minTime', function() {
 						defaultView: 'agendaDay',
 						minTime: { hours: hourNumber, minutes: 20 }
 					};
-					$('#cal2').fullCalendar(options);
-					var firstSlotElement = $('.fc-slot0')[0];
-					var secondSlotElement = $('.fc-slot1')[0];
-					var thirdSlotElement = $('.fc-slot2')[0];
-					expect(firstSlotElement).toHaveClass('fc-minor');
-					expect(secondSlotElement).toHaveClass('fc-minor');
-					expect(thirdSlotElement).toHaveClass('fc-minor');
+					$('#cal2').njCalendar(options);
+					var slatRows = $('.fc-slats tr');
+					expect(slatRows.eq(0)).toHaveClass('fc-minor');
+					expect(slatRows.eq(1)).toHaveClass('fc-minor');
+					expect(slatRows.eq(2)).toHaveClass('fc-minor');
 					// TODO: fix bad behavior in src where no slots have text
 				});
 			});

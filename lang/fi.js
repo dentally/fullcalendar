@@ -1,10 +1,11 @@
 
-$.fullCalendar.lang("fi", {
+$.njCalendar.lang("fi", {
 	defaultButtonText: {
 		month: "Kuukausi",
 		week: "Viikko",
 		day: "Päivä",
 		list: "Tapahtumat"
 	},
-	allDayText: "Koko päivä"
+	allDayText: "Koko päivä",
+	eventLimitText: "lisää"
 });

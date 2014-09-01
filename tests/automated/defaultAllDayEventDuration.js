@@ -25,8 +25,8 @@ describe('defaultAllDayEventDuration', function() {
 					start: '2014-05-05'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var event = $('#cal').fullCalendar('clientEvents')[0];
+			$('#cal').njCalendar(options);
+			var event = $('#cal').njCalendar('clientEvents')[0];
 			expect(event.end).toEqualMoment('2014-05-07');
 		});
 
@@ -38,8 +38,8 @@ describe('defaultAllDayEventDuration', function() {
 					start: '2014-05-05'
 				}
 			];
-			$('#cal').fullCalendar(options);
-			var event = $('#cal').fullCalendar('clientEvents')[0];
+			$('#cal').njCalendar(options);
+			var event = $('#cal').njCalendar('clientEvents')[0];
 			expect(event.end).toEqualMoment('2014-05-08');
 		});
 	});
@@ -79,7 +79,7 @@ describe('defaultAllDayEventDuration', function() {
 						expect(width0).toEqual(width1);
 						done();
 					};
-					$('#cal').fullCalendar(options);
+					$('#cal').njCalendar(options);
 				});
 			});
 		});
