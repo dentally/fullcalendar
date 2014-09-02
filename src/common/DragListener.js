@@ -287,11 +287,13 @@ DragListener.prototype = {
 		var topVel = 0;
 		var leftVel = 0;
 
+		console.log("bonds", bounds)
+
 		if (bounds) { // only scroll if scrollEl exists
 
 			// compute closeness to edges. valid range is from 0.0 - 1.0
-			topCloseness = (sensitivity - (ev.pageY - bounds.top)) / sensitivity;
-			bottomCloseness = (sensitivity - (bounds.bottom - ev.pageY)) / sensitivity;
+			topCloseness =  (document.body.scrollTop - (ev.pageY - (bounds.top + sensitivity)))  / sensitivity; //(sensitivity - (ev.pageY - bounds.top)) / sensitivity;
+			bottomCloseness = ($(window).height() - (ev.pageY - document.body.scrollTop  + sensitivity))  / sensitivity; //(sensitivity - (bounds.bottom - ev.pageY)) / sensitivity;
 			leftCloseness = (sensitivity - (ev.pageX - bounds.left)) / sensitivity;
 			rightCloseness = (sensitivity - (bounds.right - ev.pageX)) / sensitivity;
 
@@ -345,7 +347,7 @@ DragListener.prototype = {
 			}
 		}
 		else if (this.scrollTopVel > 0) { // scrolling down?
-			if (el.scrollTop() + el[0].clientHeight >= el[0].scrollHeight) { // already scrolled all the way down?
+			if ($(el).scrollTop() + window.innerHeight == $(document).height()) { // already scrolled all the way down? + takes into account margins due to fixed headers
 				this.scrollTopVel = 0;
 			}
 		}

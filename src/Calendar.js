@@ -38,6 +38,7 @@ function Calendar(element, instanceOptions) {
 	t.options = options;
 	t.render = render;
 	t.destroy = destroy;
+	t.getElement = getElement;
 	t.refetchEvents = refetchEvents;
 	t.reportEvents = reportEvents;
 	t.refetchResources = refetchResources;
@@ -357,6 +358,9 @@ function Calendar(element, instanceOptions) {
 		$(window).unbind('resize', windowResizeProxy);
 	}
 	
+	function getElement() {
+		return element
+	}
 	
 	function elementVisible() {
 		return element.is(':visible');

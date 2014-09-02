@@ -177,10 +177,10 @@ $.extend(Grid.prototype, {
 
 		// A clone of the original element that will move with the mouse
 		var mouseFollower = new MouseFollower(seg.el, {
-			parentEl: view.el,
+			parentEl: view.calendar.getElement(),
 			opacity: view.opt('dragOpacity'),
 			revertDuration: view.opt('dragRevertDuration'),
-			zIndex: 2 // one above the .fc-view
+			zIndex: 999 // one above the .fc-view
 		});
 
 		// Tracks mouse movement over the *view's* coordinate map. Allows dragging and dropping between subcomponents
@@ -205,7 +205,11 @@ $.extend(Grid.prototype, {
 				newStart = res.start;
 				newEnd = res.end;
 
-				if (view.renderDrag(newStart, newEnd, seg, col)) { // have the view render a visual indication
+				var mockEvent = view.renderDrag(newStart, newEnd, seg, col)
+
+				console.log("hidefollower",mockEvent );
+
+				if (mockEvent) { // have the view render a visual indication
 					mouseFollower.hide(); // if the view is already using a mock event "helper", hide our own
 				}
 				else {
