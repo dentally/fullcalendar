@@ -108,8 +108,8 @@ MouseFollower.prototype = {
 					margin: 0,
 					right: 'auto', // erase and set width instead
 					bottom: 'auto', // erase and set height instead
-					width: this.sourceEl.width(), // explicit height in case there was a 'right' value
-					height: this.sourceEl.height(), // explicit width in case there was a 'bottom' value
+					width: '100px', //this.sourceEl.width(), // explicit height in case there was a 'right' value
+					height: '20px', //this.sourceEl.height(), // explicit width in case there was a 'bottom' value
 					opacity: this.options.opacity || '',
 					zIndex: this.options.zIndex
 				})
@@ -141,8 +141,8 @@ MouseFollower.prototype = {
 			this.sourceEl.width(); // hack to force IE8 to compute correct bounding box
 			sourceOffset = this.sourceEl.offset();
 			origin = this.el.offsetParent().offset();
-			this.top0 = sourceOffset.top - origin.top;
-			this.left0 = sourceOffset.left - origin.left;
+			this.top0 = this.mouseY0;
+			this.left0 = this.mouseX0;
 		}
 
 		this.el.css({

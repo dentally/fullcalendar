@@ -93,8 +93,9 @@ GridCoordMap.prototype = {
 
 	// Determines if the given coordinates are in bounds. If no `containerEl`, always true
 	inBounds: function(x, y) {
+		var scrolledHeight = document.body.scrollTop;
 		if (this.containerEl) {
-			return x >= this.minX && x < this.maxX && y >= this.minY && y < this.maxY;
+			return x >= this.minX && x < this.maxX && y >= this.minY + scrolledHeight && y < this.maxY;
 		}
 		return true;
 	}

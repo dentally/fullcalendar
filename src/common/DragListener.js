@@ -40,8 +40,8 @@ DragListener.prototype = {
 	scrollIntervalId: null, // ID of setTimeout for scrolling animation loop
 	scrollHandlerProxy: null, // this-scoped function for handling when scrollEl is scrolled
 
-	scrollSensitivity: 30, // pixels from edge for scrolling to start
-	scrollSpeed: 200, // pixels per second, at maximum speed
+	scrollSensitivity: 20, // pixels from edge for scrolling to start
+	scrollSpeed: 400, // pixels per second, at maximum speed
 	scrollIntervalMs: 50, // millisecond wait between scroll increment
 
 
@@ -287,7 +287,6 @@ DragListener.prototype = {
 		var topVel = 0;
 		var leftVel = 0;
 
-		console.log("bonds", bounds)
 
 		if (bounds) { // only scroll if scrollEl exists
 
