@@ -39,6 +39,8 @@ function Header(calendar, options) {
 				.append(renderSection('right'))
 				.append(renderSection('center'))
 				.append('<div class="fc-clear"/>')
+      
+      calendar.getClipBoard().render(el)
 			return el;
 		}
 	}

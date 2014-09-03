@@ -17,6 +17,7 @@
         "src/main.js",
         "src/lang.js",
         "src/Calendar.js",
+        "src/Clipboard.js",
         "src/Header.js",
         "src/EventManager.js",
         "src/util.js",

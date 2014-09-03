@@ -60,6 +60,7 @@ function Calendar(element, instanceOptions) {
 	t.getView = getView;
 	t.option = option;
 	t.trigger = trigger;
+	t.getClipBoard = function() {return clipBoard;}
 
 	t.getResources = function() { return eventResources; }
 	t.setResources = function(resources) { eventResources = resources; render(false, true); }
@@ -263,6 +264,7 @@ function Calendar(element, instanceOptions) {
 
 
 	var _element = element[0];
+	var clipBoard;
 	var header;
 	var headerElement;
 	var resourceList;
@@ -328,7 +330,7 @@ function Calendar(element, instanceOptions) {
 		if(resourceListElement) {
 			element.prepend(resourceListElement);
 		}
-
+    clipBoard = new ClipBoard(t, options)
 		header = new Header(t, options);
 		headerElement = header.render();
 		if (headerElement) {
