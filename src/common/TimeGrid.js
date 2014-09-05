@@ -129,13 +129,12 @@ $.extend(TimeGrid.prototype, {
 		var resources = view.calendar.getResources();
 		var segs = [];
 		var seg;
-		var col;
 
 		// normalize
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
 
-		if (event && event.resource && view.name=="resourceDay" ){
+		if (event && event.resource && view.name == 'resourceDay'){
 			col = resources.indexOf(event.resource);
 			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {
@@ -308,7 +307,8 @@ $.extend(TimeGrid.prototype, {
 			// otherwise, just render a highlight
 			this.renderHighlight(
 				start,
-				end || this.view.calendar.getDefaultEventEnd(false, start)
+				end || this.view.calendar.getDefaultEventEnd(false, start),
+				col
 			);
 		}
 	},
@@ -388,7 +388,7 @@ $.extend(TimeGrid.prototype, {
 			this.renderRangeHelper(start, end, null, col);
 		}
 		else {
-			this.renderHighlight(start, end);
+			this.renderHighlight(start, end, col);
 		}
 	},
 
@@ -405,9 +405,9 @@ $.extend(TimeGrid.prototype, {
 
 
 	// Renders an emphasis on the given date range. `start` is inclusive. `end` is exclusive.
-	renderHighlight: function(start, end) {
+	renderHighlight: function(start, end, col) {
 		this.highlightEl = $(
-			this.highlightSkeletonHtml(start, end)
+			this.highlightSkeletonHtml(start, end, col)
 		).appendTo(this.el);
 	},
 
@@ -423,9 +423,10 @@ $.extend(TimeGrid.prototype, {
 
 	// Generates HTML for a table element with containers in each column, responsible for absolutely positioning the
 	// highlight elements to cover the highlighted slots.
-	highlightSkeletonHtml: function(start, end) {
+	highlightSkeletonHtml: function(start, end, column) {
 		var view = this.view;
-		var segs = this.rangeToSegs(start, end);
+		var colresource = view.calendar.getResources()[column] // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
+		var segs = this.rangeToSegs(start, end, {resource: colresource});
 		var cellHtml = '';
 		var col = 0;
 		var i, seg;

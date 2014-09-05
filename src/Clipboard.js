@@ -48,17 +48,58 @@ function ClipBoard(calendar, options) {
 
   }
 
+  function eventDrag(ev) {
+    var cbEvent = ev.data.cbEvent
+    var view = calendar.getView()
+    var grid = view.dayGrid || view.timeGrid
+    var dropDate
+    var dropCol
+    var mouseFollower = new MouseFollower($(this), {
+      parentEl: view.calendar.getElement(),
+      opacity: view.opt('dragOpacity'),
+      revertDuration: view.opt('dragRevertDuration'),
+      zIndex: 10 // one above the .fc-view
+    });
+    var dragListener = new DragListener(view.coordMap, {
+      listenStart: function(ev) {
+        mouseFollower.start(ev);
+      },
+      cellOver: function(cell, date) {
+        var newStart = date.clone()
+        var newEnd = date.clone().add(cbEvent.clipboard_duration, 'minutes')
+        var seg = null
+        dropDate = date;
+        dropCol = cell.col
+        var mockEvent = view.renderDrag(newStart, newEnd, seg, dropCol)
+        mouseFollower.show();
+      },
+      cellOut: function() {
+        dropDate = null;
+        dropCol = null;
+        view.destroyDrag();
+      },
+      listenStop: function() {
+        view.destroyDrag();
+        mouseFollower.stop();
+        var newResource = calendar.getResources()[dropCol]
+        calendar.trigger("clipBoardEventDropped", dropDate, newResource, cbEvent)
+      }
+    });
+    dragListener.mousedown(ev);
+  }
+
   function renderClipboardEvents() {
     var clipboardItems = clipBoardElement.find("ul")
-    clipBoardEvents.each( function(event){
-      var item = renderClipboardEvent(event)
+    clipBoardEvents.each( function(cbEvent){
+      var item = renderClipboardEvent(cbEvent)
+      item.on("mousedown", {cbEvent: cbEvent.toJSON()}, eventDrag)
       clipboardItems.append(item)
     })
     updateNotificationCount()
   }
 
-  function renderClipboardEvent(event) {
-    return $("<li>Event<li>")
+  function renderClipboardEvent(cbEvent) {
+    return $("<li><a href='#' class='clipboard-event'>Event</a></li>")
   }
 
   function updateNotificationCount() {
