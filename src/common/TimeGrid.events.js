@@ -142,7 +142,7 @@ $.extend(TimeGrid.prototype, {
 			startTimeText = view.getEventTimeText(event.start, null);
 		}
 
-		return '<a class="' + classes.join(' ') + '"' +
+		return '<span class="' + classes.join(' ') + '"' +
 			(skinCss ? ' style="' + skinCss + '"' : '') +
 			'>' +
 				'<div class="fc-content">' +
@@ -167,7 +167,7 @@ $.extend(TimeGrid.prototype, {
 					'<div class="fc-resizer"/>' :
 					''
 					) +
-			'</a>';
+			'</span>';
 	},
 
 

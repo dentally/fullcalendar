@@ -93,11 +93,7 @@ $.extend(DayGrid.prototype, {
 				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
 			'</span>';
 		
-		return '<a class="' + classes.join(' ') + '"' +
-				(event.url ?
-					' href="' + htmlEscape(event.url) + '"' :
-					''
-					) +
+		return '<span class="' + classes.join(' ') + '"' +
 				(skinCss ?
 					' style="' + skinCss + '"' :
 					''
@@ -113,7 +109,7 @@ $.extend(DayGrid.prototype, {
 					'<div class="fc-resizer"/>' :
 					''
 					) +
-			'</a>';
+			'</span>';
 	},
 
 
