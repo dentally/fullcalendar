@@ -163,9 +163,6 @@
 		border-bottom-right-radius: 0;
 	}
 	
-	.fc-time-grid-event {
-		overflow: hidden; /* don't let the bg flow over rounded corners */
-	}
 	
 	.fc-time-grid-event > .fc-content { /* contains the time and title, but no bg and resizer */
 		position: relative;

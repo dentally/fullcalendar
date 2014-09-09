@@ -127,6 +127,10 @@ $.extend(Grid.prototype, {
 					else if (view.isEventDraggable(seg.event)) {
 						_this.segDragMousedown(seg, ev);
 					}
+				},
+				contextmenu: function(seg, ev) {
+					ev.preventDefault()
+					view.triggerContextMenu(seg, ev);
 				}
 			},
 			function(name, func) {

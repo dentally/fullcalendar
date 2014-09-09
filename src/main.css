@@ -141,6 +141,10 @@
 		border-right: none;
 	}
 
+	.fc-content .fc-time{
+		float: left;
+	}
+
 	/* Menu
 	------------------------------------------------------------------------*/
 	.fc-menu-content {
@@ -348,6 +352,13 @@
 	.fc-view > table { /* so dragged elements can be above the view's main element */
 		position: relative;
 		z-index: 1;
+	}
+
+	/* Event Menu */
+
+	.fc-content .dropdown-menu {
+		left: -150px;
+		width: 150px;
 	}
 }
 

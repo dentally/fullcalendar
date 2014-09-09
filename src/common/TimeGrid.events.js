@@ -142,7 +142,7 @@ $.extend(TimeGrid.prototype, {
 			startTimeText = view.getEventTimeText(event.start, null);
 		}
 
-		return '<span class="' + classes.join(' ') + '"' +
+		return '<div class="' + classes.join(' ') + '"' +
 			(skinCss ? ' style="' + skinCss + '"' : '') +
 			'>' +
 				'<div class="fc-content">' +
@@ -161,13 +161,14 @@ $.extend(TimeGrid.prototype, {
 						'</div>' :
 						''
 						) +
+				renderContextmenu(event.id) +
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				(isResizable ?
 					'<div class="fc-resizer"/>' :
 					''
 					) +
-			'</span>';
+			'</div>';
 	},
 
 
@@ -412,4 +413,15 @@ function compareForwardSlotSegs(seg1, seg2) {
 		(seg1.backwardCoord || 0) - (seg2.backwardCoord || 0) ||
 		// do normal sorting...
 		compareSegs(seg1, seg2);
+}
+
+function renderContextmenu(eventID) {
+	return '<div id="fc-event-dropdown-' + eventID + '" class="right dropdown">' +
+	  '<a class="dropdown-trigger" href="#" data-toggle="dropdown"><i class="icon-caret-down"></i></a>' + 
+    '<ul class="dropdown-menu" role="menu" aria-labelledby=".fc-content .dropdown-trigger">' +
+			'<li class="fc-move-to-clipboard"><a href="#">Move to Clipboard</a></li>' +
+			'<li class="divider"></li>' +
+			'<li class="fc-delete-event"><a href="#">Delete</a></li>' +
+		'</ul>' +
+	'</div>';
 }
