@@ -25,13 +25,13 @@ function ClipBoard(calendar, options) {
   }
 
   function render(el) {
-    clipBoardElement = '<div id="external-events" class="dropdown ui-droppable">'
+    clipBoardElement = '<div class="dropdown">'
     clipBoardElement += '<a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="#">'
-    clipBoardElement += '<i class="icon icon-paper-clip"></i>'
-    clipBoardElement += '<b class="caret"></b>'
+    clipBoardElement += '<i class="fa-icon icon-paper-clip"></i>'
+    clipBoardElement += '<i class="fa-icon icon-caret-down"></i>'
     clipBoardElement += '</a>'
-    clipBoardElement += '<ul id="clip_board" class="dropdown-menu" role="menu" aria-labelledby="dLabel"></ul>'
-    clipBoardElement += '<div id="clipboard_notification" class="notification" style="display: block;"></div>'
+    clipBoardElement += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"></ul>'
+    clipBoardElement += '<div class="notification" style="display: block;"></div>'
     clipBoardElement += '</div>'
     clipBoardElement = $(clipBoardElement)
     el.find(".fc-right").prepend(clipBoardElement)

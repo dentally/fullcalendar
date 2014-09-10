@@ -63,7 +63,7 @@ var defaults = {
 		next: "next",
 		prevYear: "prev year",
 		nextYear: "next year",
-		today: 'today',
+		today: 'Today',
 		month: 'month',
 		week: 'week',
 		day: 'day'

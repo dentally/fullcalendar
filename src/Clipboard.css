@@ -1,0 +1,26 @@
+#new-calendar {
+  .fc-toolbar {
+    .icon-paper-clip {
+      font-size: 32px;
+    }
+  
+    .dropdown {
+      margin-top: 5px;
+      margin-right: -2px;
+    }
+
+    .notification {
+      font-size: 10px;
+      position: absolute;
+      top: 11px;
+      right: -9px;
+    }
+
+    .icon-caret-down {
+      font-size: 13px;
+      position: absolute;
+      top: 2px;
+      right: -5px;
+    }
+  }  
+}

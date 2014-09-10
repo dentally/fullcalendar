@@ -45,13 +45,16 @@
 		width: 100%;
 		margin-top: -100px;
 
-		button {
+		button, .icon-paper-clip {
 			background-color: rgb(245, 245, 245);
 			height: 45px;
 			padding-top: 10px;
 		}
 		.fc-left{
 			margin-left: 198px;
+		}
+		.fc-today-button {
+			opacity: 0.65;
 		}
 	}
 	
@@ -307,7 +310,7 @@
 	/* title text */
 	
 	.fc-toolbar h2 {
-		margin: 0;
+		padding-top: 4px;
 	}
 	
 	/* button layering (for border precedence) */
