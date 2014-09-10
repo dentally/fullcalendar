@@ -11,6 +11,7 @@ function ClipBoard(calendar, options) {
   t.destroy = destroy;
   t.eventDropped = eventDropped;
   t.removeEvent = removeEvent;
+  t.getClipBoardElement = getClipBoardElement;
   //t.renderClipboardEvents = renderClipboardEvents;
 
   //locals
@@ -36,12 +37,16 @@ function ClipBoard(calendar, options) {
     el.find(".fc-right").prepend(clipBoardElement)
   }
 
+  function getClipBoardElement() {
+    return clipBoardElement
+  }
+
   function destroy() {
 
   }
 
   function eventDropped(event) {
-
+    calendar.trigger("moveEventToClipboard", clipBoardEvents, event)
   }
 
   function removeEvent(event) {

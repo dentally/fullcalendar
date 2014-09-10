@@ -177,7 +177,7 @@ $.extend(Grid.prototype, {
 		var view = this.view;
 		var el = seg.el;
 		var event = seg.event;
-		var newStart, newEnd;
+		var newStart, newEnd, clipboardDrop;
 
 		// A clone of the original element that will move with the mouse
 		var mouseFollower = new MouseFollower(seg.el, {
@@ -192,6 +192,7 @@ $.extend(Grid.prototype, {
 		var dragListener = new DragListener(view.coordMap, {
 			distance: 5,
 			scroll: view.opt('dragScroll'),
+			clipboardEl: view.calendar.getClipBoard().getClipBoardElement(),
 			listenStart: function(ev) {
 				mouseFollower.hide(); // don't show until we know this is a real drag
 				mouseFollower.start(ev);
@@ -208,6 +209,7 @@ $.extend(Grid.prototype, {
 				var col = cell.col
 				newStart = res.start;
 				newEnd = res.end;
+				clipboardDrop = false
 
 				var mockEvent = view.renderDrag(newStart, newEnd, seg, col)
 
@@ -221,29 +223,41 @@ $.extend(Grid.prototype, {
 			},
 			cellOut: function() { // called before mouse moves to a different cell OR moved out of all cells
 				newStart = null;
+				clipboardDrop = false;
 				view.destroyDrag(); // unrender whatever was done in view.renderDrag
 				mouseFollower.show(); // show in case we are moving out of all cells
 			},
+			dragOverClipboard: function() {
+				clipboardDrop = true;
+			},
+			dragNotOverClipboard: function(){
+				clipboardDrop = false;
+			},
 			dragStop: function(ev) {
-				var newCol = dragListener.cell.col;
+				var cell = dragListener.cell
+				var newCol = null;
+				cell != null ? newCol = dragListener.cell.col :  null;
 				var resources = view.calendar.getResources();
 				var resourceView = view.calendar.getView().name == "resourceDay";
-				var resourceChange = resourceView && (newCol != resources.indexOf(event.resource));
+				var resourceChange = resourceView && newCol != null &&(newCol != resources.indexOf(event.resource));
 				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
-				if (view.calendar.getView().name=="resourceDay"){
+				if (view.calendar.getView().name == "resourceDay"){
 					event.resource = resources[newCol]
 				}
 
 				// do revert animation if hasn't changed. calls a callback when finished (whether animation or not)
-				mouseFollower.stop(!hasChanged, function() {
+				mouseFollower.stop((!hasChanged && !clipboardDrop), function() {
 					_this.isDraggingSeg = false;
 					view.destroyDrag();
-					view.showEvent(event);
+					if (!clipboardDrop){view.showEvent(event)};
 					view.trigger('eventDragStop', el[0], event, ev, {}); // last argument is jqui dummy
 
-					if (hasChanged) {
+					if (hasChanged && !clipboardDrop) {
 						view.eventDrop(el[0], event, newStart, ev, newCol); // will rerender all events...
+					}
+					else if (clipboardDrop) {
+						view.calendar.getClipBoard().eventDropped(event)
 					}
 				});
 			},

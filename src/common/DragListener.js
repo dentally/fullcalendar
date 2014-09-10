@@ -167,6 +167,16 @@ DragListener.prototype = {
 					this.cellOver(cell);
 				}
 			}
+			else if (!cell) {
+
+				if (this.overClipboard(ev.pageX, ev.pageY)) {
+					//Called when a mouse just moved over the clipboard
+					this.trigger('dragOverClipboard');
+				}
+				else {
+					this.trigger('dragNotOverClipboard');
+				}
+			}
 
 			this.dragScroll(ev); // will possibly cause scrolling
 		}
@@ -404,6 +414,23 @@ DragListener.prototype = {
 		if (!this.scrollIntervalId) {
 			this.computeCoords();
 		}
+	},
+
+	overClipboard: function(x, y) {
+		var clipboardEl = this.options.clipboardEl;
+	  
+		if (clipboardEl) {
+			clipboardOffset = clipboardEl.offset();
+			var minX = clipboardOffset.left;
+			var maxX = clipboardOffset.left + clipboardEl.outerWidth();
+			var minY = clipboardOffset.top;
+			var maxY = clipboardOffset.top + clipboardEl.outerHeight();
+		}
+
+		if (clipboardEl) {
+			return x >= minX && x < maxX && y >= minY && y < maxY;
+		}
+
 	}
 
 };
