@@ -43,7 +43,7 @@
 		height: 45px;
 		left: 0;
 		width: 100%;
-		margin-top: -100px;
+		margin-top: -110px;
 
 		button, .icon-paper-clip {
 			background-color: rgb(245, 245, 245);
@@ -78,7 +78,7 @@
 		width: 100%;
 		background-color: white;
 		z-index: 9;
-		margin-top: -60px;
+		margin-top: -70px;
 		}
 		
 	.fc-toolbar .fc-button {
@@ -103,6 +103,10 @@
 		border-bottom-width: 1px;
 		border-bottom-color:rgb(221, 221, 221);
 	}
+
+	.fc-widget-header tr{
+		height: 25px;
+	}
 		
 		
 		
@@ -116,7 +120,7 @@
 		zoom: 1; /* for IE7, gives accurate coordinates for [un]freezeContentHeight */
 		margin-right: 10px;
 		margin-left: 10px;
-		margin-top: 100px;
+		margin-top: 110px;
 		}
 
 		
