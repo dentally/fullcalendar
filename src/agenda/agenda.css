@@ -174,8 +174,8 @@
 		padding: 0 1px;
 	}
 	
-	.fc-time-grid-event .fc-time {
-		font-size: .85em;
+	.fc-time-grid-event .fc-time, .fc-time-grid-event .fc-title {
+		font-size: 13px;
 		white-space: nowrap;
 	}
 	
@@ -236,5 +236,23 @@
 	
 	.fc-time-grid-event .fc-resizer:after {
 		content: "=";
+	}
+
+	.fc-event-status {
+		border-radius: 50%;
+		width: 8px;
+		height: 8px;
+		float: right;
+		border: 2px solid rgb(229, 223, 223);
+		display: inline-block;
+		opacity: 0.6;
+		margin-left: 3px;
+	}
+
+	.fc-title i, .fc-event-status {
+		margin-top: 3px;
+	}
+	.fc-title a {
+		color: white; 
 	}
 }
