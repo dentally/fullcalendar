@@ -397,23 +397,8 @@ $.extend(Grid.prototype, {
 	getEventSkinCss: function(event) {
 		var view = this.view;
 		var source = event.source || {};
-		var eventColor = event.color;
-		var sourceColor = source.color;
-		var optionColor = view.opt('eventColor');
-		var backgroundColor =
-			event.backgroundColor ||
-			eventColor ||
-			source.backgroundColor ||
-			sourceColor ||
-			view.opt('eventBackgroundColor') ||
-			optionColor;
-		var borderColor =
-			event.borderColor ||
-			eventColor ||
-			source.borderColor ||
-			sourceColor ||
-			view.opt('eventBorderColor') ||
-			optionColor;
+		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad'
+		var borderColor = backgroundColor
 		var textColor =
 			event.textColor ||
 			source.textColor ||
