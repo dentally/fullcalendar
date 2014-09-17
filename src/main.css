@@ -164,14 +164,13 @@
 		left: 1px;
 		z-index: 101;
 		border: 1px solid #d8d8d8;
-	}
 
-	.close {
-		float: right;
-		margin-top: 2px;
-		margin-right: 8px;
+		.close {
+			float: right;
+			margin-top: 2px;
+			margin-right: 8px;
+		}
 	}
-
 
 	.fc-date-picker {
 		min-height: 230px;

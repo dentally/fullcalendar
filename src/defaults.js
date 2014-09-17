@@ -77,7 +77,7 @@ var defaults = {
 	},
 
 	fontAwsomeIcons: {
-		menu: 'icon-reorder',
+		openMenu: 'icon-reorder',
 		month: 'icon-th',
 		week: 'icon-ellipsis-horizontal',
 		day: 'icon-th-list',

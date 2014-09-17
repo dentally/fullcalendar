@@ -61,6 +61,7 @@ function Calendar(element, instanceOptions) {
 	t.option = option;
 	t.trigger = trigger;
 	t.getClipBoard = function() {return clipBoard;}
+	t.openMenu = openMenu;
 
 	t.getResources = function() { return eventResources; }
 	t.setResources = function(resources) { eventResources = resources; render(false, true); }
@@ -267,6 +268,7 @@ function Calendar(element, instanceOptions) {
 	var clipBoard;
 	var header;
 	var headerElement;
+	var menu
 	var resourceList;
 	var resourceListElement;
 	var content;
@@ -323,14 +325,10 @@ function Calendar(element, instanceOptions) {
 		}
 
 		content = $("<div class='fc-view-container'/>").prependTo(element);
-
-		// Render out the resource list before the Calendar (not applicable to all views?)
-		resourceList = new ResourceList(t, options, eventResources);
-		resourceListElement = resourceList.render();
-		if(resourceListElement) {
-			element.prepend(resourceListElement);
-		}
+		var menuContainer = $("<div class='fc-menu-container' />")
+		element.prepend(menuContainer);
     clipBoard = new ClipBoard(t, options)
+    menu = new Menu(t, options, menuContainer)
 		header = new Header(t, options);
 		headerElement = header.render();
 		if (headerElement) {
@@ -354,6 +352,7 @@ function Calendar(element, instanceOptions) {
 		}
 
 		header.destroy();
+		menu.destroy();
 		content.remove();
 		element.removeClass('fc fc-ltr fc-rtl fc-unthemed ui-widget');
 
@@ -629,7 +628,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function updateDatePicker() {
-	  header.updateDatePicker(t.getDate());
+	  menu.updateDatePicker(t.getDate());
 	}
 	
 
@@ -773,6 +772,10 @@ function Calendar(element, instanceOptions) {
 	
 	function getView() {
 		return currentView;
+	}
+
+	function openMenu() {
+		menu.render()
 	}
 	
 	
