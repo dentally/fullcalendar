@@ -84,7 +84,7 @@ $.extend(Grid.prototype, {
 	dayMousedown: function(ev) {
 		var _this = this;
 		var view = this.view;
-		var isSelectable = view.opt('selectable');
+		var isSelectable = view.opt('selectable') && view.name != "month";
 		var dates = null; // the inclusive dates of the selection. will be null if no selection
 		var start; // the inclusive start of the selection
 		var end; // the *exclusive* end of the selection
@@ -127,6 +127,9 @@ $.extend(Grid.prototype, {
 					if (isSelectable) {
 						// the selection will already have been rendered. just report it
 						view.reportSelection(start, end, ev, this.cell);
+					}
+					else {
+						view.calendar.gotoDay(end.subtract(1, "day"))
 					}
 				}
 			}

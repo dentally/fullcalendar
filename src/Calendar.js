@@ -53,6 +53,7 @@ function Calendar(element, instanceOptions) {
 	t.nextYear = nextYear;
 	t.today = today;
 	t.gotoDate = gotoDate;
+	t.gotoDay = gotoDay;
 	t.incrementDate = incrementDate;
 	t.zoomTo = zoomTo;
 	t.getDate = getDate;
@@ -703,6 +704,11 @@ function Calendar(element, instanceOptions) {
 	function incrementDate(delta) {
 		date.add(moment.duration(delta));
 		renderView();
+	}
+
+	function gotoDay(dateInput) {
+		date = t.moment(dateInput);
+		renderView(0, "resourceDay" );
 	}
 
 

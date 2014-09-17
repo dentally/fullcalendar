@@ -73,7 +73,7 @@ function SelectionManager() {
 	function reportSelection(start, end, ev) {
 		selected = true;
 		var resourceObj = false;
-		if(t.calendar.getView().name=="resourceDay")
+		if(t.calendar.getView().name == "resourceDay")
 		{
 			//Get the cell associated with the select function
 			var hoverListener = t.getHoverListener();
