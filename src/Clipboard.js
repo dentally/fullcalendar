@@ -54,11 +54,12 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDrag(ev) {
-    var cbEvent = ev.data.cbEvent
-    var view = calendar.getView()
-    var grid = view.dayGrid || view.timeGrid
-    var dropDate
-    var dropCol
+    var cbEvent = ev.data.cbEvent;
+    var view = calendar.getView();
+    var grid = view.dayGrid || view.timeGrid;
+    var dropStartTime;
+    var dropFinishTime;
+    var dropCol;
     var mouseFollower = new MouseFollower($(this), {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
@@ -70,16 +71,16 @@ function ClipBoard(calendar, options) {
         mouseFollower.start(ev);
       },
       cellOver: function(cell, date) {
-        var newStart = date.clone()
-        var newEnd = date.clone().add(cbEvent.clipboard_duration, 'minutes')
+        dropStartTime = cell.date.clone()
+        dropFinishTime = date.clone().add(cbEvent.clipboard_duration, 'minutes')
         var seg = null
-        dropDate = date;
         dropCol = cell.col
-        var mockEvent = view.renderDrag(newStart, newEnd, seg, dropCol)
+        var mockEvent = view.renderDrag(dropStartTime, dropFinishTime, seg, dropCol)
         mouseFollower.show();
       },
       cellOut: function() {
-        dropDate = null;
+        dropStartTime = null;
+        dropFinishTime = null;
         dropCol = null;
         view.destroyDrag();
       },
@@ -87,7 +88,7 @@ function ClipBoard(calendar, options) {
         view.destroyDrag();
         mouseFollower.stop();
         var newResource = calendar.getResources()[dropCol]
-        calendar.trigger("clipBoardEventDropped", dropDate, newResource, cbEvent)
+        calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, this)
       }
     });
     dragListener.mousedown(ev);
