@@ -48,7 +48,7 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDropped(event) {
-    calendar.trigger("moveEventToClipboard", clipBoardEvents, event)
+    calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView())
   }
 
   function removeEvent(event) {
@@ -63,6 +63,8 @@ function ClipBoard(calendar, options) {
     var dropStartTime;
     var dropFinishTime;
     var dropCol;
+
+    if (view.name === "month") { return null}
     var mouseFollower = new MouseFollower($(this), {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
