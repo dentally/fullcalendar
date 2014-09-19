@@ -22,6 +22,8 @@ function ClipBoard(calendar, options) {
 
   function bindCollectionEvents() {
     clipBoardEvents.bind('reset', renderClipboardEvents)
+    clipBoardEvents.bind('remove', renderClipboardEvents)
+    clipBoardEvents.bind('add', renderClipboardEvents)
   }
 
   function render(el) {
@@ -54,6 +56,7 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDrag(ev) {
+    var _this = this
     var cbEvent = ev.data.cbEvent;
     var view = calendar.getView();
     var grid = view.dayGrid || view.timeGrid;
@@ -88,7 +91,7 @@ function ClipBoard(calendar, options) {
         view.destroyDrag();
         mouseFollower.stop();
         var newResource = calendar.getResources()[dropCol]
-        calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, this)
+        calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents)
       }
     });
     dragListener.mousedown(ev);
@@ -96,6 +99,7 @@ function ClipBoard(calendar, options) {
 
   function renderClipboardEvents() {
     var clipboardItems = clipBoardElement.find("ul")
+    clipboardItems.html("")
     clipBoardEvents.each( function(cbEvent){
       var item = renderClipboardEvent(cbEvent)
       item.on("mousedown", {cbEvent: cbEvent.toJSON()}, eventDrag)
