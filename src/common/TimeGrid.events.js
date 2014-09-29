@@ -418,14 +418,3 @@ function compareForwardSlotSegs(seg1, seg2) {
 		// do normal sorting...
 		compareSegs(seg1, seg2);
 }
-
-function renderContextmenu(eventID) {
-	return '<div id="fc-event-dropdown-' + eventID + '" class="right dropdown">' +
-	  '<a class="dropdown-trigger" href="#" data-toggle="dropdown"><i class="icon-caret-down"></i></a>' + 
-    '<ul class="dropdown-menu" role="menu" aria-labelledby=".fc-content .dropdown-trigger">' +
-			'<li class="fc-move-to-clipboard"><a href="#">Move to Clipboard</a></li>' +
-			'<li class="divider"></li>' +
-			'<li class="fc-delete-event"><a href="#">Delete</a></li>' +
-		'</ul>' +
-	'</div>';
-}

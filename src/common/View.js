@@ -287,28 +287,6 @@ View.prototype = {
 	},
 
 
-	triggerContextMenu:  function(seg, ev) {
-		var eventEL = $(seg.el[0])
-		var dropDownID = '#fc-event-dropdown-' + seg.event.id
-		var _this = this
-		eventEL.css({'z-index': 5})
-		$(dropDownID).on('hidden.bs.dropdown', function () {
-		  eventEL.css({'z-index': 1})
-		})
-		eventEL.find(".dropdown-trigger").dropdown('toggle')
-		eventEL.find(".fc-move-to-clipboard").on('click', function (e) {
-			e.stopImmediatePropagation()
-			e.preventDefault()
-		  _this.trigger("moveEventToClipboard", _this, _this.calendar, seg.event)
-		})
-		eventEL.find(".fc-delete-event").on('click', function (e) {
-			e.stopImmediatePropagation()
-			e.preventDefault()
-		  _this.trigger("deleteEvent", _this, seg.event)
-		})
-	},
-
-
 	/* Selection
 	------------------------------------------------------------------------------------------------------------------*/
 
