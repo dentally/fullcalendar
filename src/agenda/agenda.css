@@ -135,6 +135,7 @@
 	.fc-time-grid .fc-event {
 		position: absolute;
 		z-index: 1; /* scope inner z-index's */
+		overflow: hidden;
 	}
 	
 	
@@ -248,6 +249,10 @@
 		display: inline-block;
 		opacity: 0.6;
 		margin-left: 3px;
+	}
+
+	.fc-event-notes {
+		overflow: hidden;
 	}
 
 	.fc-title i, .fc-event-status {

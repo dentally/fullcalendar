@@ -149,6 +149,7 @@ $.extend(TimeGrid.prototype, {
 			(skinCss ? ' style="' + skinCss + '"' : '') +
 			'>' +
 				'<div class="fc-content">' +
+				'<div class="fc-event-header">' +
 					(timeText ?
 						'<div class="fc-time"' +
 						' data-start="' + htmlEscape(startTimeText) + '"' +
@@ -158,14 +159,15 @@ $.extend(TimeGrid.prototype, {
 						'</div>' :
 						''
 						) +
-						'<div class="fc-title">' +
+						'<span class="fc-title">' +
 								title +
-							'<div class="fc-event-status '+ stateClass +'"></div>'+
-							'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
-						'</div>' +
-						'<div class="fc-event-notes">' +
-            	eventNotes +
-						'</div>' +
+						'</span>' +
+						'<div class="fc-event-status '+ stateClass +'"></div>'+
+						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
+					'</div>' +
+					'<div class="fc-event-notes">' +
+            eventNotes +
+					'</div>' +
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				(isResizable ?
