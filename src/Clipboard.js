@@ -12,6 +12,7 @@ function ClipBoard(calendar, options) {
   t.eventDropped = eventDropped;
   t.removeEvent = removeEvent;
   t.getClipBoardElement = getClipBoardElement;
+  t.closeDropDown = closeDropDown;
   //t.renderClipboardEvents = renderClipboardEvents;
 
   //locals
@@ -56,7 +57,6 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDrag(ev) {
-    var _this = this
     var cbEvent = ev.data.cbEvent;
     var view = calendar.getView();
     var grid = view.dayGrid || view.timeGrid;
@@ -93,7 +93,10 @@ function ClipBoard(calendar, options) {
         view.destroyDrag();
         mouseFollower.stop();
         var newResource = calendar.getResources()[dropCol]
-        calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents)
+        if (dropStartTime){
+          calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents)
+          t.closeDropDown()
+        }
       }
     });
     dragListener.mousedown(ev);
@@ -117,6 +120,10 @@ function ClipBoard(calendar, options) {
   function updateNotificationCount() {
     var badgeEl = clipBoardElement.find(".notification")
     badgeEl.text(clipBoardEvents.length)
+  }
+
+  function closeDropDown() {
+    clipBoardElement.find('.dropdown-toggle').dropdown("toggle")
   }
 
 }
