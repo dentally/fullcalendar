@@ -108,6 +108,7 @@ $.extend(Grid.prototype, {
 	bindSegHandlers: function() {
 		var _this = this;
 		var view = this.view;
+		var isMonthView = view.name == "month"
 
 		$.each(
 			{
@@ -120,7 +121,7 @@ $.extend(Grid.prototype, {
 				click: function(seg, ev) {
 					if ($(ev.target).is('.fc-event-status')) {
 							view.trigger('cycleEventStatus', this, seg.event, ev); 
-					} else if (view.name != "month") {
+					} else if (!isMonthView) {
 						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
 					}
 				},
@@ -128,7 +129,7 @@ $.extend(Grid.prototype, {
 					if ($(ev.target).is('.fc-resizer') && view.isEventResizable(seg.event)) {
 						_this.segResizeMousedown(seg, ev);
 					}
-					else if (view.isEventDraggable(seg.event)) {
+					else if (view.isEventDraggable(seg.event) && !isMonthView) {
 						_this.segDragMousedown(seg, ev);
 					}
 				}
