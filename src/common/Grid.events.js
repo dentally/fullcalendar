@@ -118,7 +118,11 @@ $.extend(Grid.prototype, {
 					_this.triggerSegMouseout(seg, ev);
 				},
 				click: function(seg, ev) {
-					return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
+					if ($(ev.target).is('.fc-event-status')) {
+							view.trigger('cycleEventStatus', this, seg.event, ev); 
+					} else {
+						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
+					}
 				},
 				mousedown: function(seg, ev) {
 					if ($(ev.target).is('.fc-resizer') && view.isEventResizable(seg.event)) {
