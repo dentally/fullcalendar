@@ -80,6 +80,7 @@ $.extend(DayGrid.prototype, {
 		var skinCss = this.getEventSkinCss(event);
 		var timeHtml = '';
 		var titleHtml;
+		var title = view.trigger("determineEventTitle", this, event) || '';
 
 		classes.unshift('fc-day-grid-event');
 
@@ -90,7 +91,7 @@ $.extend(DayGrid.prototype, {
 
 		titleHtml =
 			'<span class="fc-title">' +
-				(htmlEscape(event.title || '') || '&nbsp;') + // we always want one line of height
+				(title || '&nbsp;') + // we always want one line of height
 			'</span>';
 		
 		return '<span class="' + classes.join(' ') + '"' +
