@@ -120,7 +120,7 @@ $.extend(Grid.prototype, {
 				click: function(seg, ev) {
 					if ($(ev.target).is('.fc-event-status')) {
 							view.trigger('cycleEventStatus', this, seg.event, ev); 
-					} else {
+					} else if (view.name != "month") {
 						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
 					}
 				},
