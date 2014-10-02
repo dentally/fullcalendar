@@ -243,7 +243,7 @@ $.extend(Grid.prototype, {
 				var resourceChange = resourceView && newCol != null &&(newCol != resources.indexOf(event.resource));
 				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
-				if (view.calendar.getView().name == "resourceDay"){
+				if (view.calendar.getView().name == "resourceDay" && !clipboardDrop){
 					event.resource = resources[newCol]
 				}
 
