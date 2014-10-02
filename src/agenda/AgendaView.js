@@ -111,6 +111,7 @@ $.extend(AgendaView.prototype, {
 		View.prototype.render.call(this); // call the super-method
 
 		this.resetScroll(); // do this after sizes have been set
+		this.timeLine = new CurrentTimeLine(this).start()
 	},
 
 
@@ -119,6 +120,9 @@ $.extend(AgendaView.prototype, {
 		this.timeGrid.destroy();
 		if (this.dayGrid) {
 			this.dayGrid.destroy();
+		}
+		if (this.timeLine) {
+			this.timeLine.stop();
 		}
 		View.prototype.destroy.call(this); // call the super-method
 	},

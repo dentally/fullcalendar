@@ -1,7 +1,6 @@
 
-/* Top toolbar area with buttons and title
+/* Calendar Clipboard
 ----------------------------------------------------------------------------------------------------------------------*/
-// TODO: rename all header-related things to "toolbar"
 
 function ClipBoard(calendar, options) {
   var t = this;

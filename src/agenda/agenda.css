@@ -261,4 +261,15 @@
 	.fc-title a {
 		color: white; 
 	}
+
+	.timeline {
+	  border: none;
+	  border-top: 2px solid red;
+	  margin: 0;
+	  opacity: 0.3;
+	  padding: 0;
+	  position: absolute;
+	  z-index: 10;
+	  display: none;
+	}
 }

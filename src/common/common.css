@@ -25,7 +25,6 @@
 	
 	.fc-unthemed th,
 	.fc-unthemed td,
-	.fc-unthemed hr,
 	.fc-unthemed thead,
 	.fc-unthemed tbody,
 	.fc-unthemed .fc-row,
@@ -37,7 +36,6 @@
 		background-color: #fff;
 	}
 	
-	.fc-unthemed hr,
 	.fc-unthemed .fc-popover .fc-header {
 		background: #eee;
 	}
@@ -247,14 +245,6 @@
 	
 	/* Misc Reusable Components
 	--------------------------------------------------------------------------------------------------*/
-	
-	.fc hr {
-		height: 0;
-		margin: 0;
-		padding: 0 0 2px; /* height is unreliable across browsers, so use padding */
-		border-style: solid;
-		border-width: 1px 0;
-	}
 	
 	.fc-clear {
 		clear: both;
