@@ -113,7 +113,8 @@ function ClipBoard(calendar, options) {
   }
 
   function renderClipboardEvent(cbEvent) {
-    return $("<li><a href='#' class='clipboard-event'>Event</a></li>")
+    //must return an li element
+    return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>")
   }
 
   function updateNotificationCount() {
