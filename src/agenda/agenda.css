@@ -193,6 +193,8 @@
 	.fc-time-grid-event.fc-short .fc-content {
 		/* don't wrap to second line (now that contents will be inline) */
 		white-space: nowrap;
+		height: 100%;
+		overflow: hidden;
 	}
 	
 	.fc-time-grid-event.fc-short .fc-time,
