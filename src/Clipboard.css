@@ -9,6 +9,20 @@
       margin-right: -2px;
     }
 
+    .dropdown-menu {
+      right: -20px;
+      left: initial;
+      text-align: left;
+      li, a, span {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-drag: none;
+        -webkit-user-drag: none;
+        -moz-user-drag: none;
+      }
+    }
+
     .notification {
       font-size: 10px;
       position: absolute;

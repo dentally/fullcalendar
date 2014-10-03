@@ -9,7 +9,6 @@ function ClipBoard(calendar, options) {
   t.render = render;
   t.destroy = destroy;
   t.eventDropped = eventDropped;
-  t.removeEvent = removeEvent;
   t.getClipBoardElement = getClipBoardElement;
   t.closeDropDown = closeDropDown;
   //t.renderClipboardEvents = renderClipboardEvents;
@@ -51,10 +50,6 @@ function ClipBoard(calendar, options) {
     calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView())
   }
 
-  function removeEvent(event) {
-
-  }
-
   function eventDrag(ev) {
     var cbEvent = ev.data.cbEvent;
     var view = calendar.getView();
@@ -68,7 +63,8 @@ function ClipBoard(calendar, options) {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
       revertDuration: view.opt('dragRevertDuration'),
-      zIndex: 10 // one above the .fc-view
+      zIndex: 10, // one above the .fc-view
+      width: "300px"
     });
     var dragListener = new DragListener(view.coordMap, {
       listenStart: function(ev) {
@@ -113,7 +109,7 @@ function ClipBoard(calendar, options) {
   }
 
   function renderClipboardEvent(cbEvent) {
-    //must return an li element
+    // Must return an li element
     return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>")
   }
 

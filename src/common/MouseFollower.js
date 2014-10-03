@@ -108,7 +108,7 @@ MouseFollower.prototype = {
 					margin: 0,
 					right: 'auto', // erase and set width instead
 					bottom: 'auto', // erase and set height instead
-					width: '100px', //this.sourceEl.width(), // explicit height in case there was a 'right' value
+					width: this.options.width || '100px', //this.sourceEl.width(), // explicit height in case there was a 'right' value
 					height: '20px', //this.sourceEl.height(), // explicit width in case there was a 'bottom' value
 					opacity: this.options.opacity || '',
 					zIndex: this.options.zIndex
