@@ -80,7 +80,6 @@ $.extend(AgendaView.prototype, {
 	// Renders the view into `this.el`, which has already been assigned.
 	// `colCnt` has been calculated by a subclass and passed here.
 	render: function(colCnt) {
-
 		// needed for cell-to-date and date-to-cell calculations in View
 		this.rowCnt = 1;
 		this.colCnt = colCnt;
@@ -112,6 +111,9 @@ $.extend(AgendaView.prototype, {
 
 		this.resetScroll(); // do this after sizes have been set
 		this.timeLine = new CurrentTimeLine(this).start()
+    if (this.workingHours) {
+    	workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
+    }
 	},
 
 

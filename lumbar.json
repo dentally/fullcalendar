@@ -42,6 +42,7 @@
         "src/basic/BasicWeekView.js",
         "src/basic/BasicDayView.js",
         "src/agenda/CurrentTimeLine.js",
+        "src/agenda/WorkingHours.js",
         "src/agenda/AgendaView.js",
         "src/agenda/AgendaWeekView.js",
         "src/agenda/AgendaDayView.js",

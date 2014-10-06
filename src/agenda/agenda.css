@@ -274,4 +274,12 @@
 	  z-index: 10;
 	  display: none;
 	}
+
+	.fc-non-working-period{
+		background: #DADEDF;
+		opacity: .5;
+		position: absolute;
+		left: 0;
+		right: 0;
+	}
 }

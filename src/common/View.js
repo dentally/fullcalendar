@@ -368,6 +368,7 @@ function View(calendar) {
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
 	t.getShownEvents = getShownEvents;
+	t.workingHours = calendar.options.workingHours
 	
 	// imports
 	var reportEventChange = calendar.reportEventChange;

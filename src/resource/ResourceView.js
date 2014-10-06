@@ -114,6 +114,9 @@ $.extend(ResourceView.prototype, {
 			this.resetScroll(); // do this after sizes have been set
 
 			this.timeLine = new CurrentTimeLine(this).start()
+			if (this.workingHours) {
+				workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
+			}
 		},
 
 		// Make subcomponents ready for cleanup

@@ -419,11 +419,18 @@ $.extend(TimeGrid.prototype, {
 			this.highlightEl = null;
 		}
 	},
+  
+  // Greys out perio of time that is out of working hours
+	highlightNonWorkingPeriod: function(start, end, col) {
+		$(
+			this.highlightSkeletonHtml(start, end, col, 'fc-non-working-period')
+		 ).appendTo(this.el);
+	},
 
 
 	// Generates HTML for a table element with containers in each column, responsible for absolutely positioning the
 	// highlight elements to cover the highlighted slots.
-	highlightSkeletonHtml: function(start, end, column) {
+	highlightSkeletonHtml: function(start, end, column, cssClass) {
 		var view = this.view;
 		var colresource = view.calendar.getResources()[column] // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
 		var segs = this.rangeToSegs(start, end, {resource: colresource});
@@ -432,6 +439,7 @@ $.extend(TimeGrid.prototype, {
 		var i, seg;
 		var dayDate;
 		var top, bottom;
+		var cssClass = cssClass || "fc-highlight"
 
 		for (i = 0; i < segs.length; i++) { // loop through the segments. one per column
 			seg = segs[i];
@@ -452,7 +460,7 @@ $.extend(TimeGrid.prototype, {
 			cellHtml +=
 				'<td>' +
 					'<div class="fc-highlight-container">' +
-						'<div class="fc-highlight" style="top:' + top + 'px;bottom:-' + bottom + 'px"/>' +
+						'<div class="' + cssClass + '" style="top:' + top + 'px;bottom:-' + bottom + 'px"/>' +
 					'</div>' +
 				'</td>';
 
