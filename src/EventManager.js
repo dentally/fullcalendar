@@ -42,7 +42,6 @@ function EventManager(options) { // assumed to be a calendar
 	var pendingSourceCnt = 0;
 	var loadingLevel = 0;
 	var cache = [];
-	var resources = options.resources;
 
 
 	$.each(
@@ -728,18 +727,20 @@ function EventManager(options) { // assumed to be a calendar
 	------------------------------------------------------------------------------*/
 
 	function associateResourceWithEvent(data, out) {
-		 var i = 0;
+		var resources = t.getResources();
+		var i = 0;
+		out = out || data // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
 		
 		if(!data[options.resourceParam]) {
 	          return;
 	      }
-	      
+	      out.resource = null
 	      $.each(
 	          resources,
 	      	function( intIndex, resource ){
 	  			if(resource.id == data[options.resourceParam]) {
-					out.resource = resource;
-					//out.resource._col = i; watch if we need this
+						out.resource = resource;
+						//out.resource._col = i; watch if we need this
 				}
 				i++;
 	          }

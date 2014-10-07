@@ -12,13 +12,16 @@ function Menu(calendar, options, menuContainer) {
   // locals
   var menuShown = false;
   var datePicker;
+  var resourceList = options.resourceList
+  var resourcesEl
 
 
   function render() {
     if (!menuShown){
-      var menuContent = $(renderMenu());
+      var menuContent = renderMenu();
+      menuContent.find(".fc-resource-list").html(renderResourseList())
       menuContent.find(".close").click(function(){ destroy() });
-      menuContainer.append(menuContent);
+      menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
     }
@@ -26,9 +29,11 @@ function Menu(calendar, options, menuContainer) {
   
   
   function destroy() {
+    resourcesEl.find("input").unbind();
     menuContainer.find(".close").unbind();
     menuContainer.html("");
     menuShown = false;
+    resourcesEl = null
   }
   
   function renderMenu() {
@@ -37,11 +42,11 @@ function Menu(calendar, options, menuContainer) {
     html += "<span class='close'>X</span>";
     html += "<div class='fc-date-picker'></div>";
     html += "<span>Calendars</span>";
-    if (options.resourceList) {
-      html += "<div class='fc-resource-list'>" + renderResourseList() + "</div>";
+    if (resourceList) {
+      html += "<div class='fc-resource-list'></div>";
     }
     html += "</div>";
-    return html;
+    return $(html);
   }
 
   function setupDatePicker(menuElement) {
@@ -67,16 +72,29 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    var resources = "<ul>";
-    $.each(options.resourceList, function(index, res){
-      resources += "<li>" + res.name;
-      resources += "<input ";
-      res.shown ? resources += 'checked': null ;
-      resources += " type='checkbox'/>";
-      resources += "</li>";;
+    resourcesEl = resourcesEl || $("<ul>");
+    resourceList.each(function(res, index){
+      resourceEl = renderResourse(res)
+      resourceEl.find("input").on("change", {resource: res.toJSON()}, resourceClick)
+      resourcesEl.append(resourceEl)
     })
-    resources += "</ul>";
-    return resources;
+    return resourcesEl;
+  }
+
+  function renderResourse(res) {
+    var el
+    el = "<li>" + res.get('name');
+    el += "<input ";
+    res.get('show') ? el += 'checked': null ;
+    el += " type='checkbox'/>";
+    el += "</li>";
+    return $(el)
+  }
+
+  function resourceClick(ev) {
+    var resource = ev.data.resource;
+    calendar.trigger("resourceToggled", calendar, this, resource.id)
+    return true
   }
 
 }

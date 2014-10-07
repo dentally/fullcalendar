@@ -133,9 +133,10 @@ $.extend(TimeGrid.prototype, {
 		// normalize
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
+		if(resources && event && !event.resource){ return segs}
 
-		if (event && event.resource && view.name == 'resourceDay'){
-			col = resources.indexOf(event.resource);
+		if (view.name == 'resourceDay'){
+			col = view.calendar.resourceColumn(event.resource.id);
 			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {
 				seg.col = col;
@@ -157,6 +158,7 @@ $.extend(TimeGrid.prototype, {
 	},
 
 	segWithinColRange: function(rangeStart, rangeEnd, col){
+		if(col === -1 ){return false}
 		var view = this.view;
 		var cellDate;
 		var colStart, colEnd;
@@ -432,7 +434,7 @@ $.extend(TimeGrid.prototype, {
 	// highlight elements to cover the highlighted slots.
 	highlightSkeletonHtml: function(start, end, column, cssClass) {
 		var view = this.view;
-		var colresource = view.calendar.getResources()[column] // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
+		var colresource = view.calendar.getResources()[column] || true // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
 		var segs = this.rangeToSegs(start, end, {resource: colresource});
 		var cellHtml = '';
 		var col = 0;

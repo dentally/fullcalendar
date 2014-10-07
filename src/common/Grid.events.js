@@ -66,7 +66,9 @@ $.extend(Grid.prototype, {
 		var _this = this;
 
 		return $.map(events, function(event) {
-			return _this.eventToSegs(event, intervalStart, intervalEnd); // $.map flattens all returned arrays together
+			if (event.resource){
+				return _this.eventToSegs(event, intervalStart, intervalEnd); // $.map flattens all returned arrays together
+			}
 		});
 	},
 
@@ -240,7 +242,7 @@ $.extend(Grid.prototype, {
 				cell != null ? newCol = dragListener.cell.col :  null;
 				var resources = view.calendar.getResources();
 				var resourceView = view.calendar.getView().name == "resourceDay";
-				var resourceChange = resourceView && newCol != null &&(newCol != resources.indexOf(event.resource));
+				var resourceChange = resourceView && newCol != null &&(newCol != view.calendar.resourceColumn(event.resource.id));
 				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
 				if (view.calendar.getView().name == "resourceDay" && !clipboardDrop){

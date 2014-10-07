@@ -69,6 +69,7 @@ function Calendar(element, instanceOptions) {
   t.addEventResource = addEventResource;
   t.removeEventResource = removeEventResource;
   t.clientResources = clientResources;
+  t.resourceColumn = resourceColumn;
 
 
 	// Language-data Internals
@@ -380,11 +381,11 @@ function Calendar(element, instanceOptions) {
 
 
 	// Renders a view because of a date change, view-type change, or for the first time
-	function renderView(delta, viewName) {
+	function renderView(delta, viewName, resourcesChanged) {
 		ignoreWindowResize++;
 
 		// if viewName is changing, destroy the old view
-		if (currentView && viewName && currentView.name !== viewName) {
+		if ((currentView && viewName && currentView.name !== viewName) || resourcesChanged) {
 			header.deactivateButton(currentView.name);
 			freezeContentHeight(); // prevent a scroll jump when view element is removed
 			if (currentView.start) { // rendered before?
@@ -575,11 +576,13 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function addEventResource(resource) {
-		eventResources.push(resource);
+		if(!resourcesByID(resource.id)) {
+			eventResources.push(resource);
+		}
 		for(var i = 0; i < events.length; i++) {
 			associateResourceWithEvent(events[i]);
 		}
-		render(false, true);
+		renderView(null, currentView.name, true);
 	}
 
 		
@@ -591,7 +594,10 @@ function Calendar(element, instanceOptions) {
 			}
 		}
 		eventResources = updatedResources;
-		render(false, true);
+		for(var i = 0; i < events.length; i++) {
+			associateResourceWithEvent(events[i]);
+		}
+		renderView(null, currentView.name, true);
 	}
 
 	function clientResources(filter) {
@@ -605,6 +611,19 @@ function Calendar(element, instanceOptions) {
 			});
 		}
 		return eventResources; // else, return all
+	}
+
+	function resourcesByID(id) {
+		var res
+		$.each(eventResources, function(index, resource){
+      if(resource.id === id){ res = resource}
+			}
+		)
+		return res
+	}
+
+	function resourceColumn(id) {
+		return eventResources.indexOf(resourcesByID(id))
 	}
 
 

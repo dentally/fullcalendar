@@ -282,4 +282,9 @@
 		left: 0;
 		right: 0;
 	}
+
+	.no-calendars {
+		font-size: 22px;
+		text-align: center;
+	}
 }

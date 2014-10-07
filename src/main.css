@@ -278,7 +278,23 @@
 		.ui-datepicker-prev-hover {
 			left: 2px;
 		}
-	}		
+	}
+
+	.fc-resource-list {
+		margin-top: 2px;
+		overflow-y: auto;
+		border-top: 1px solid grey;
+		line-height: 16px;
+		vertical-align: middle;
+		input {
+			height: 13px;
+			vertical-align: middle;
+			margin-left: 4px;
+		}
+		li {
+			padding: 4px;
+		}
+	}
 	
 	/* Toolbar
 	--------------------------------------------------------------------------------------------------*/

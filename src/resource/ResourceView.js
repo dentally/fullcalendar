@@ -85,6 +85,10 @@ $.extend(ResourceView.prototype, {
 			// needed for cell-to-date and date-to-cell calculations in View
 			this.rowCnt = 1;
 			this.colCnt = colCnt;
+			if(this.colCnt <= 0){
+				this.el.append("<h2 class='no-calendars'>No Calendar's are currently selected</h2>")
+				return null
+			}
 
 			this.el.addClass('fc-agenda-view').html(this.renderHtml());
 
@@ -338,6 +342,7 @@ $.extend(ResourceView.prototype, {
 			var daySegs = [];
 			var timedSegs;
 			var i;
+			if(this.colCnt <= 0){return null}
 
 			// separate the events into all-day and timed
 			for (i = 0; i < events.length; i++) {
