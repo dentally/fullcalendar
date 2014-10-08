@@ -59,14 +59,9 @@ var defaults = {
 	// locale
 	isRTL: false,
 	defaultButtonText: {
-		prev: "prev",
-		next: "next",
-		prevYear: "prev year",
-		nextYear: "next year",
 		today: 'Today',
-		month: 'month',
-		week: 'week',
-		day: 'day'
+		addThreeMonths: '+3',
+		addSixMonths: '+6'
 	},
 
 	buttonIcons: {
@@ -82,7 +77,8 @@ var defaults = {
 		week: 'icon-ellipsis-horizontal',
 		day: 'icon-th-list',
 		next: 'icon-angle-right',
-		prev: 'icon-angle-left'
+		prev: 'icon-angle-left',
+		findSlot: 'icon-search'
 	},
 	
 	// jquery-ui theming

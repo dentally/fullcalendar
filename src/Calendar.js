@@ -55,6 +55,9 @@ function Calendar(element, instanceOptions) {
 	t.today = today;
 	t.gotoDate = gotoDate;
 	t.gotoDay = gotoDay;
+	t.addThreeMonths = addThreeMonths;
+	t.addSixMonths = addSixMonths;
+	t.findSlot = findSlot;
 	t.incrementDate = incrementDate;
 	t.zoomTo = zoomTo;
 	t.getDate = getDate;
@@ -740,6 +743,16 @@ function Calendar(element, instanceOptions) {
 		renderView(0, "resourceDay" );
 	}
 
+	function addThreeMonths() {
+		date.add(3, 'months');
+		renderView();
+	}
+
+	function addSixMonths(){
+		date.add(6, 'months');
+		renderView();
+	}
+
 
 	// Forces navigation to a view for the given date.
 	// `viewName` can be a specific view name or a generic one like "week" or "day".
@@ -811,6 +824,10 @@ function Calendar(element, instanceOptions) {
 
 	function openMenu() {
 		menu.render()
+	}
+
+	function findSlot() {
+		header.quickSlotFind()
 	}
 	
 	
