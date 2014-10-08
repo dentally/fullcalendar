@@ -12,6 +12,7 @@ function Calendar(element, instanceOptions) {
 	var options = mergeOptions({}, defaults, instanceOptions);
 
 	var eventResources = instanceOptions.resources
+	orderResources()
 	var langOptions;
 
 	// determine language options
@@ -386,6 +387,7 @@ function Calendar(element, instanceOptions) {
 
 		// if viewName is changing, destroy the old view
 		if ((currentView && viewName && currentView.name !== viewName) || resourcesChanged) {
+			orderResources()
 			header.deactivateButton(currentView.name);
 			freezeContentHeight(); // prevent a scroll jump when view element is removed
 			if (currentView.start) { // rendered before?
@@ -582,6 +584,7 @@ function Calendar(element, instanceOptions) {
 		for(var i = 0; i < events.length; i++) {
 			associateResourceWithEvent(events[i]);
 		}
+		orderResources()
 		renderView(null, currentView.name, true);
 	}
 
@@ -597,6 +600,7 @@ function Calendar(element, instanceOptions) {
 		for(var i = 0; i < events.length; i++) {
 			associateResourceWithEvent(events[i]);
 		}
+		orderResources()
 		renderView(null, currentView.name, true);
 	}
 
@@ -624,6 +628,12 @@ function Calendar(element, instanceOptions) {
 
 	function resourceColumn(id) {
 		return eventResources.indexOf(resourcesByID(id))
+	}
+
+	function orderResources() {
+		eventResources.sort(function(a, b){
+			return a.id - b.id
+		})
 	}
 
 
