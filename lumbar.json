@@ -19,6 +19,7 @@
         "src/Calendar.js",
         "src/Clipboard.js",
         "src/Menu.js",
+        "src/SlotFinder.js",
         "src/Header.js",
         "src/EventManager.js",
         "src/util.js",

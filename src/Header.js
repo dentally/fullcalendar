@@ -15,7 +15,6 @@ function Header(calendar, options) {
 	t.disableButton = disableButton;
 	t.enableButton = enableButton;
 	t.getViewsWithButtons = getViewsWithButtons;
-	t.quickSlotFind = quickSlotFind
 	
 	// locals
 	var el = $();
@@ -36,7 +35,7 @@ function Header(calendar, options) {
 				.append('<div class="fc-clear"/>')
       
       calendar.getClipBoard().render(el)
-      toggleSlotFinder()
+      t.slotFinder = new SlotFinder(t,calendar, el, options).setupSlotFinder()
 			return el;
 		}
 	}
@@ -227,45 +226,6 @@ function Header(calendar, options) {
 
 	function getViewsWithButtons() {
 		return viewsWithButtons;
-	}
-
-	function toggleSlotFinder() {
-		el.find(".fc-findSlot-button").popover({placement: "bottom", title: "Find Slot", html: true, content: popoverContent(), container: ".fc-toolbar"})
-	}
-
-	function quickSlotFind(){
-
-	}
-
-	function popoverContent() {
-		var el = $("<div></div>")
-    el.append(resourceOptions())
-    el.append(intervalOptions())
-    el.append("<div class='btn btn-mini'> Find</div>")
-		return el
-	}
-
-	function resourceOptions() {
-		var resources = calendar.getResources() || []
-		var el = "Calendar - <select name='resource_id'>"
-		el += "<option value='0'>All</option>"
-		for(i=0; i < resources.length; i++){
-			el += "<option value='" + resources[i].id +"'>" + resources[i].name + "</option>"
-		}
-		el += "</select>"
-		el += "<br/>"
-		return el
-	}
-
-	function intervalOptions() {
-		var el = "Interval - <select name='interval'>"
-		el += "<option value='0'>-</option>"
-		for(i=15; i < 120 ; i+= 15){
-			el += "<option value='" + i +"'>" + i + "</option>"
-		}
-		el += "</select>"
-		el += "<br/>"
-		return el
 	}
 
 }

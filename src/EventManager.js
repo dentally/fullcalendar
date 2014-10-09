@@ -24,6 +24,7 @@ function EventManager(options) { // assumed to be a calendar
 	t.removeEvents = removeEvents;
 	t.clientEvents = clientEvents;
 	t.mutateEvent = mutateEvent;
+	t.showEvent = showEvent;
 	t.associateResourceWithEvent = associateResourceWithEvent;
 	
 	
@@ -411,6 +412,14 @@ function EventManager(options) { // assumed to be a calendar
 			});
 		}
 		return cache; // else, return all
+	}
+
+	function showEvent(id) {
+		var view = getView()
+		var event = clientEvents(id)
+		if (view && event) {
+			view.showEvent(event[0])
+		}
 	}
 	
 	

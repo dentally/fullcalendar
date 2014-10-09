@@ -827,7 +827,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function findSlot() {
-		header.quickSlotFind()
+		header.slotFinder.toggleSlotFinder()
 	}
 	
 	
