@@ -1,0 +1,15 @@
+#new-calendar {
+  
+  .fc-toolbar .popover .popover-title {
+    float: initial;
+    margin-left: initial;
+  }
+
+  .fc-free-slot {
+    background: red;
+    opacity: .5;
+    position: absolute;
+    left: 0;
+    right: 0;
+  }  
+}

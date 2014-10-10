@@ -153,11 +153,6 @@
 		float: left;
 	}
 
-	.fc-toolbar .popover .popover-title {
-		float: initial;
-		margin-left: initial;
-	}
-
 	/* Menu
 	------------------------------------------------------------------------*/
 	.fc-menu-content {

@@ -36,6 +36,7 @@ $.extend(TimeGrid.prototype, {
 		this.slatEls = this.el.find('.fc-slats tr');
 
 		this.computeSlatTops();
+		this.highlightedSlot = "tim"
 
 		Grid.prototype.render.call(this); // call the super-method
 	},
@@ -429,6 +430,29 @@ $.extend(TimeGrid.prototype, {
 		 ).appendTo(this.el);
 	},
 
+	highlightTimeSlot: function(start, end, col) {
+		var height
+		var scrollerEl
+		var t = this
+		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'))
+
+
+		this.removeHighlightedTimeSlot(this.highlightedSlot)
+    slot.appendTo(this.el);
+    height = slot.find(".fc-free-slot").position().top
+    scrollerEl = getScrollParent(slot)
+    scrollerEl.scrollTop(height - 100)
+    setTimeout(function(){
+    	t.removeHighlightedTimeSlot(slot)
+    }, 3000)
+    this.highlightedSlot = slot
+	},
+
+	removeHighlightedTimeSlot: function(el) {
+		if(!el){return null}
+		$(el).fadeOut(1000, function(){this.remove()})
+		this.highlightedSlot = null
+	},
 
 	// Generates HTML for a table element with containers in each column, responsible for absolutely positioning the
 	// highlight elements to cover the highlighted slots.

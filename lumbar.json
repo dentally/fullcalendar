@@ -58,7 +58,8 @@
         "src/basic/basic.css",
         "src/agenda/agenda.css",
         "src/resource/resource.css",
-        "src/Clipboard.css"
+        "src/Clipboard.css",
+        "src/slot-finder.css"
       ]
     },
     "fullcalendar.print": {
