@@ -433,19 +433,24 @@ $.extend(TimeGrid.prototype, {
 	highlightTimeSlot: function(start, end, col) {
 		var height
 		var scrollerEl
+		var highlightEl
 		var t = this
 		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'))
 
 
 		this.removeHighlightedTimeSlot(this.highlightedSlot)
     slot.appendTo(this.el);
-    height = slot.find(".fc-free-slot").position().top
-    scrollerEl = getScrollParent(slot)
-    scrollerEl.scrollTop(height - 100)
-    setTimeout(function(){
-    	t.removeHighlightedTimeSlot(slot)
-    }, 3000)
-    this.highlightedSlot = slot
+    highlightEl = slot.find(".fc-free-slot")
+    
+    if (highlightEl.length > 0) {
+    	height = highlightEl.position().top
+    	scrollerEl = getScrollParent(slot)
+    	scrollerEl.scrollTop(height - 100)
+    	setTimeout(function(){
+    		t.removeHighlightedTimeSlot(slot)
+    	}, 3000)
+    	this.highlightedSlot = slot
+    }
 	},
 
 	removeHighlightedTimeSlot: function(el) {

@@ -6,18 +6,28 @@ function SlotFinder(header, calendar, headerEl, options) {
   var t = this;
   var el = headerEl.find(".fc-findSlot-button");
   var clickCount = 0
+  var retryCount = 0
   var popoverEl
+  var timezone = options.timezone
+  var nextDate = calendar.getDate()
 
   //request variables
+  var ajaxInFLight = false
   var url = options.availability_url
   var quick = false
   var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes() 
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s"
+  var offset = 0
+  var startDate
+  var endDate
   
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
+  t.closeBtnClick = closeBtnClick;
+  t.resetBtnClick = resetBtnClick;
+  t.findBtnClick = findBtnClick;
 
 
   function setupSlotFinder(){
@@ -28,9 +38,16 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function popoverContent() {
     var el = $("<div></div>");
+    var buttons = ["find", "reset", "close"]
     el.append(resourceOptions());
     el.append(durationOptions());
-    el.append("<div class='btn btn-mini'> Find</div>");
+    $.each(buttons, function(i, button){
+      var btn = $("<div class='btn btn-mini'> " + button + "</div>")
+      btn.click(function(){
+        t[button + "BtnClick"]()
+      })
+      el.append(btn);
+    })
     return el;
   }
 
@@ -59,8 +76,8 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function quickSlotFind() {
     el.popover('hide');
-    fetchFreeSlots()
     quick = true
+    fetchFreeSlots()
   }
 
   function toggleSlotFinder() {
@@ -79,7 +96,9 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function fetchFreeSlots() {
+    if (ajaxInFLight == true) {return null}
     params = buildParams()
+    ajaxInFLight = true
     $.getJSON(url, params).then(function(response){showResults(response)}
     )
   }
@@ -88,9 +107,11 @@ function SlotFinder(header, calendar, headerEl, options) {
     var parms 
     params = {
       duration: getDuration(),
-      start_date: calendar.getDate().format("YYYY/MM/DD"),
-      quick: quick
+      offset: offset
     }
+    startDate ? params["start_date"] = startDate : params["start_date"] = calendar.getDate().format("YYYY/MM/DD")
+    endDate ? params["end_date"] = endDate : null
+    quick ? params["limit"] = 1 : params["limit"] = 20
     params[resourceParam] = getActiveResources()
     return params
   }
@@ -114,26 +135,34 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function showResults(response) {
-    if(response.length == 0){
+    if(!response){
       noResults()
     }
     else if (response.length == 1){
       gotToTimeSlot(response[0])
       listResults(response)
+      offset += 1
     }
     else{
       listResults(response)
+      offset += 1
     }
+    ajaxInFLight = false
   }
 
   function noResults() {
     console.log("no results")
-
+    resetParms()
+    if (retryCount <= 5){
+      setDateParams()
+      fetchFreeSlots()
+      retryCount++
+    }
   }
 
   function gotToTimeSlot(slot) {
-    var start = calendar.moment(slot.start_time)
-    var end = calendar.moment(slot.finish_time)
+    var start = calendar.moment(moment.tz(slot.start_time, timezone))
+    var end = calendar.moment(moment.tz(slot.finish_time, timezone))
     calendar.gotoDay(slot.start_time)
     var view = calendar.getView()
     view.timeGrid.highlightTimeSlot(start, end)
@@ -141,6 +170,33 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function listResults(slots) {
     console.log("list")
+  }
+
+  function resetParms() {
+    offset = 0
+    startDate = null
+    endDate = null
+  }
+
+  function findBtnClick() {
+    fetchFreeSlots()
+  }
+
+  function resetBtnClick() {
+    nextDate = calendar.getDate()
+    resetParms()
+  }
+
+  function closeBtnClick() {
+    el.popover('hide');
+  }
+
+  function setDateParams() {
+    startDate = nextDate.add(1, "day")
+    endDate = startDate.clone().add(1, "week")
+    nextDate = endDate
+    endDate = endDate.format("YYYY/MM/DD")
+    startDate = startDate.format("YYYY/MM/DD")
   }
 
 }
