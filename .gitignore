@@ -1,6 +1,5 @@
 build/temp
 dist/**
-app/*/*
 
 # npm modules
 node_modules
