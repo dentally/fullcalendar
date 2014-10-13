@@ -91,6 +91,10 @@
 		font-size: 18pt;
 		color: grey;
 	}
+
+	.icon-search {
+		font-size: 15pt
+	}
 		
 	.fc-widget-header, .fc-widget-header th  {
 		border-top: none !important;

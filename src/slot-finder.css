@@ -1,5 +1,5 @@
 #new-calendar {
-  
+
   .fc-toolbar .popover .popover-title {
     float: initial;
     margin-left: initial;
@@ -11,5 +11,17 @@
     position: absolute;
     left: 0;
     right: 0;
-  }  
+  }
+
+  .fc-freeslot-results-container {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 7px;
+    width: 300px;
+  }
+
+  .fc-freeslot-results {
+    border: 1px solid rgb(185, 184, 184);
+    tr.selected td {background-color: rgba(118, 210, 233, 0.44) !important;}
+  }
 }

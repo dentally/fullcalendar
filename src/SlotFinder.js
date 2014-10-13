@@ -10,8 +10,13 @@ function SlotFinder(header, calendar, headerEl, options) {
   var popoverEl
   var timezone = options.timezone
   var nextDate = calendar.getDate()
+  var resultsTable
+  var popOverButtons = []
+  var buttons = ["find", "reset", "close"]
 
   //request variables
+  var startDate
+  var endDate
   var ajaxInFLight = false
   var url = options.availability_url
   var quick = false
@@ -19,8 +24,7 @@ function SlotFinder(header, calendar, headerEl, options) {
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s"
   var offset = 0
-  var startDate
-  var endDate
+  var resultsPerRequest = 15
   
   // Exports
   t.setupSlotFinder = setupSlotFinder;
@@ -38,17 +42,28 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function popoverContent() {
     var el = $("<div></div>");
-    var buttons = ["find", "reset", "close"]
+    var tableContainer = $("<div class='fc-freeslot-results-container'></div>");
+    resultsTable = $("<table class='fc-freeslot-results table table-striped'><tr><td>No results</td></tr></table>");
+    tableContainer.append(resultsTable)
     el.append(resourceOptions());
     el.append(durationOptions());
     $.each(buttons, function(i, button){
-      var btn = $("<div class='btn btn-mini'> " + button + "</div>")
+      var btn = $("<div class='btn btn-mini'> " + capitaliseFirstLetter(button) + "</div>")
+      popOverButtons.push(btn)
+      el.append(btn);
+    })
+    setButtonEvents()
+    el.append(tableContainer);
+    return el;
+  }
+
+  function setButtonEvents() {
+    $.each(buttons, function(i, button){
+      var btn = popOverButtons[i]
       btn.click(function(){
         t[button + "BtnClick"]()
       })
-      el.append(btn);
     })
-    return el;
   }
 
   function resourceOptions() {
@@ -91,6 +106,7 @@ function SlotFinder(header, calendar, headerEl, options) {
     }
     else if (clickCount > 1) {
       el.popover('show');
+      setButtonEvents()
     }
     clickCount = 0
   }
@@ -99,6 +115,7 @@ function SlotFinder(header, calendar, headerEl, options) {
     if (ajaxInFLight == true) {return null}
     params = buildParams()
     ajaxInFLight = true
+    resultsTable.html("<tr><td>Searching...</td></tr>")
     $.getJSON(url, params).then(function(response){showResults(response)}
     )
   }
@@ -111,7 +128,7 @@ function SlotFinder(header, calendar, headerEl, options) {
     }
     startDate ? params["start_date"] = startDate : params["start_date"] = calendar.getDate().format("YYYY/MM/DD")
     endDate ? params["end_date"] = endDate : null
-    quick ? params["limit"] = 1 : params["limit"] = 20
+    quick ? params["limit"] = 1 : params["limit"] = resultsPerRequest
     params[resourceParam] = getActiveResources()
     return params
   }
@@ -145,13 +162,13 @@ function SlotFinder(header, calendar, headerEl, options) {
     }
     else{
       listResults(response)
-      offset += 1
+      offset += resultsPerRequest
     }
     ajaxInFLight = false
   }
 
   function noResults() {
-    console.log("no results")
+    ajaxInFLight = false
     resetParms()
     if (retryCount <= 5){
       setDateParams()
@@ -169,7 +186,19 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function listResults(slots) {
-    console.log("list")
+    resultsTable.html("")
+    $.each(slots, function(i, slot){
+      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + "</td></tr>")
+      tr.data("slot", slot)
+      tr.click(function(e){
+        resultsTable.find(".selected").removeClass("selected")
+        var el = $(e.currentTarget)
+        var slot = $(e.currentTarget).data("slot")
+        el.addClass("selected")
+        gotToTimeSlot(slot)
+      })
+      resultsTable.append(tr)
+    })
   }
 
   function resetParms() {
@@ -179,6 +208,7 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function findBtnClick() {
+    quick = false
     fetchFreeSlots()
   }
 
