@@ -195,7 +195,7 @@ $.extend(Grid.prototype, {
 		fakeEvent.start = start;
 		fakeEvent.end = end;
 		fakeEvent.allDay = !(start.hasTime() || (end && end.hasTime())); // freshly compute allDay
-		fakeEvent.resource = resources[col]
+		fakeEvent.resource = resources[col] || resources[0] // if there is no resource then fake it. Week view does not rely on this resources
 
 		// this extra className will be useful for differentiating real events from mock events in CSS
 		fakeEvent.className = (fakeEvent.className || []).concat('fc-helper');

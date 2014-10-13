@@ -46,7 +46,7 @@ $.extend(TimeGrid.prototype, {
 		var i, seg;
 		var col, colSegs;
 		var containerEl;
-
+		
 		segs = this.renderSegs(segs); // returns only the visible segs
 		segCols = this.groupSegCols(segs); // group into sub-arrays, and assigns 'col' to each seg
 
