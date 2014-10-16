@@ -431,6 +431,10 @@ function Calendar(element, instanceOptions) {
 					// need to do this after View::render, so dates are calculated
 					updateTitle();
 					updateDatePicker();
+
+					if (header.slotFinder){
+						header.slotFinder.resetNextSlotOffset()
+					}
 					updateTodayButton();
 
 					getAndRenderEvents();
