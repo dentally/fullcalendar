@@ -78,7 +78,7 @@ var defaults = {
 		day: 'icon-th-list',
 		next: 'icon-angle-right',
 		prev: 'icon-angle-left',
-		findSlot: 'icon-search'
+		findSlot: 'icon-search, icon-angle-down '
 	},
 	
 	// jquery-ui theming

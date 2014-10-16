@@ -57,7 +57,6 @@ function Calendar(element, instanceOptions) {
 	t.gotoDay = gotoDay;
 	t.addThreeMonths = addThreeMonths;
 	t.addSixMonths = addSixMonths;
-	t.findSlot = findSlot;
 	t.incrementDate = incrementDate;
 	t.zoomTo = zoomTo;
 	t.getDate = getDate;
@@ -825,12 +824,7 @@ function Calendar(element, instanceOptions) {
 	function openMenu() {
 		menu.render()
 	}
-
-	function findSlot() {
-		header.slotFinder.toggleSlotFinder()
-	}
-	
-	
+		
 	function option(name, value) {
 		if (value === undefined) {
 			return options[name];
