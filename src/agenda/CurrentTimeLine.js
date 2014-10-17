@@ -10,6 +10,10 @@ function CurrentTimeLine(curCalView, options) {
   var maxMinutes = curCalView.timeGrid.maxTime.minutes()
   var parentDiv = curCalView.el.parent();
   var timezone = curCalView.opt("timezone")
+  
+  var startTime = moment.tz(curCalView.start.set("hour", minHour ).set("minutes", minMinutes), timezone)
+  var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
+  var duration =  (finishTime - startTime)/1000
 
   var timeline = $("<hr class='timeline'>")
 
@@ -20,7 +24,7 @@ function CurrentTimeLine(curCalView, options) {
   function start () {
     var timeLineRequired = isTimeLineRequired()
     if (timeLineRequired) {
-      t.timelineInterval = setInterval(function(){setTimeline()}, 3000)
+      t.timelineInterval = setInterval(function(){setTimeline()}, 1500)
     }
     parentDiv.append(timeline);
     return t
@@ -33,14 +37,11 @@ function CurrentTimeLine(curCalView, options) {
 
   function isTimeLineRequired(){
     var currentTime = moment.tz(moment(), timezone)
-    return (curCalView.start < currentTime && curCalView.end > currentTime)
+    return (currentTime > startTime  && currentTime < finishTime)
   }
 
   function setTimeline() {
    var currentTime = moment.tz(moment(), timezone)
-   var startTime = moment.tz(moment().set("hour", minHour ).set("minutes", minMinutes), timezone)
-   var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
-   var duration =  (finishTime - startTime)/1000
    var currentTimeDuration = (currentTime - startTime)/1000
    var timeLineRequired = isTimeLineRequired()
 
