@@ -314,7 +314,6 @@ $.extend(ResourceView.prototype, {
 			var _this = this;
 			var scrollTime = moment.duration(this.opt('scrollTime'));
 			var top = this.timeGrid.computeTimeTop(scrollTime);
-			var scroller = getScrollParent(_this.scrollerEl)
 
 			// zoom can give weird floating-point values. rather scroll a little bit further
 			top = Math.ceil(top);
@@ -324,10 +323,10 @@ $.extend(ResourceView.prototype, {
 			}
 
 			function scroll() {
-				scroller.scrollTop(top);
+				_this.scrollerEl.scrollTop(top);
 			}
 
-			scroller.scrollTop(0);
+			scroll()
 			setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 		},
 
