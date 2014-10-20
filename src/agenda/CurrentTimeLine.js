@@ -11,7 +11,7 @@ function CurrentTimeLine(curCalView, options) {
   var parentDiv = curCalView.el.parent();
   var timezone = curCalView.opt("timezone")
   
-  var startTime = moment.tz(curCalView.start.set("hour", minHour ).set("minutes", minMinutes), timezone)
+  var startTime = moment.tz(curCalView.start, timezone).set("hour", minHour).set("minutes", minMinutes)
   var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
   var duration =  (finishTime - startTime)/1000
 
