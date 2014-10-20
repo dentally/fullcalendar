@@ -28,14 +28,16 @@ function WorkingHours(curCalView, workingHours) {
   }
 
   function overlayTimeBeforeStart(currentDay) {
+    openingTime = startTimes[currentDay.day()].split(":")
     startOfBlock = fc.moment(currentDay).set("hour", minHour ).set("minutes", minMinutes)
-    endOfBlock = startOfBlock.clone().set('hour', startTimes[currentDay.day()] );
+    endOfBlock = startOfBlock.clone().set("hour", openingTime[0]).set("minutes", openingTime[1]);
     curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
   }
 
   function overlayTimeAfterEnd(currentDay) {
+    closingTime = finishTimes[currentDay.day()].split(":")
     endOfBlock = fc.moment(currentDay).set("hour", maxHour ).set("minutes", maxMinutes)
-    startOfBlock = startOfBlock.clone().set('hour', finishTimes[currentDay.day()] );
+    startOfBlock = startOfBlock.clone().set("hour", closingTime[0]).set("minutes", closingTime[1]);
     curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
   }
 
