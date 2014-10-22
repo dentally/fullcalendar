@@ -94,7 +94,7 @@ var defaults = {
 		day: 'icon-th-list',
 		next: 'icon-angle-right',
 		prev: 'icon-angle-left',
-		findSlot: 'icon-search'
+		findSlot: 'icon-search, icon-angle-down '
 	},
 	
 	// jquery-ui theming
@@ -389,9 +389,9 @@ function Calendar(element, instanceOptions) {
 	t.today = today;
 	t.gotoDate = gotoDate;
 	t.gotoDay = gotoDay;
+	t.gotoEvent = gotoEvent;
 	t.addThreeMonths = addThreeMonths;
 	t.addSixMonths = addSixMonths;
-	t.findSlot = findSlot;
 	t.incrementDate = incrementDate;
 	t.zoomTo = zoomTo;
 	t.getDate = getDate;
@@ -766,6 +766,10 @@ function Calendar(element, instanceOptions) {
 					// need to do this after View::render, so dates are calculated
 					updateTitle();
 					updateDatePicker();
+
+					if (header.slotFinder){
+						header.slotFinder.resetNextSlotOffset()
+					}
 					updateTodayButton();
 
 					getAndRenderEvents();
@@ -1082,9 +1086,24 @@ function Calendar(element, instanceOptions) {
 		renderView();
 	}
 
-	function addSixMonths(){
+	function addSixMonths() {
 		date.add(6, 'months');
 		renderView();
+	}
+
+	function gotoEvent(eventID) {
+    var event = t.clientEvents(eventID)[0]
+    var height, view, el, scrollerEl;
+    if (event && event.start){
+    	gotoDate(event.start)
+    	view = t.getView()
+    	view.segEach(function(seg) {el = seg.el}, event)
+    	if (el && el.position()){
+    		height = el.position().top
+    		scrollerEl = getScrollParent(el)
+    		scrollerEl.scrollTop(height - 100)
+    	}
+    }
 	}
 
 
@@ -1159,12 +1178,7 @@ function Calendar(element, instanceOptions) {
 	function openMenu() {
 		menu.render()
 	}
-
-	function findSlot() {
-		header.slotFinder.toggleSlotFinder()
-	}
-	
-	
+		
 	function option(name, value) {
 		if (value === undefined) {
 			return options[name];
@@ -1418,34 +1432,35 @@ function Menu(calendar, options, menuContainer) {
 A modual for finding free slots which meet the search critiea Linked into header and Ui is part of the header
 requests free slots from an API rather than searching internally within the calendar 
 ----------------------------------------------------------------------------------------------------------------------*/
-function SlotFinder(header, calendar, headerEl, options) {
+function SlotFinder(header, calendar, el, options) {
   var t = this;
-  var el = headerEl.find(".fc-findSlot-button");
-  var clickCount = 0
   var retryCount = 0
   var popoverEl
   var timezone = options.timezone
   var nextDate = calendar.getDate()
   var resultsTable
   var popOverButtons = []
-  var buttons = ["find", "reset", "close"]
+  var buttons = ["find", "reset"]
 
   //request variables
   var startDate
   var endDate
   var ajaxInFLight = false
   var url = options.availability_url
-  var quick = false
+  var nextFreeSlotURL = options.next_free_slot_url
   var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes() 
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s"
   var offset = 0
+  var nextSlotOffset = 0
   var resultsPerRequest = 15
   
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
-  t.closeBtnClick = closeBtnClick;
+  t.quickSlotFind = quickSlotFind;
+  t.resetNextSlotOffset = resetNextSlotOffset;
+
   t.resetBtnClick = resetBtnClick;
   t.findBtnClick = findBtnClick;
 
@@ -1507,24 +1522,30 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function quickSlotFind() {
     el.popover('hide');
-    quick = true
-    fetchFreeSlots()
+    if (ajaxInFLight == true) {return null}
+    ajaxInFLight = true
+    params = {
+      start_date: calendar.getDate().format("YYYY/MM/DD"),
+      offset: nextSlotOffset
+    }
+    params[resourceParam] = getActiveResources()
+    $.getJSON(nextFreeSlotURL, params)
+      .done(function(response){
+        ajaxInFLight = false
+        if (response.length == 1){
+          gotToTimeSlot(response[0])
+          nextSlotOffset += 1
+        }
+      })
+      .fail(function(response){
+        ajaxInFLight = false
+      })
   }
 
   function toggleSlotFinder() {
-    clickCount += 1
-    setTimeout(function(){determineClickAction()}, 250);
-  }
-
-  function determineClickAction() {
-    if (clickCount == 1){
-      quickSlotFind()
-    }
-    else if (clickCount > 1) {
-      el.popover('show');
-      setButtonEvents()
-    }
-    clickCount = 0
+    el.popover('toggle');
+    resetParms()
+    setButtonEvents()
   }
 
   function fetchFreeSlots() {
@@ -1532,8 +1553,14 @@ function SlotFinder(header, calendar, headerEl, options) {
     params = buildParams()
     ajaxInFLight = true
     resultsTable.html("<tr><td>Searching...</td></tr>")
-    $.getJSON(url, params).then(function(response){showResults(response)}
-    )
+    $.getJSON(url, params)
+      .done(function(response){
+        showResults(response)
+      })
+      .fail(function(response){
+        ajaxInFLight = false
+        resultsTable.html("<tr><td>Error please try again</td></tr>")
+      })
   }
 
   function buildParams() {
@@ -1543,8 +1570,8 @@ function SlotFinder(header, calendar, headerEl, options) {
       offset: offset
     }
     startDate ? params["start_date"] = startDate : params["start_date"] = calendar.getDate().format("YYYY/MM/DD")
-    endDate ? params["end_date"] = endDate : null
-    quick ? params["limit"] = 1 : params["limit"] = resultsPerRequest
+    endDate ? params["end_date"] = endDate : params["end_date"] = calendar.getDate().add(1, "month").format("YYYY/MM/DD")
+    params["limit"] = resultsPerRequest
     params[resourceParam] = getActiveResources()
     return params
   }
@@ -1553,7 +1580,7 @@ function SlotFinder(header, calendar, headerEl, options) {
     return parseInt(popoverEl.find("[name='duration']").val()) || defaultSlotDuration
   }
 
-  function getActiveResources () {
+  function getActiveResources() {
     var formValue = popoverEl.find("[name='resource_id']").val()
     if (formValue && formValue != "0"){
       return [formValue]
@@ -1568,15 +1595,11 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function showResults(response) {
-    if(!response){
+    if (!response){
       noResults()
     }
-    else if (response.length == 1){
-      gotToTimeSlot(response[0])
-      listResults(response)
-      offset += 1
-    }
-    else{
+    else {
+      retryCount = 0
       listResults(response)
       offset += resultsPerRequest
     }
@@ -1619,27 +1642,28 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function resetParms() {
     offset = 0
+    nextSlotOffset = 0
     startDate = null
     endDate = null
   }
 
+  function resetNextSlotOffset() {
+    nextSlotOffset = 0
+  }
+
   function findBtnClick() {
-    quick = false
     fetchFreeSlots()
   }
 
   function resetBtnClick() {
     nextDate = calendar.getDate()
+    retryCount = 0
     resetParms()
   }
 
-  function closeBtnClick() {
-    el.popover('hide');
-  }
-
   function setDateParams() {
-    startDate = nextDate.add(1, "day")
-    endDate = startDate.clone().add(1, "week")
+    startDate = nextDate.clone()
+    endDate = startDate.clone().add(1, "month")
     nextDate = endDate
     endDate = endDate.format("YYYY/MM/DD")
     startDate = startDate.format("YYYY/MM/DD")
@@ -1684,7 +1708,6 @@ function Header(calendar, options) {
 				.append('<div class="fc-clear"/>')
       
       calendar.getClipBoard().render(el)
-      t.slotFinder = new SlotFinder(t,calendar, el, options).setupSlotFinder()
 			return el;
 		}
 	}
@@ -1718,6 +1741,10 @@ function Header(calendar, options) {
 
 					if (buttonName == 'title') {
 						groupChildren = groupChildren.add($('<h2>&nbsp;</h2>')); // we always want it to take up height
+						isOnlyButtons = false;
+					}
+					else if( buttonName == 'findSlot') {
+						groupChildren = groupChildren.add(slotFinderButton());
 						isOnlyButtons = false;
 					}
 					else {
@@ -1872,9 +1899,31 @@ function Header(calendar, options) {
 			.removeClass(tm + '-state-disabled');
 	}
 
-
 	function getViewsWithButtons() {
 		return viewsWithButtons;
+	}
+
+	function slotFinderButton() {
+		var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, 'findSlot');
+    var button = $('<button type="button" class="fc-findSlot-button fc-button fc-state-default"/>')
+    var type = ['fc-slot-search', 'fc-slot-search-menu']
+		
+		var icons = fontAwsomeIcon.split(",")
+		for (i = 0; i < icons.length; i++) {
+			 icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
+			 icon.click(function(e){ slotFinderClick(e)})
+			 button.append(icon)
+		}
+		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder()
+		return button
+	}
+
+	function slotFinderClick(e) {
+		if ($(e.currentTarget).hasClass('fc-slot-search')) {
+			t.slotFinder.quickSlotFind()
+		} else {
+			t.slotFinder.toggleSlotFinder()
+		}
 	}
 
 }
@@ -4513,7 +4562,9 @@ MouseFollower.prototype = {
 					width: this.options.width || '100px', //this.sourceEl.width(), // explicit height in case there was a 'right' value
 					height: '20px', //this.sourceEl.height(), // explicit width in case there was a 'bottom' value
 					opacity: this.options.opacity || '',
-					zIndex: this.options.zIndex
+					zIndex: this.options.zIndex,
+					overflow: "hidden",
+					listStyle: "none"
 				})
 				.appendTo(this.parentEl);
 		}
@@ -5146,7 +5197,10 @@ $.extend(Grid.prototype, {
 				},
 				click: function(seg, ev) {
 					if ($(ev.target).is('.fc-event-status')) {
-							view.trigger('cycleEventStatus', this, seg.event, ev); 
+						view.trigger('cycleEventStatus', this, seg.event, ev);
+					} else if($(ev.target).is('a')) {
+						ev.preventDefault()
+						view.trigger('eventLinkClick', this, seg.event, ev);
 					} else if (!isMonthView) {
 						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
 					}
@@ -5848,7 +5902,7 @@ $.extend(DayGrid.prototype, {
 		var skinCss = this.getEventSkinCss(event);
 		var timeHtml = '';
 		var titleHtml;
-		var title = view.trigger("determineEventTitle", this, event) || '';
+		var title = view.trigger("determineBasicEventTitle", this, event) || '';
 
 		classes.unshift('fc-day-grid-event');
 
@@ -7047,6 +7101,7 @@ $.extend(TimeGrid.prototype, {
     var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || ''
     var stateClass = view.trigger("determineEventStateClass", this, event) || ''
     var eventNotes = view.trigger("determineEventNotes", this, event) || ''
+		var stateInitial = stateClass.toUpperCase()[0] || ''
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...
@@ -7082,7 +7137,7 @@ $.extend(TimeGrid.prototype, {
 						'<span class="fc-title">' +
 								title +
 						'</span>' +
-						'<div class="fc-event-status '+ stateClass +'"></div>'+
+						'<div class="fc-event-status '+ stateClass +'" title="' + stateClass + '">' + stateInitial + '</div>'+
 						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
 					'</div>' +
 					'<div class="fc-event-notes">' +
@@ -8650,6 +8705,10 @@ function CurrentTimeLine(curCalView, options) {
   var maxMinutes = curCalView.timeGrid.maxTime.minutes()
   var parentDiv = curCalView.el.parent();
   var timezone = curCalView.opt("timezone")
+  
+  var startTime = moment.tz(curCalView.start, timezone).set("hour", minHour).set("minutes", minMinutes)
+  var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
+  var duration =  (finishTime - startTime)/1000
 
   var timeline = $("<hr class='timeline'>")
 
@@ -8660,7 +8719,7 @@ function CurrentTimeLine(curCalView, options) {
   function start () {
     var timeLineRequired = isTimeLineRequired()
     if (timeLineRequired) {
-      t.timelineInterval = setInterval(function(){setTimeline()}, 3000)
+      t.timelineInterval = setInterval(function(){setTimeline()}, 1500)
     }
     parentDiv.append(timeline);
     return t
@@ -8673,14 +8732,11 @@ function CurrentTimeLine(curCalView, options) {
 
   function isTimeLineRequired(){
     var currentTime = moment.tz(moment(), timezone)
-    return (curCalView.start < currentTime && curCalView.end > currentTime)
+    return (currentTime > startTime  && currentTime < finishTime)
   }
 
   function setTimeline() {
    var currentTime = moment.tz(moment(), timezone)
-   var startTime = moment.tz(moment().set("hour", minHour ).set("minutes", minMinutes), timezone)
-   var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
-   var duration =  (finishTime - startTime)/1000
    var currentTimeDuration = (currentTime - startTime)/1000
    var timeLineRequired = isTimeLineRequired()
 
@@ -8752,14 +8808,16 @@ function WorkingHours(curCalView, workingHours) {
   }
 
   function overlayTimeBeforeStart(currentDay) {
+    openingTime = startTimes[currentDay.day()].split(":")
     startOfBlock = fc.moment(currentDay).set("hour", minHour ).set("minutes", minMinutes)
-    endOfBlock = startOfBlock.clone().set('hour', startTimes[currentDay.day()] );
+    endOfBlock = startOfBlock.clone().set("hour", openingTime[0]).set("minutes", openingTime[1]);
     curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
   }
 
   function overlayTimeAfterEnd(currentDay) {
+    closingTime = finishTimes[currentDay.day()].split(":")
     endOfBlock = fc.moment(currentDay).set("hour", maxHour ).set("minutes", maxMinutes)
-    startOfBlock = startOfBlock.clone().set('hour', finishTimes[currentDay.day()] );
+    startOfBlock = startOfBlock.clone().set("hour", closingTime[0]).set("minutes", closingTime[1]);
     curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
   }
 
@@ -9102,7 +9160,7 @@ $.extend(AgendaView.prototype, {
 			_this.scrollerEl.scrollTop(top);
 		}
 
-		scroll();
+		scroll()
 		setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 	},
 
@@ -9629,7 +9687,7 @@ $.extend(ResourceView.prototype, {
 				_this.scrollerEl.scrollTop(top);
 			}
 
-			scroll();
+			scroll()
 			setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 		},
 
