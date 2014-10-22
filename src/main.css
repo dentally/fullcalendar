@@ -92,8 +92,12 @@
 		color: grey;
 	}
 
-	.icon-search {
-		font-size: 15pt
+	.fc-findSlot-button i {
+		font-size: 16pt
+	}
+
+	.fc-slot-search-menu {
+		vertical-align: sub;
 	}
 		
 	.fc-widget-header, .fc-widget-header th  {

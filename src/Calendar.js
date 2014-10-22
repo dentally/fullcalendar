@@ -55,9 +55,9 @@ function Calendar(element, instanceOptions) {
 	t.today = today;
 	t.gotoDate = gotoDate;
 	t.gotoDay = gotoDay;
+	t.gotoEvent = gotoEvent;
 	t.addThreeMonths = addThreeMonths;
 	t.addSixMonths = addSixMonths;
-	t.findSlot = findSlot;
 	t.incrementDate = incrementDate;
 	t.zoomTo = zoomTo;
 	t.getDate = getDate;
@@ -432,6 +432,10 @@ function Calendar(element, instanceOptions) {
 					// need to do this after View::render, so dates are calculated
 					updateTitle();
 					updateDatePicker();
+
+					if (header.slotFinder){
+						header.slotFinder.resetNextSlotOffset()
+					}
 					updateTodayButton();
 
 					getAndRenderEvents();
@@ -748,9 +752,24 @@ function Calendar(element, instanceOptions) {
 		renderView();
 	}
 
-	function addSixMonths(){
+	function addSixMonths() {
 		date.add(6, 'months');
 		renderView();
+	}
+
+	function gotoEvent(eventID) {
+    var event = t.clientEvents(eventID)[0]
+    var height, view, el, scrollerEl;
+    if (event && event.start){
+    	gotoDate(event.start)
+    	view = t.getView()
+    	view.segEach(function(seg) {el = seg.el}, event)
+    	if (el && el.position()){
+    		height = el.position().top
+    		scrollerEl = getScrollParent(el)
+    		scrollerEl.scrollTop(height - 100)
+    	}
+    }
 	}
 
 
@@ -825,12 +844,7 @@ function Calendar(element, instanceOptions) {
 	function openMenu() {
 		menu.render()
 	}
-
-	function findSlot() {
-		header.slotFinder.toggleSlotFinder()
-	}
-	
-	
+		
 	function option(name, value) {
 		if (value === undefined) {
 			return options[name];

@@ -2,34 +2,35 @@
 A modual for finding free slots which meet the search critiea Linked into header and Ui is part of the header
 requests free slots from an API rather than searching internally within the calendar 
 ----------------------------------------------------------------------------------------------------------------------*/
-function SlotFinder(header, calendar, headerEl, options) {
+function SlotFinder(header, calendar, el, options) {
   var t = this;
-  var el = headerEl.find(".fc-findSlot-button");
-  var clickCount = 0
   var retryCount = 0
   var popoverEl
   var timezone = options.timezone
   var nextDate = calendar.getDate()
   var resultsTable
   var popOverButtons = []
-  var buttons = ["find", "reset", "close"]
+  var buttons = ["find", "reset"]
 
   //request variables
   var startDate
   var endDate
   var ajaxInFLight = false
   var url = options.availability_url
-  var quick = false
+  var nextFreeSlotURL = options.next_free_slot_url
   var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes() 
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s"
   var offset = 0
+  var nextSlotOffset = 0
   var resultsPerRequest = 15
   
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
-  t.closeBtnClick = closeBtnClick;
+  t.quickSlotFind = quickSlotFind;
+  t.resetNextSlotOffset = resetNextSlotOffset;
+
   t.resetBtnClick = resetBtnClick;
   t.findBtnClick = findBtnClick;
 
@@ -91,24 +92,30 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function quickSlotFind() {
     el.popover('hide');
-    quick = true
-    fetchFreeSlots()
+    if (ajaxInFLight == true) {return null}
+    ajaxInFLight = true
+    params = {
+      start_date: calendar.getDate().format("YYYY/MM/DD"),
+      offset: nextSlotOffset
+    }
+    params[resourceParam] = getActiveResources()
+    $.getJSON(nextFreeSlotURL, params)
+      .done(function(response){
+        ajaxInFLight = false
+        if (response.length == 1){
+          gotToTimeSlot(response[0])
+          nextSlotOffset += 1
+        }
+      })
+      .fail(function(response){
+        ajaxInFLight = false
+      })
   }
 
   function toggleSlotFinder() {
-    clickCount += 1
-    setTimeout(function(){determineClickAction()}, 250);
-  }
-
-  function determineClickAction() {
-    if (clickCount == 1){
-      quickSlotFind()
-    }
-    else if (clickCount > 1) {
-      el.popover('show');
-      setButtonEvents()
-    }
-    clickCount = 0
+    el.popover('toggle');
+    resetParms()
+    setButtonEvents()
   }
 
   function fetchFreeSlots() {
@@ -116,8 +123,14 @@ function SlotFinder(header, calendar, headerEl, options) {
     params = buildParams()
     ajaxInFLight = true
     resultsTable.html("<tr><td>Searching...</td></tr>")
-    $.getJSON(url, params).then(function(response){showResults(response)}
-    )
+    $.getJSON(url, params)
+      .done(function(response){
+        showResults(response)
+      })
+      .fail(function(response){
+        ajaxInFLight = false
+        resultsTable.html("<tr><td>Error please try again</td></tr>")
+      })
   }
 
   function buildParams() {
@@ -127,8 +140,8 @@ function SlotFinder(header, calendar, headerEl, options) {
       offset: offset
     }
     startDate ? params["start_date"] = startDate : params["start_date"] = calendar.getDate().format("YYYY/MM/DD")
-    endDate ? params["end_date"] = endDate : null
-    quick ? params["limit"] = 1 : params["limit"] = resultsPerRequest
+    endDate ? params["end_date"] = endDate : params["end_date"] = calendar.getDate().add(1, "month").format("YYYY/MM/DD")
+    params["limit"] = resultsPerRequest
     params[resourceParam] = getActiveResources()
     return params
   }
@@ -137,7 +150,7 @@ function SlotFinder(header, calendar, headerEl, options) {
     return parseInt(popoverEl.find("[name='duration']").val()) || defaultSlotDuration
   }
 
-  function getActiveResources () {
+  function getActiveResources() {
     var formValue = popoverEl.find("[name='resource_id']").val()
     if (formValue && formValue != "0"){
       return [formValue]
@@ -152,15 +165,11 @@ function SlotFinder(header, calendar, headerEl, options) {
   }
 
   function showResults(response) {
-    if(!response){
+    if (!response){
       noResults()
     }
-    else if (response.length == 1){
-      gotToTimeSlot(response[0])
-      listResults(response)
-      offset += 1
-    }
-    else{
+    else {
+      retryCount = 0
       listResults(response)
       offset += resultsPerRequest
     }
@@ -203,27 +212,28 @@ function SlotFinder(header, calendar, headerEl, options) {
 
   function resetParms() {
     offset = 0
+    nextSlotOffset = 0
     startDate = null
     endDate = null
   }
 
+  function resetNextSlotOffset() {
+    nextSlotOffset = 0
+  }
+
   function findBtnClick() {
-    quick = false
     fetchFreeSlots()
   }
 
   function resetBtnClick() {
     nextDate = calendar.getDate()
+    retryCount = 0
     resetParms()
   }
 
-  function closeBtnClick() {
-    el.popover('hide');
-  }
-
   function setDateParams() {
-    startDate = nextDate.add(1, "day")
-    endDate = startDate.clone().add(1, "week")
+    startDate = nextDate.clone()
+    endDate = startDate.clone().add(1, "month")
     nextDate = endDate
     endDate = endDate.format("YYYY/MM/DD")
     startDate = startDate.format("YYYY/MM/DD")

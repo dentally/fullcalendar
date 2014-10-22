@@ -127,6 +127,7 @@ $.extend(TimeGrid.prototype, {
     var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || ''
     var stateClass = view.trigger("determineEventStateClass", this, event) || ''
     var eventNotes = view.trigger("determineEventNotes", this, event) || ''
+		var stateInitial = stateClass.toUpperCase()[0] || ''
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...
@@ -162,7 +163,7 @@ $.extend(TimeGrid.prototype, {
 						'<span class="fc-title">' +
 								title +
 						'</span>' +
-						'<div class="fc-event-status '+ stateClass +'"></div>'+
+						'<div class="fc-event-status '+ stateClass +'" title="' + stateClass + '">' + stateInitial + '</div>'+
 						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
 					'</div>' +
 					'<div class="fc-event-notes">' +

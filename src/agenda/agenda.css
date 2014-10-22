@@ -244,13 +244,17 @@
 
 	.fc-event-status {
 		border-radius: 50%;
-		width: 8px;
-		height: 8px;
+		width: 13px;
+		height: 13px;
 		float: right;
-		border: 2px solid rgb(229, 223, 223);
+		border: 2px solid #e5dfdf;
 		display: inline-block;
 		opacity: 0.6;
 		margin-left: 3px;
+		font-weight: 800;
+		color: white;
+		text-align: center;
+		line-height: 1.1;
 	}
 
 	.fc-event-notes {

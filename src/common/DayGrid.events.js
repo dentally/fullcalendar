@@ -80,7 +80,7 @@ $.extend(DayGrid.prototype, {
 		var skinCss = this.getEventSkinCss(event);
 		var timeHtml = '';
 		var titleHtml;
-		var title = view.trigger("determineEventTitle", this, event) || '';
+		var title = view.trigger("determineBasicEventTitle", this, event) || '';
 
 		classes.unshift('fc-day-grid-event');
 
