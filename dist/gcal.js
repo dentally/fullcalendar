@@ -98,5 +98,3 @@ fc.gcalFeed = function(url, sourceOptions) {
 
 
 });
-
-//@ sourceMappingURL=gcal.js.map
