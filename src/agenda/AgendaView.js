@@ -110,9 +110,9 @@ $.extend(AgendaView.prototype, {
 		View.prototype.render.call(this); // call the super-method
 
 		this.resetScroll(); // do this after sizes have been set
-		this.timeLine = new CurrentTimeLine(this).start()
+		this.timeLine = new CurrentTimeLine(this).start();
     if (this.workingHours) {
-    	workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
+    	workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
     }
 	},
 
@@ -320,7 +320,7 @@ $.extend(AgendaView.prototype, {
 			_this.scrollerEl.scrollTop(top);
 		}
 
-		scroll()
+		scroll();
 		setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 	},
 

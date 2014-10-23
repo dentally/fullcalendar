@@ -125,11 +125,11 @@ $.extend(TimeGrid.prototype, {
 		var timeText;
 		var fullTimeText; // more verbose time text. for the print stylesheet
 		var startTimeText; // just the start time text
-		var title = view.trigger("determineEventTitle", this, event) || ''
-    var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || ''
-    var stateClass = view.trigger("determineEventStateClass", this, event) || ''
-    var eventNotes = view.trigger("determineEventNotes", this, event) || ''
-		var stateInitial = stateClass.toUpperCase()[0] || ''
+		var title = view.trigger("determineEventTitle", this, event) || '';
+    var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || '';
+    var stateClass = view.trigger("determineEventStateClass", this, event) || '';
+    var eventNotes = view.trigger("determineEventNotes", this, event) || '';
+		var stateInitial = stateClass.toUpperCase()[0] || '';
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...

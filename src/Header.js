@@ -32,9 +32,9 @@ function Header(calendar, options) {
 				.append(renderSection('left'))
 				.append(renderSection('right'))
 				.append(renderSection('center'))
-				.append('<div class="fc-clear"/>')
+				.append('<div class="fc-clear"/>');
       
-      calendar.getClipBoard().render(el)
+      calendar.getClipBoard().render(el);
 			return el;
 		}
 	}
@@ -70,7 +70,7 @@ function Header(calendar, options) {
 						groupChildren = groupChildren.add($('<h2>&nbsp;</h2>')); // we always want it to take up height
 						isOnlyButtons = false;
 					}
-					else if( buttonName == 'findSlot') {
+					else if(buttonName == 'findSlot') {
 						groupChildren = groupChildren.add(slotFinderButton());
 						isOnlyButtons = false;
 					}
@@ -117,7 +117,7 @@ function Header(calendar, options) {
 								tm + '-state-default'
 							];
               
-              if (defaultText){classes.push('fc-button-text')}
+              if (defaultText){classes.push('fc-button-text');}
 							button = $( // type="button" so that it doesn't submit a form
 								'<button type="button" class="' + classes.join(' ') + '">' +
 									innerHtml +
@@ -232,24 +232,24 @@ function Header(calendar, options) {
 
 	function slotFinderButton() {
 		var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, 'findSlot');
-    var button = $('<button type="button" class="fc-findSlot-button fc-button fc-state-default"/>')
-    var type = ['fc-slot-search', 'fc-slot-search-menu']
+    var button = $('<button type="button" class="fc-findSlot-button fc-button fc-state-default"/>');
+    var type = ['fc-slot-search', 'fc-slot-search-menu'];
 		
-		var icons = fontAwsomeIcon.split(",")
+		var icons = fontAwsomeIcon.split(",");
 		for (i = 0; i < icons.length; i++) {
 			 icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
-			 icon.click(function(e){ slotFinderClick(e)})
-			 button.append(icon)
+			 icon.click(function(e) { slotFinderClick(e); });
+			 button.append(icon);
 		}
-		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder()
-		return button
+		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder();
+		return button;
 	}
 
 	function slotFinderClick(e) {
 		if ($(e.currentTarget).hasClass('fc-slot-search')) {
-			t.slotFinder.quickSlotFind()
+			t.slotFinder.quickSlotFind();
 		} else {
-			t.slotFinder.toggleSlotFinder()
+			t.slotFinder.toggleSlotFinder();
 		}
 	}
 

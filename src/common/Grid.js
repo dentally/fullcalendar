@@ -129,7 +129,7 @@ $.extend(Grid.prototype, {
 						view.reportSelection(start, end, ev, this.cell);
 					}
 					else {
-						view.calendar.gotoDay(end.subtract(1, "day"))
+						view.calendar.gotoDay(end.subtract(1, "day"));
 					}
 				}
 			}
@@ -184,7 +184,7 @@ $.extend(Grid.prototype, {
 	renderRangeHelper: function(start, end, sourceSeg, col) {
 		var view = this.view;
 		var fakeEvent;
-		var resources = view.calendar.getResources()
+		var resources = view.calendar.getResources();
 
 		// compute the end time if forced to do so (this is what EventManager does)
 		if (!end && view.opt('forceEventDuration')) {
@@ -195,7 +195,7 @@ $.extend(Grid.prototype, {
 		fakeEvent.start = start;
 		fakeEvent.end = end;
 		fakeEvent.allDay = !(start.hasTime() || (end && end.hasTime())); // freshly compute allDay
-		fakeEvent.resource = resources[col] || resources[0] // if there is no resource then fake it. Week view does not rely on this resources
+		fakeEvent.resource = resources[col] || resources[0]; // if there is no resource then fake it. Week view does not rely on this resources
 
 		// this extra className will be useful for differentiating real events from mock events in CSS
 		fakeEvent.className = (fakeEvent.className || []).concat('fc-helper');

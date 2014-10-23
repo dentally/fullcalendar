@@ -421,10 +421,10 @@ function EventManager(options) { // assumed to be a calendar
 	}
 
 	function showEvent(id) {
-		var view = getView()
-		var event = clientEvents(id)
+		var view = getView();
+		var event = clientEvents(id);
 		if (view && event) {
-			view.showEvent(event[0])
+			view.showEvent(event[0]);
 		}
 	}
 	
@@ -744,15 +744,15 @@ function EventManager(options) { // assumed to be a calendar
 	function associateResourceWithEvent(data, out) {
 		var resources = t.getResources();
 		var i = 0;
-		out = out || data // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
+		out = out || data; // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
 		
 		if(!data[options.resourceParam]) {
 	          return;
 	      }
-	      out.resource = null
+	      out.resource = null;
 	      $.each(
 	          resources,
-	      	function( intIndex, resource ){
+	      	function(intIndex, resource) {
 	  			if(resource.id == data[options.resourceParam]) {
 						out.resource = resource;
 						//out.resource._col = i; watch if we need this
@@ -770,5 +770,5 @@ function backupEventDates(event) {
 	event._allDay = event.allDay;
 	event._start = event.start.clone();
 	event._end = event.end ? event.end.clone() : null;
-	event._resource = event.resource
+	event._resource = event.resource;
 }

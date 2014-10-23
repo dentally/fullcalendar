@@ -5,54 +5,54 @@ but had to look rows and columns = huge performance hit.
 ----------------------------------------------------------------------------------------------------------------------*/
 function WorkingHours(curCalView, workingHours) {
   var t = this;
-  var startTimes = workingHours.startTimes
-  var finishTimes = workingHours.finishTimes
+  var startTimes = workingHours.startTimes;
+  var finishTimes = workingHours.finishTimes;
 
-  var minHour = curCalView.timeGrid.minTime.hours()
-  var minMinutes = curCalView.timeGrid.minTime.minutes()
-  var maxHour = curCalView.timeGrid.maxTime.hours()
-  var maxMinutes = curCalView.timeGrid.maxTime.minutes()
-  var timezone = curCalView.opt("timezone")
+  var minHour = curCalView.timeGrid.minTime.hours();
+  var minMinutes = curCalView.timeGrid.minTime.minutes();
+  var maxHour = curCalView.timeGrid.maxTime.hours();
+  var maxMinutes = curCalView.timeGrid.maxTime.minutes();
+  var timezone = curCalView.opt("timezone");
 
 
-  t.overlayNonWorkingHours = overlayNonWorkingHours
+  t.overlayNonWorkingHours = overlayNonWorkingHours;
 
-  function overlayNonWorkingHours () {
-    if (!areTimesValid()){return null}
-    days = curCalView.end.diff(curCalView.start, "days")
+  function overlayNonWorkingHours() {
+    if (!areTimesValid()){return null;}
+    days = curCalView.end.diff(curCalView.start, "days");
     for (day = 0; day < days; day++){
-      var currentDay = curCalView.start.clone().add(day, "days")
-      overlayTimeBeforeStart(currentDay)
-      overlayTimeAfterEnd(currentDay)
+      var currentDay = curCalView.start.clone().add(day, "days");
+      overlayTimeBeforeStart(currentDay);
+      overlayTimeAfterEnd(currentDay);
     }
   }
 
   function overlayTimeBeforeStart(currentDay) {
-    openingTime = startTimes[currentDay.day()].split(":")
-    startOfBlock = fc.moment(currentDay).set("hour", minHour ).set("minutes", minMinutes)
+    openingTime = startTimes[currentDay.day()].split(":");
+    startOfBlock = fc.moment(currentDay).set("hour", minHour).set("minutes", minMinutes);
     endOfBlock = startOfBlock.clone().set("hour", openingTime[0]).set("minutes", openingTime[1]);
-    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
+    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock);
   }
 
   function overlayTimeAfterEnd(currentDay) {
-    closingTime = finishTimes[currentDay.day()].split(":")
-    endOfBlock = fc.moment(currentDay).set("hour", maxHour ).set("minutes", maxMinutes)
+    closingTime = finishTimes[currentDay.day()].split(":");
+    endOfBlock = fc.moment(currentDay).set("hour", maxHour).set("minutes", maxMinutes);
     startOfBlock = startOfBlock.clone().set("hour", closingTime[0]).set("minutes", closingTime[1]);
-    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
+    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock);
   }
 
  //validating input
 
- function areTimesValid () {
-  return containtsTimes() && containsTimesForAllDays()
+ function areTimesValid() {
+  return containtsTimes() && containsTimesForAllDays();
  }
 
  function containtsTimes() {
-  return startTimes && finishTimes
+  return startTimes && finishTimes;
  }
  
- function containsTimesForAllDays () {
-  return startTimes.length === 7 && finishTimes.length === 7
+ function containsTimesForAllDays() {
+  return startTimes.length === 7 && finishTimes.length === 7;
  }
 
 

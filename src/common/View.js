@@ -368,7 +368,7 @@ function View(calendar) {
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
 	t.getShownEvents = getShownEvents;
-	t.workingHours = calendar.options.workingHours
+	t.workingHours = calendar.options.workingHours;
 	
 	// imports
 	var reportEventChange = calendar.reportEventChange;
@@ -650,7 +650,7 @@ function View(calendar) {
 		if(calendar.getView().name=="resourceDay")
 		{
 			// Idealy this should be moved to the resouse day view when these functions are all moved into the prototype
-			return 0		
+			return 0;		
 		}
 
 		var colCnt = t.colCnt;

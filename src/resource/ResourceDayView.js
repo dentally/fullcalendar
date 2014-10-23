@@ -31,7 +31,7 @@ $.extend(ResourceDayView.prototype, {
   headCellHtml: function(row, col, date) {
     var calendar = this.calendar;
     var resources = calendar.getResources();
-    var name
+    var name;
   
     if(resources[col]) {
       name = resources[col].name;

@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadNpmTasks('lumbar');
+	grunt.loadNpmTasks('grunt-jssemicoloned');
 	
 	// This will eventually get passed to grunt.initConfig()
 	// Initialize multitasks...
@@ -62,7 +63,6 @@ module.exports = function(grunt) {
 	]);
 
 
-
 	/* FullCalendar Modules
 	----------------------------------------------------------------------------------------------------*/
 
@@ -74,7 +74,8 @@ module.exports = function(grunt) {
 		'jshint:builtModules',
 		'uglify:modules',
 		'copyToApp',
-		'cssmin:modules'
+		'cssmin:modules',
+		'clean-code'
 	]);
 
 	// assemble modules
@@ -408,6 +409,15 @@ module.exports = function(grunt) {
 	// configs located elsewhere
 	config.jshint = require('./build/jshint.conf');
 	config.jscs = require('./build/jscs.conf');
+  
+  config.jssemicoloned =  {
+      files: ['src/**/*.js']
+    }
+
+ 	grunt.registerTask('clean-code', [
+ 		'jssemicoloned'
+ 	]);
+
 
 
 

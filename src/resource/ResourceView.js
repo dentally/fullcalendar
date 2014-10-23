@@ -86,8 +86,8 @@ $.extend(ResourceView.prototype, {
 			this.rowCnt = 1;
 			this.colCnt = colCnt;
 			if(this.colCnt <= 0){
-				this.el.append("<h2 class='no-calendars'>No Calendar's are currently selected</h2>")
-				return null
+				this.el.append("<h2 class='no-calendars'>No Calendar's are currently selected</h2>");
+				return null;
 			}
 
 			this.el.addClass('fc-agenda-view').html(this.renderHtml());
@@ -117,9 +117,9 @@ $.extend(ResourceView.prototype, {
 
 			this.resetScroll(); // do this after sizes have been set
 
-			this.timeLine = new CurrentTimeLine(this).start()
+			this.timeLine = new CurrentTimeLine(this).start();
 			if (this.workingHours) {
-				workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
+				workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
 			}
 		},
 
@@ -326,7 +326,7 @@ $.extend(ResourceView.prototype, {
 				_this.scrollerEl.scrollTop(top);
 			}
 
-			scroll()
+			scroll();
 			setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 		},
 
@@ -342,7 +342,7 @@ $.extend(ResourceView.prototype, {
 			var daySegs = [];
 			var timedSegs;
 			var i;
-			if(this.colCnt <= 0){return null}
+			if(this.colCnt <= 0){return null;}
 
 			// separate the events into all-day and timed
 			for (i = 0; i < events.length; i++) {
