@@ -36,7 +36,7 @@ $.extend(TimeGrid.prototype, {
 		this.slatEls = this.el.find('.fc-slats tr');
 
 		this.computeSlatTops();
-		this.highlightedSlot = "tim"
+		this.highlightedSlot = null;
 
 		Grid.prototype.render.call(this); // call the super-method
 	},
@@ -69,9 +69,7 @@ $.extend(TimeGrid.prototype, {
 	slatRowHtml: function() {
 		var view = this.view;
 		var calendar = view.calendar;
-		var isRTL = view.opt('isRTL');
 		var html = '';
-		var slotNormal = this.slotDuration.asMinutes() % 15 === 0;
 		var slotTime = moment.duration(+this.minTime); // wish there was .clone() for durations
 		var slotDate; // will be on the view's first day, but we only care about its time
 		var minutes;
@@ -130,13 +128,14 @@ $.extend(TimeGrid.prototype, {
 		var resources = view.calendar.getResources();
 		var segs = [];
 		var seg;
+		var col;
 
 		// normalize
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
-		if(resources && event && !event.resource){ return segs}
+		if(resources && event && !event.resource){ return segs;}
 
-		if (view.name == 'resourceDay' && event.resource != true){
+		if (view.name == 'resourceDay' && event.resource !== true){
 			col = view.calendar.resourceColumn(event.resource.id);
 			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {
@@ -145,9 +144,9 @@ $.extend(TimeGrid.prototype, {
 			}
 
 		}
-    else {
+		else {
 			for (col = 0; col < view.colCnt; col++) {
-    	  seg = this.segWithinColRange(rangeStart, rangeEnd, col)
+				seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 				if (seg) {
 					seg.col = col;
 					segs.push(seg);
@@ -158,8 +157,8 @@ $.extend(TimeGrid.prototype, {
 		return segs;
 	},
 
-	segWithinColRange: function(rangeStart, rangeEnd, col){
-		if(col === -1 ){return false}
+	segWithinColRange: function(rangeStart, rangeEnd, col) {
+		if(col === -1){return false;}
 		var view = this.view;
 		var cellDate;
 		var colStart, colEnd;
@@ -431,46 +430,46 @@ $.extend(TimeGrid.prototype, {
 	},
 
 	highlightTimeSlot: function(start, end, col) {
-		var height
-		var scrollerEl
-		var highlightEl
-		var t = this
-		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'))
+		var height;
+		var scrollerEl;
+		var highlightEl;
+		var t = this;
+		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'));
 
 
-		this.removeHighlightedTimeSlot(this.highlightedSlot)
-    slot.appendTo(this.el);
-    highlightEl = slot.find(".fc-free-slot")
-    
-    if (highlightEl.length > 0) {
-    	height = highlightEl.position().top
-    	scrollerEl = getScrollParent(slot)
-    	scrollerEl.scrollTop(height - 100)
-    	setTimeout(function(){
-    		t.removeHighlightedTimeSlot(slot)
-    	}, 3000)
-    	this.highlightedSlot = slot
-    }
+		this.removeHighlightedTimeSlot(this.highlightedSlot);
+		slot.appendTo(this.el);
+		highlightEl = slot.find(".fc-free-slot");
+		
+		if (highlightEl.length > 0) {
+			height = highlightEl.position().top;
+			scrollerEl = getScrollParent(slot);
+			scrollerEl.scrollTop(height - 100);
+			setTimeout(function() {
+				t.removeHighlightedTimeSlot(slot);
+			}, 3000);
+			this.highlightedSlot = slot;
+		}
 	},
 
 	removeHighlightedTimeSlot: function(el) {
-		if(!el){return null}
-		$(el).fadeOut(1000, function(){this.remove()})
-		this.highlightedSlot = null
+		if(!el){return null;}
+		$(el).fadeOut(1000, function() { this.remove(); });
+		this.highlightedSlot = null;
 	},
 
 	// Generates HTML for a table element with containers in each column, responsible for absolutely positioning the
 	// highlight elements to cover the highlighted slots.
 	highlightSkeletonHtml: function(start, end, column, cssClass) {
 		var view = this.view;
-		var colResource = view.calendar.getResources()[column] || true // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
-		var segs = this.rangeToSegs(start, end, {resource: colResource});
+		var colResource = view.calendar.getResources()[column] || true; // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
+		var segs = this.rangeToSegs(start, end, { resource: colResource });
 		var cellHtml = '';
 		var col = 0;
 		var i, seg;
 		var dayDate;
 		var top, bottom;
-		var cssClass = cssClass || "fc-highlight"
+		cssClass = cssClass || "fc-highlight";
 
 		for (i = 0; i < segs.length; i++) { // loop through the segments. one per column
 			seg = segs[i];

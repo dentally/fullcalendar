@@ -418,16 +418,14 @@ DragListener.prototype = {
 
 	overClipboard: function(x, y) {
 		var clipboardEl = this.options.clipboardEl;
+		var minX, maxX, minY, maxY;
 	  
 		if (clipboardEl) {
-			clipboardOffset = clipboardEl.offset();
-			var minX = clipboardOffset.left;
-			var maxX = clipboardOffset.left + clipboardEl.outerWidth();
-			var minY = clipboardOffset.top;
-			var maxY = clipboardOffset.top + clipboardEl.outerHeight();
-		}
-
-		if (clipboardEl) {
+			var clipboardOffset = clipboardEl.offset();
+			minX = clipboardOffset.left;
+			maxX = clipboardOffset.left + clipboardEl.outerWidth();
+			minY = clipboardOffset.top;
+			maxY = clipboardOffset.top + clipboardEl.outerHeight();
 			return x >= minX && x < maxX && y >= minY && y < maxY;
 		}
 

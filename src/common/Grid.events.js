@@ -4,9 +4,9 @@
 
 $.extend(Grid.prototype, {
 
-	isMouseOverSeg: false, // is the user's mouse over a segment?
-	isDraggingSeg: false, // is a segment being dragged?
-	isResizingSeg: false, // is a segment being resized?
+	mousedOverSeg: null, // the segment object the user's mouse is over. null if over nothing
+	isDraggingSeg: false, // is a segment being dragged? boolean
+	isResizingSeg: false, // is a segment being resized? boolean
 
 
 	// Renders the given events onto the grid
@@ -21,9 +21,9 @@ $.extend(Grid.prototype, {
 	},
 
 
-	// Unrenders all events
+	// Unrenders all events. Subclasses should implement, calling this super-method first.
 	destroyEvents: function() {
-		// subclasses must implement
+		this.triggerSegMouseout(); // trigger an eventMouseout if user's mouse is over an event
 	},
 
 
@@ -110,7 +110,7 @@ $.extend(Grid.prototype, {
 	bindSegHandlers: function() {
 		var _this = this;
 		var view = this.view;
-		var isMonthView = view.name == "month"
+		var isMonthView = view.name == "month";
 
 		$.each(
 			{
@@ -124,7 +124,7 @@ $.extend(Grid.prototype, {
 					if ($(ev.target).is('.fc-event-status')) {
 						view.trigger('cycleEventStatus', this, seg.event, ev);
 					} else if($(ev.target).is('a')) {
-						ev.preventDefault()
+						ev.preventDefault();
 						view.trigger('eventLinkClick', this, seg.event, ev);
 					} else if (!isMonthView) {
 						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
@@ -156,17 +156,21 @@ $.extend(Grid.prototype, {
 
 	// Updates internal state and triggers handlers for when an event element is moused over
 	triggerSegMouseover: function(seg, ev) {
-		if (!this.isMouseOverSeg) {
-			this.isMouseOverSeg = true;
+		if (!this.mousedOverSeg) {
+			this.mousedOverSeg = seg;
 			this.view.trigger('eventMouseover', seg.el[0], seg.event, ev);
 		}
 	},
 
 
-	// Updates internal state and triggers handlers for when an event element is moused out
+	// Updates internal state and triggers handlers for when an event element is moused out.
+	// Can be given no arguments, in which case it will mouseout the segment that was previously moused over.
 	triggerSegMouseout: function(seg, ev) {
-		if (this.isMouseOverSeg) {
-			this.isMouseOverSeg = false;
+		ev = ev || {}; // if given no args, make a mock mouse event
+
+		if (this.mousedOverSeg) {
+			seg = seg || this.mousedOverSeg; // if given no args, use the currently moused-over segment
+			this.mousedOverSeg = null;
 			this.view.trigger('eventMouseout', seg.el[0], seg.event, ev);
 		}
 	},
@@ -212,12 +216,12 @@ $.extend(Grid.prototype, {
 			cellOver: function(cell, date) {
 				var origDate = seg.cellDate || dragListener.origDate;
 				var res = _this.computeDraggedEventDates(seg, origDate, date);
-				var col = cell.col
+				var col = cell.col;
 				newStart = res.start;
 				newEnd = res.end;
-				clipboardDrop = false
+				clipboardDrop = false;
 
-				var mockEvent = view.renderDrag(newStart, newEnd, seg, col)
+				var mockEvent = view.renderDrag(newStart, newEnd, seg, col);
 
 
 				if (mockEvent) { // have the view render a visual indication
@@ -236,34 +240,34 @@ $.extend(Grid.prototype, {
 			dragOverClipboard: function() {
 				clipboardDrop = true;
 			},
-			dragNotOverClipboard: function(){
+			dragNotOverClipboard: function() {
 				clipboardDrop = false;
 			},
 			dragStop: function(ev) {
-				var cell = dragListener.cell
+				var cell = dragListener.cell;
 				var newCol = null;
-				cell != null ? newCol = dragListener.cell.col :  null;
+				if (cell != null) { newCol = dragListener.cell.col; }
 				var resources = view.calendar.getResources();
 				var resourceView = view.calendar.getView().name == "resourceDay";
 				var resourceChange = resourceView && newCol != null &&(newCol != view.calendar.resourceColumn(event.resource.id));
 				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
 				if (view.calendar.getView().name == "resourceDay" && !clipboardDrop){
-					event.resource = resources[newCol]
+					event.resource = resources[newCol];
 				}
 
 				// do revert animation if hasn't changed. calls a callback when finished (whether animation or not)
 				mouseFollower.stop((!hasChanged && !clipboardDrop), function() {
 					_this.isDraggingSeg = false;
 					view.destroyDrag();
-					if (!clipboardDrop){view.showEvent(event)};
+					if (!clipboardDrop){view.showEvent(event);};
 					view.trigger('eventDragStop', el[0], event, ev, {}); // last argument is jqui dummy
 
 					if (hasChanged && !clipboardDrop) {
 						view.eventDrop(el[0], event, newStart, ev, newCol); // will rerender all events...
 					}
 					else if (clipboardDrop) {
-						view.calendar.getClipBoard().eventDropped(event)
+						view.calendar.getClipBoard().eventDropped(event);
 					}
 				});
 			},
@@ -337,7 +341,7 @@ $.extend(Grid.prototype, {
 				view.trigger('eventResizeStart', el[0], event, ev, {}); // last argument is jqui dummy
 			},
 			cellOver: function(cell, date) {
-				var col = cell.col
+				var col = cell.col;
 				// compute the new end. don't allow it to go before the event's start
 				if (date.isBefore(start)) { // allows comparing ambig to non-ambig
 					date = start;
@@ -403,8 +407,8 @@ $.extend(Grid.prototype, {
 	getEventSkinCss: function(event) {
 		var view = this.view;
 		var source = event.source || {};
-		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad'
-		var borderColor = backgroundColor
+		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad';
+		var borderColor = backgroundColor;
 		var textColor =
 			event.textColor ||
 			source.textColor ||

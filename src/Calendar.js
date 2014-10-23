@@ -11,8 +11,8 @@ function Calendar(element, instanceOptions) {
 
 	var options = mergeOptions({}, defaults, instanceOptions);
 
-	var eventResources = instanceOptions.resources
-	orderResources()
+	var eventResources = instanceOptions.resources;
+	orderResources();
 	var langOptions;
 
 	// determine language options
@@ -65,15 +65,15 @@ function Calendar(element, instanceOptions) {
 	t.getView = getView;
 	t.option = option;
 	t.trigger = trigger;
-	t.getClipBoard = function() {return clipBoard;}
+	t.getClipBoard = function() {return clipBoard;};
 	t.openMenu = openMenu;
 
-	t.getResources = function() { return eventResources; }
-	t.setResources = function(resources) { eventResources = resources; render(false, true); }
-  t.addEventResource = addEventResource;
-  t.removeEventResource = removeEventResource;
-  t.clientResources = clientResources;
-  t.resourceColumn = resourceColumn;
+	t.getResources = function() { return eventResources; };
+	t.setResources = function(resources) { eventResources = resources; render(false, true); };
+	t.addEventResource = addEventResource;
+	t.removeEventResource = removeEventResource;
+	t.clientResources = clientResources;
+	t.resourceColumn = resourceColumn;
 
 
 	// Language-data Internals
@@ -274,9 +274,7 @@ function Calendar(element, instanceOptions) {
 	var clipBoard;
 	var header;
 	var headerElement;
-	var menu
-	var resourceList;
-	var resourceListElement;
+	var menu;
 	var content;
 	var tm; // for making theme classes
 	var currentView;
@@ -331,10 +329,10 @@ function Calendar(element, instanceOptions) {
 		}
 
 		content = $("<div class='fc-view-container'/>").prependTo(element);
-		var menuContainer = $("<div class='fc-menu-container' />")
+		var menuContainer = $("<div class='fc-menu-container' />");
 		element.prepend(menuContainer);
-    clipBoard = new ClipBoard(t, options)
-    menu = new Menu(t, options, menuContainer)
+		clipBoard = new ClipBoard(t, options);
+		menu = new Menu(t, options, menuContainer);
 		header = new Header(t, options);
 		headerElement = header.render();
 		if (headerElement) {
@@ -366,7 +364,7 @@ function Calendar(element, instanceOptions) {
 	}
 	
 	function getElement() {
-		return element
+		return element;
 	}
 	
 	function elementVisible() {
@@ -390,7 +388,7 @@ function Calendar(element, instanceOptions) {
 
 		// if viewName is changing, destroy the old view
 		if ((currentView && viewName && currentView.name !== viewName) || resourcesChanged) {
-			orderResources()
+			orderResources();
 			header.deactivateButton(currentView.name);
 			freezeContentHeight(); // prevent a scroll jump when view element is removed
 			if (currentView.start) { // rendered before?
@@ -434,7 +432,7 @@ function Calendar(element, instanceOptions) {
 					updateDatePicker();
 
 					if (header.slotFinder){
-						header.slotFinder.resetNextSlotOffset()
+						header.slotFinder.resetNextSlotOffset();
 					}
 					updateTodayButton();
 
@@ -546,7 +544,7 @@ function Calendar(element, instanceOptions) {
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
-			if (options['refetchResources']) { refetchResources() }; // refetch resources every time new events are loaded
+			if (options.refetchResources) { refetchResources(); }; // refetch resources every time new events are loaded
 			fetchAndRenderEvents();
 		}
 		else {
@@ -562,13 +560,13 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function refetchResources() {
-	  fetchResources(false, currentView);
-	  // remove current view
-	  //var viewName = currentView.name;
-	  //currentView = false;
-	  
-	  // show view with new resources
-	  //changeView(viewName);
+		fetchResources(false, currentView);
+		// remove current view
+		//var viewName = currentView.name;
+		//currentView = false;
+		
+		// show view with new resources
+		//changeView(viewName);
 	}
 
 	
@@ -591,23 +589,23 @@ function Calendar(element, instanceOptions) {
 		for(var i = 0; i < events.length; i++) {
 			associateResourceWithEvent(events[i]);
 		}
-		orderResources()
+		orderResources();
 		renderView(null, currentView.name, true);
 	}
 
 		
 	function removeEventResource(resourceId) {
-		var updatedResources = []
+		var updatedResources = [];
 		for(var i = 0; i < eventResources.length; i++) {
 			if(eventResources[i].id != resourceId) {
 				updatedResources.push(eventResources[i]);
 			}
 		}
 		eventResources = updatedResources;
-		for(var i = 0; i < events.length; i++) {
+		for(var j = 0; j < events.length; j++) {
 			associateResourceWithEvent(events[i]);
 		}
-		orderResources()
+		orderResources();
 		renderView(null, currentView.name, true);
 	}
 
@@ -625,22 +623,22 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function resourcesByID(id) {
-		var res
-		$.each(eventResources, function(index, resource){
-      if(resource.id === id){ res = resource}
+		var res;
+		$.each(eventResources, function(index, resource) {
+			if(resource.id === id) { res = resource; }
 			}
-		)
-		return res
+		);
+		return res;
 	}
 
 	function resourceColumn(id) {
-		return eventResources.indexOf(resourcesByID(id))
+		return eventResources.indexOf(resourcesByID(id));
 	}
 
 	function orderResources() {
-		eventResources.sort(function(a, b){
-			return a.id - b.id
-		})
+		eventResources.sort(function(a, b) {
+			return a.id - b.id;
+		});
 	}
 
 
@@ -665,7 +663,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function updateDatePicker() {
-	  menu.updateDatePicker(t.getDate());
+		menu.updateDatePicker(t.getDate());
 	}
 	
 
@@ -744,7 +742,7 @@ function Calendar(element, instanceOptions) {
 
 	function gotoDay(dateInput) {
 		date = t.moment(dateInput);
-		renderView(0, "resourceDay" );
+		renderView(0, "resourceDay");
 	}
 
 	function addThreeMonths() {
@@ -758,18 +756,18 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function gotoEvent(eventID) {
-    var event = t.clientEvents(eventID)[0]
-    var height, view, el, scrollerEl;
-    if (event && event.start){
-    	gotoDate(event.start)
-    	view = t.getView()
-    	view.segEach(function(seg) {el = seg.el}, event)
-    	if (el && el.position()){
-    		height = el.position().top
-    		scrollerEl = getScrollParent(el)
-    		scrollerEl.scrollTop(height - 100)
-    	}
-    }
+		var event = t.clientEvents(eventID)[0];
+		var height, view, el, scrollerEl;
+		if (event && event.start){
+			gotoDate(event.start);
+			view = t.getView();
+			view.segEach(function(seg) { el = seg.el; }, event);
+			if (el && el.position()){
+				height = el.position().top;
+				scrollerEl = getScrollParent(el);
+				scrollerEl.scrollTop(height - 100);
+			}
+		}
 	}
 
 
@@ -842,7 +840,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function openMenu() {
-		menu.render()
+		menu.render();
 	}
 		
 	function option(name, value) {

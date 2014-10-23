@@ -12,15 +12,15 @@ function Menu(calendar, options, menuContainer) {
   // locals
   var menuShown = false;
   var datePicker;
-  var resourceList = options.resourceList
-  var resourcesEl
+  var resourceList = options.resourceList;
+  var resourcesEl = null;
 
 
   function render() {
     if (!menuShown){
       var menuContent = renderMenu();
-      menuContent.find(".fc-resource-list").html(renderResourseList())
-      menuContent.find(".close").click(function(){ destroy() });
+      menuContent.find(".fc-resource-list").html(renderResourseList());
+      menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
@@ -33,7 +33,7 @@ function Menu(calendar, options, menuContainer) {
     menuContainer.find(".close").unbind();
     menuContainer.html("");
     menuShown = false;
-    resourcesEl = null
+    resourcesEl = null;
   }
   
   function renderMenu() {
@@ -73,28 +73,28 @@ function Menu(calendar, options, menuContainer) {
 
   function renderResourseList() {
     resourcesEl = resourcesEl || $("<ul>");
-    resourceList.each(function(res, index){
-      resourceEl = renderResourse(res)
-      resourceEl.find("input").on("change", {resource: res.toJSON()}, resourceClick)
-      resourcesEl.append(resourceEl)
-    })
+    resourceList.each(function(res, index) {
+      var resourceEl = renderResourse(res);
+      resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
+      resourcesEl.append(resourceEl);
+    });
     return resourcesEl;
   }
 
   function renderResourse(res) {
-    var el
+    var el;
     el = "<li>" + res.get('name');
     el += "<input ";
-    res.get('show') ? el += 'checked': null ;
+    if (res.get('show')) {el += 'checked'; }
     el += " type='checkbox'/>";
     el += "</li>";
-    return $(el)
+    return $(el);
   }
 
   function resourceClick(ev) {
     var resource = ev.data.resource;
-    calendar.trigger("resourceToggled", calendar, this, resource.id)
-    return true
+    calendar.trigger("resourceToggled", calendar, this, resource.id);
+    return true;
   }
 
 }

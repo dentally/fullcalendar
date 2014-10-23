@@ -269,6 +269,7 @@ function EventManager(options) { // assumed to be a calendar
 
 			// for array sources, we convert to standard Event Objects up front
 			if ($.isArray(source.events)) {
+				source.origArray = source.events; // for removeEventSource
 				source.events = $.map(source.events, function(eventInput) {
 					return buildEvent(eventInput, source);
 				});
@@ -301,7 +302,12 @@ function EventManager(options) { // assumed to be a calendar
 
 
 	function getSourcePrimitive(source) {
-		return ((typeof source == 'object') ? (source.events || source.url) : '') || source;
+		return (
+			(typeof source === 'object') ? // a normalized event source?
+				(source.origArray || source.url || source.events) : // get the primitive
+				null
+		) ||
+		source; // the given argument *is* the primitive
 	}
 	
 	
@@ -415,10 +421,10 @@ function EventManager(options) { // assumed to be a calendar
 	}
 
 	function showEvent(id) {
-		var view = getView()
-		var event = clientEvents(id)
+		var view = getView();
+		var event = clientEvents(id);
 		if (view && event) {
-			view.showEvent(event[0])
+			view.showEvent(event[0]);
 		}
 	}
 	
@@ -564,7 +570,6 @@ function EventManager(options) { // assumed to be a calendar
 		var oldAllDay = event._allDay;
 		var oldStart = event._start;
 		var oldEnd = event._end;
-		var oldResource = event._resource;
 		var clearEnd = false;
 		var newAllDay;
 		var dateDelta;
@@ -649,7 +654,7 @@ function EventManager(options) { // assumed to be a calendar
 	// Returns a function that can be called to undo all the operations.
 	//
 	function mutateEvents(events, clearEnd, forceAllDay, dateDelta, durationDelta) {
-		var isAmbigTimezone = t.getIsAmbigTimezone();
+		//var isAmbigTimezone = t.getIsAmbigTimezone();
 		var undoFunctions = [];
 
 		$.each(events, function(i, event) {
@@ -693,23 +698,23 @@ function EventManager(options) { // assumed to be a calendar
 
 			// if the dates have changed, and we know it is impossible to recompute the
 			// timezone offsets, strip the zone.
-      
-      /*
-      NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
-      If the user drags it to a time it should report that time back to the server any timezones issues
-      can be resolved by the server and corrected when sent back or we can incorporate moment timezone
-      and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
-      same hour which is not a true representation.
+			
+			/*
+			NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
+			If the user drags it to a time it should report that time back to the server any timezones issues
+			can be resolved by the server and corrected when sent back or we can incorporate moment timezone
+			and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
+			same hour which is not a true representation.
 
-      if (isAmbigTimezone) {
-      	if (+dateDelta || +durationDelta) {
-      		newStart.stripZone();
-      		if (newEnd) {
-      			newEnd.stripZone();
-      		}
-      	}
-      }
-      */
+			if (isAmbigTimezone) {
+				if (+dateDelta || +durationDelta) {
+					newStart.stripZone();
+					if (newEnd) {
+						newEnd.stripZone();
+					}
+				}
+			}
+			*/
 
 			event.allDay = newAllDay;
 			event.start = newStart;
@@ -738,22 +743,22 @@ function EventManager(options) { // assumed to be a calendar
 	function associateResourceWithEvent(data, out) {
 		var resources = t.getResources();
 		var i = 0;
-		out = out || data // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
+		out = out || data; // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
 		
 		if(!data[options.resourceParam]) {
-	          return;
-	      }
-	      out.resource = null
-	      $.each(
-	          resources,
-	      	function( intIndex, resource ){
-	  			if(resource.id == data[options.resourceParam]) {
-						out.resource = resource;
-						//out.resource._col = i; watch if we need this
+			return;
+		}
+		out.resource = null;
+		$.each(
+				resources,
+			function(intIndex, resource) {
+				if(resource.id == data[options.resourceParam]) {
+					out.resource = resource;
+					//out.resource._col = i; watch if we need this
 				}
-				i++;
-	          }
-	      );
+			i++;
+			}
+		);
 	}
 
 }
@@ -764,5 +769,5 @@ function backupEventDates(event) {
 	event._allDay = event.allDay;
 	event._start = event.start.clone();
 	event._end = event.end ? event.end.clone() : null;
-	event._resource = event.resource
+	event._resource = event.resource;
 }

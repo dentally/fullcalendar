@@ -10,7 +10,7 @@ module.exports = {
 		},
 		es3: true,
 		bitwise: true,
-		camelcase: true,
+		camelcase: false,
 		curly: true,
 		forin: true,
 		freeze: true,
