@@ -236,11 +236,11 @@ function Header(calendar, options) {
     var type = ['fc-slot-search', 'fc-slot-search-menu'];
 		
 		var icons = fontAwsomeIcon.split(",");
-		for (i = 0; i < icons.length; i++) {
-			 icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
+		$.each(icons, function(i) {
+			 var icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
 			 icon.click(function(e) { slotFinderClick(e); });
 			 button.append(icon);
-		}
+		});
 		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder();
 		return button;
 	}

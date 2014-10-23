@@ -246,7 +246,7 @@ $.extend(Grid.prototype, {
 			dragStop: function(ev) {
 				var cell = dragListener.cell;
 				var newCol = null;
-				cell != null ? newCol = dragListener.cell.col :  null;
+				if (cell != null) { newCol = dragListener.cell.col; }
 				var resources = view.calendar.getResources();
 				var resourceView = view.calendar.getView().name == "resourceDay";
 				var resourceChange = resourceView && newCol != null &&(newCol != view.calendar.resourceColumn(event.resource.id));

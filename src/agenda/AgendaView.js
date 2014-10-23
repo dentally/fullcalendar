@@ -111,9 +111,9 @@ $.extend(AgendaView.prototype, {
 
 		this.resetScroll(); // do this after sizes have been set
 		this.timeLine = new CurrentTimeLine(this).start();
-    if (this.workingHours) {
-    	workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
-    }
+		if (this.workingHours) {
+			this.viewWorkingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
+		}
 	},
 
 

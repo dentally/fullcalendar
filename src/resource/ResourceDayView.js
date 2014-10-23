@@ -44,6 +44,6 @@ $.extend(ResourceDayView.prototype, {
       '<th class="fc-day-header ' + this.widgetHeaderClass + ' fc-' + dayIDs[date.day()] + '">' +
         htmlEscape(name) +
       '</th>';
-  },
+  }
 
 });

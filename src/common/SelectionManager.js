@@ -81,7 +81,7 @@ function SelectionManager() {
 			var calendar = t.calendar;
 		        var resources = calendar.getResources();
 			//Get the resource from the selected cell and pass it to the select function as an argument		
-			resourceObj = resources[cell.col];			
+			resourceObj = resources[cell.col];
 		}
 		trigger('select', null, start, end, ev, resourceObj);
 	}

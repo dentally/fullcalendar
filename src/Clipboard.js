@@ -53,7 +53,6 @@ function ClipBoard(calendar, options) {
   function eventDrag(ev) {
     var cbEvent = ev.data.cbEvent;
     var view = calendar.getView();
-    var grid = view.dayGrid || view.timeGrid;
     var dropStartTime;
     var dropFinishTime;
     var dropCol;
@@ -75,7 +74,7 @@ function ClipBoard(calendar, options) {
         dropFinishTime = date.clone().add(cbEvent.clipboard_duration, 'minutes');
         var seg = null;
         dropCol = cell.col;
-        var mockEvent = view.renderDrag(dropStartTime, dropFinishTime, seg, dropCol);
+        view.renderDrag(dropStartTime, dropFinishTime, seg, dropCol);
         mouseFollower.show();
       },
       cellOut: function() {

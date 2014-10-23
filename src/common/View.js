@@ -313,7 +313,7 @@ View.prototype = {
 		var resources = this.calendar.getResources();
 		if(this.calendar.getView().name=="resourceDay"){
 			//Get the resource from the selected cell and pass it to the select function as an argument		
-			resourceObj = resources[cell.col];			
+			resourceObj = resources[cell.col];
 		}
 		this.trigger('select', null, start, end, ev, resourceObj);
 	},
@@ -367,7 +367,6 @@ function View(calendar) {
 	t.isEventResizable = isEventResizable;
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
-	t.getShownEvents = getShownEvents;
 	t.workingHours = calendar.options.workingHours;
 	
 	// imports
@@ -389,16 +388,6 @@ function View(calendar) {
 		return v;
 	}
 
-	// Get currently shown events
-	function getShownEvents() {
-		evs = [];
-		for (id in eventElementsByID){
-			evs.push(eventsByID[id]);
-		}
-		return evs;
-	}
-
-	
 	function trigger(name, thisObj) {
 		return calendar.trigger.apply(
 			calendar,
@@ -647,10 +636,10 @@ function View(calendar) {
 	// - row, col
 	// - { row:#, col:# }
 	function cellToCellOffset(row, col) {
-		if(calendar.getView().name=="resourceDay")
+		if(calendar.getView().name === "resourceDay")
 		{
 			// Idealy this should be moved to the resouse day view when these functions are all moved into the prototype
-			return 0;		
+			return 0;
 		}
 
 		var colCnt = t.colCnt;

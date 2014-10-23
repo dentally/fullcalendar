@@ -18,7 +18,7 @@ function SlotFinder(header, calendar, el, options) {
   var ajaxInFLight = false;
   var url = options.availability_url;
   var nextFreeSlotURL = options.next_free_slot_url;
-  var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes(); 
+  var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes();
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s";
   var offset = 0;
@@ -36,7 +36,7 @@ function SlotFinder(header, calendar, el, options) {
 
 
   function setupSlotFinder() {
-    var popover = el.popover({ 
+    var popover = el.popover({
       placement: "bottom",
       title: "Find Slot",
       html: true,
@@ -78,7 +78,7 @@ function SlotFinder(header, calendar, el, options) {
     var resources = calendar.getResources() || [];
     var el = "Calendar - <select name='resource_id'>";
     el += "<option value='0'>All</option>";
-    for(i=0; i < resources.length; i++){
+    for(var i=0; i < resources.length; i++){
       el += "<option value='" + resources[i].id +"'>" + resources[i].name + "</option>";
     }
     el += "</select>";
@@ -89,7 +89,7 @@ function SlotFinder(header, calendar, el, options) {
   function durationOptions() {
     var el = "Interval - <select name='duration'>";
     el += "<option value='0'>-</option>";
-    for(i=15; i < 120 ; i+= 15) {
+    for(var i=15; i < 120 ; i+= 15) {
       el += "<option value='" + i +"'>" + i + "</option>";
     }
     el += "</select>";
@@ -98,8 +98,9 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function quickSlotFind() {
+    var params;
     el.popover('hide');
-    if (ajaxInFLight == true) {return null;}
+    if (ajaxInFLight === true) {return null;}
     ajaxInFLight = true;
     params = {
       start_date: calendar.getDate().format("YYYY/MM/DD"),
@@ -126,7 +127,8 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function fetchFreeSlots() {
-    if (ajaxInFLight == true) {return null;}
+    var params;
+    if (ajaxInFLight === true) {return null;}
     params = buildParams();
     ajaxInFLight = true;
     resultsTable.html("<tr><td>Searching...</td></tr>");
@@ -141,20 +143,20 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function buildParams() {
-    var parms; 
+    var params;
     params = {
       duration: getDuration(),
       offset: offset
     };
-    startDate ? params.start_date = startDate : params.start_date = calendar.getDate().format("YYYY/MM/DD");
-    endDate ? params.end_date = endDate : params.end_date = calendar.getDate().add(1, "month").format("YYYY/MM/DD");
+    params.start_date = startDate || calendar.getDate().format("YYYY/MM/DD");
+    params.end_date = endDate || calendar.getDate().add(1, "month").format("YYYY/MM/DD");
     params.limit = resultsPerRequest;
     params[resourceParam] = getActiveResources();
     return params;
   }
 
   function getDuration() {
-    return parseInt(popoverEl.find("[name='duration']").val()) || defaultSlotDuration;
+    return parseInt(popoverEl.find("[name='duration']").val(), 10) || defaultSlotDuration;
   }
 
   function getActiveResources() {
@@ -164,7 +166,7 @@ function SlotFinder(header, calendar, el, options) {
     }
     else{
       var resources = calendar.getResources() || [];
-      resourceArray =  $.map(resources, function(res) {
+      var resourceArray =  $.map(resources, function(res) {
         return parseInt(res.id, 10);
       });
       return resourceArray;

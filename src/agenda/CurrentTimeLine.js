@@ -32,7 +32,7 @@ function CurrentTimeLine(curCalView, options) {
 
   function stop() {
     clearInterval(t.timelineInterval);
-    timeline.remove(); 
+    timeline.remove();
   }
 
   function isTimeLineRequired() {

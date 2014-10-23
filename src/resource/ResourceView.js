@@ -1,43 +1,3 @@
-
-setDefaults({
-	allDayText: 'all-day',
-
-	scrollTime: '06:00:00',
-
-	slotDuration: '00:30:00',
-
-	axisFormat: generateAgendaAxisFormat,
-	timeFormat: {
-		agenda: generateAgendaTimeFormat
-	},
-
-	dragOpacity: {
-		resource: .5
-	},
-	minTime: '00:00:00',
-	maxTime: '24:00:00',
-	slotEventOverlap: true
-});
-
-
-function generateAgendaAxisFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(':mm', '(:mm)')
-		.replace(/(\Wmm)$/, '($1)') // like above, but for foreign langs
-		.replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
-}
-
-
-function generateAgendaTimeFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(/\s*a$/i, ''); // remove trailing AM/PM
-}
-
-
-// TODO: make it work in quirks mode (event corners, all-day height)
-// TODO: test liquid width, especially in IE6
-
-
 function ResourceView(calendar) {
 	View.call(this, calendar); // call the super-constructor
 
@@ -70,7 +30,7 @@ $.extend(ResourceView.prototype, {
 
 	// when the time-grid isn't tall enough to occupy the given height, we render an <hr> underneath
 	bottomRuleEl: null,
-	bottomRuleHeight: null,	
+	bottomRuleHeight: null,
 	
 
 	
@@ -119,7 +79,7 @@ $.extend(ResourceView.prototype, {
 
 			this.timeLine = new CurrentTimeLine(this).start();
 			if (this.workingHours) {
-				workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
+				this.veiwWorkingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
 			}
 		},
 

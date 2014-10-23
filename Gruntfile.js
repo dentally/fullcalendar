@@ -167,23 +167,23 @@ module.exports = function(grunt) {
 		'dist/lang-all.js'
 	];
 
-  /* Copy to App folder for Gem
-  ----------------------------------------------------------------------------------------------------*/
+	/* Copy to App folder for Gem
+	----------------------------------------------------------------------------------------------------*/
 
-  config.copy.jsToAppFolder = {
-  	src: 'dist/fullcalendar.js',
-  	dest: 'app/assets/javascripts/nj-calendar.js'
-  };
+	config.copy.jsToAppFolder = {
+		src: 'dist/fullcalendar.js',
+		dest: 'app/assets/javascripts/nj-calendar.js'
+	};
 
-  config.copy.cssToAppFolder = {
-  	src: 'dist/fullcalendar.css',
-  	dest: 'app/assets/stylesheets/nj-calendar.css'
-  };
+	config.copy.cssToAppFolder = {
+		src: 'dist/fullcalendar.css',
+		dest: 'app/assets/stylesheets/nj-calendar.css'
+	};
 
-  grunt.registerTask('copyToApp', [
-  	'copy:jsToAppFolder',
-  	'copy:cssToAppFolder'
-  ]);
+	grunt.registerTask('copyToApp', [
+		'copy:jsToAppFolder',
+		'copy:cssToAppFolder'
+	]);
 
 
 
@@ -409,14 +409,14 @@ module.exports = function(grunt) {
 	// configs located elsewhere
 	config.jshint = require('./build/jshint.conf');
 	config.jscs = require('./build/jscs.conf');
-  
-  config.jssemicoloned =  {
-      files: ['src/**/*.js']
-    }
+	
+	config.jssemicoloned =  {
+			files: ['src/**/*.js']
+		};
 
- 	grunt.registerTask('clean-code', [
- 		'jssemicoloned'
- 	]);
+	grunt.registerTask('clean-code', [
+		'jssemicoloned'
+	]);
 
 
 

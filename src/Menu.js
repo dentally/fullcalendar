@@ -13,7 +13,7 @@ function Menu(calendar, options, menuContainer) {
   var menuShown = false;
   var datePicker;
   var resourceList = options.resourceList;
-  var resourcesEl;
+  var resourcesEl = null;
 
 
   function render() {
@@ -74,7 +74,7 @@ function Menu(calendar, options, menuContainer) {
   function renderResourseList() {
     resourcesEl = resourcesEl || $("<ul>");
     resourceList.each(function(res, index) {
-      resourceEl = renderResourse(res);
+      var resourceEl = renderResourse(res);
       resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
       resourcesEl.append(resourceEl);
     });
@@ -85,7 +85,7 @@ function Menu(calendar, options, menuContainer) {
     var el;
     el = "<li>" + res.get('name');
     el += "<input ";
-    res.get('show') ? el += 'checked': null ;
+    if (res.get('show')) {el += 'checked'; }
     el += " type='checkbox'/>";
     el += "</li>";
     return $(el);

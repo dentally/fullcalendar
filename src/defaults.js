@@ -68,7 +68,7 @@ var defaults = {
 		prev: 'left-single-arrow',
 		next: 'right-single-arrow',
 		prevYear: 'left-double-arrow',
-		nextYear: 'right-double-arrow',
+		nextYear: 'right-double-arrow'
 	},
 
 	fontAwsomeIcons: {
@@ -87,7 +87,7 @@ var defaults = {
 		prev: 'circle-triangle-w',
 		next: 'circle-triangle-e',
 		prevYear: 'seek-prev',
-		nextYear: 'seek-next',
+		nextYear: 'seek-next'
 	},
 
 	dragOpacity: .75,
