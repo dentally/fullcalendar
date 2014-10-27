@@ -466,14 +466,14 @@ function EventManager(options) { // assumed to be a calendar
 			data = source.eventDataTransform(data);
 		}
 
-		start = t.moment(data.start_time || data.date); // "date" is an alias for "start"
+		start = t.moment(moment.tz(data.start_time, options.timezone) || data.date); // "date" is an alias for "start"
 		if (!start.isValid()) {
 			return;
 		}
 
 		end = null;
 		if (data.finish_time) {
-			end = t.moment(data.finish_time);
+			end = t.moment(moment.tz(data.finish_time, options.timezone));
 			if (!end.isValid()) {
 				return;
 			}
