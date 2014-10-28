@@ -169,14 +169,20 @@
 		background-color: rgb(245, 245, 245);
 		position: fixed;
 		top: 0px;
-		left: 1px;
+		left: 0px;
 		z-index: 101;
 		border: 1px solid #d8d8d8;
+		padding: 5px;
+		box-shadow: 0.5px 0.5px 0.5px 0.5px #D8D8D8;
 
 		.close {
 			float: right;
 			margin-top: 2px;
 			margin-right: 8px;
+		}
+
+		.fc-resource-list td{
+			padding: 2px;
 		}
 	}
 

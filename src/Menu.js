@@ -72,7 +72,7 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    resourcesEl = resourcesEl || $("<ul>");
+    resourcesEl = resourcesEl || $("<table></table>");
     resourceList.each(function(res, index) {
       var resourceEl = renderResourse(res);
       resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
@@ -83,11 +83,11 @@ function Menu(calendar, options, menuContainer) {
 
   function renderResourse(res) {
     var el;
-    el = "<li>" + res.get('name');
-    el += "<input ";
+    el = "<tr><td>" + res.get('name') + "</td>";
+    el += "<td><input ";
     if (res.get('show')) {el += 'checked'; }
     el += " type='checkbox'/>";
-    el += "</li>";
+    el += "</td></tr>";
     return $(el);
   }
 
