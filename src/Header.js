@@ -70,10 +70,6 @@ function Header(calendar, options) {
 						groupChildren = groupChildren.add($('<h2>&nbsp;</h2>')); // we always want it to take up height
 						isOnlyButtons = false;
 					}
-					else if(buttonName == 'findSlot') {
-						groupChildren = groupChildren.add(slotFinderButton());
-						isOnlyButtons = false;
-					}
 					else {
 						if (calendar[buttonName]) { // a calendar method
 							buttonClick = function() {
@@ -86,6 +82,9 @@ function Header(calendar, options) {
 							};
 							viewsWithButtons.push(buttonName);
 						}
+						else if(buttonName === 'findSlot') {
+							buttonClick = slotFinderClick
+						}
 						if (buttonClick) {
 
 							// smartProperty allows different text per view button (ex: "Agenda Week" vs "Basic Week")
@@ -94,12 +93,17 @@ function Header(calendar, options) {
 							defaultText = smartProperty(options.defaultButtonText, buttonName);
 							customText = smartProperty(options.buttonText, buttonName);
 							fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
+							buttonTitle = smartProperty(options.buttonTitles, buttonName);
 
 							if (customText) {
 								innerHtml = htmlEscape(customText);
 							}
 							else if(fontAwsomeIcon) {
-							  innerHtml = "<i class='fa-icon " + fontAwsomeIcon + "'></i>";
+								var icons = fontAwsomeIcon.split(",");
+								innerHtml = '';
+								$.each(icons, function(i) {
+									 innerHtml += ("<i class='fa-icon " + icons[i] + "'></i>");
+								});
 							}
 							else if (themeIcon && options.theme) {
 								innerHtml = "<span class='ui-icon ui-icon-" + themeIcon + "'></span>";
@@ -119,7 +123,7 @@ function Header(calendar, options) {
               
               if (defaultText){classes.push('fc-button-text');}
 							button = $( // type="button" so that it doesn't submit a form
-								'<button type="button" class="' + classes.join(' ') + '">' +
+								'<button type="button" class="' + classes.join(' ') + '" title="' + buttonTitle + '"">' +
 									innerHtml +
 								'</button>'
 								)
@@ -167,6 +171,7 @@ function Header(calendar, options) {
 											.removeClass(tm + '-state-down'); // if mouseleave happens before mouseup
 									}
 								);
+								if (buttonName === 'findSlot') { t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder(); }
 
 							groupChildren = groupChildren.add(button);
 						}
@@ -230,27 +235,8 @@ function Header(calendar, options) {
 		return viewsWithButtons;
 	}
 
-	function slotFinderButton() {
-		var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, 'findSlot');
-    var button = $('<button type="button" class="fc-findSlot-button fc-button fc-state-default"/>');
-    var type = ['fc-slot-search', 'fc-slot-search-menu'];
-		
-		var icons = fontAwsomeIcon.split(",");
-		$.each(icons, function(i) {
-			 var icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
-			 icon.click(function(e) { slotFinderClick(e); });
-			 button.append(icon);
-		});
-		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder();
-		return button;
-	}
-
 	function slotFinderClick(e) {
-		if ($(e.currentTarget).hasClass('fc-slot-search')) {
-			t.slotFinder.quickSlotFind();
-		} else {
-			t.slotFinder.toggleSlotFinder();
-		}
+		t.slotFinder.toggleSlotFinder();
 	}
 
 }
