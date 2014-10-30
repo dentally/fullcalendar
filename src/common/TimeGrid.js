@@ -447,14 +447,14 @@ $.extend(TimeGrid.prototype, {
 			scrollerEl.scrollTop(height - 100);
 			setTimeout(function() {
 				t.removeHighlightedTimeSlot(slot);
-			}, 3000);
+			}, 700);
 			this.highlightedSlot = slot;
 		}
 	},
 
 	removeHighlightedTimeSlot: function(el) {
 		if(!el){return null;}
-		$(el).fadeOut(1000, function() { this.remove(); });
+		$(el).fadeOut(500, function() { this.remove(); });
 		this.highlightedSlot = null;
 	},
 

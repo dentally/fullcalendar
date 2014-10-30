@@ -431,11 +431,7 @@ function Calendar(element, instanceOptions) {
 					updateTitle();
 					updateDatePicker();
 
-					if (header.slotFinder){
-						header.slotFinder.resetNextSlotOffset();
-					}
 					updateTodayButton();
-
 					getAndRenderEvents();
 				}
 			}
