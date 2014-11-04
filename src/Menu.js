@@ -18,15 +18,17 @@ function Menu(calendar, options, menuContainer) {
 
   function render() {
     if (!menuShown){
+      t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
       menuContent.find(".fc-resource-list").html(renderResourseList());
+      menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
       menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
+      menuContent.find("select").change(function(){ eventColorChange() })
     }
   }
-  
   
   function destroy() {
     resourcesEl.find("input").unbind();
@@ -34,6 +36,7 @@ function Menu(calendar, options, menuContainer) {
     menuContainer.html("");
     menuShown = false;
     resourcesEl = null;
+    t.eventColorChoices = null;
   }
   
   function renderMenu() {
@@ -41,6 +44,7 @@ function Menu(calendar, options, menuContainer) {
     html = "<div class='fc-menu-content'>";
     html += "<span class='close'>X</span>";
     html += "<div class='fc-date-picker'></div>";
+    html += "<div class='fc-event-colour-choices'></div>"
     html += "<span>Calendars</span>";
     if (resourceList) {
       html += "<div class='fc-resource-list'></div>";
@@ -91,10 +95,30 @@ function Menu(calendar, options, menuContainer) {
     return $(el);
   }
 
+  function renderEventColorChoice() {
+    if (!t.eventColorChoices) { return "" };
+    var html, slected
+    html = '<span>Colour by - </span>'
+    html += '<select name="event-colour-determinator">'
+    $.each(t.eventColorChoices, function(index, option) {
+      selected = option.selected ? "selected" : ""
+      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>'
+    })
+    html += '</select><br/><br/>'
+    return html
+  }
+
   function resourceClick(ev) {
     var resource = ev.data.resource;
     calendar.trigger("resourceToggled", calendar, this, resource.id);
     return true;
+  }
+
+  function eventColorChange(ev) {
+    var val
+    val = $("[name='event-colour-determinator']").val()
+    calendar.trigger("colorDeterminatorChange", calendar, this, val);
+    calendar.rerenderEvents()
   }
 
 }
