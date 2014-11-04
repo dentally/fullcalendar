@@ -249,6 +249,7 @@
 		position: absolute;
 		top: 1px;
 		right: 1px;
+		min-width: 10px;
 	}
 
 	.fc-event-confirmation-status {
@@ -265,6 +266,9 @@
 		.icon-2x {
 			margin-top: 0px;
 			font-size: 1.6em;
+		}
+		.reminder-sent {
+			color: darkgrey;
 		}
 	}
 
