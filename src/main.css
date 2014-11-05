@@ -43,7 +43,7 @@
 		height: 45px;
 		left: 0;
 		width: 100%;
-		margin-top: -110px;
+		margin-top: -90px;
 
 		button, .icon-paper-clip {
 			background-color: rgb(245, 245, 245);
@@ -56,10 +56,15 @@
 		.fc-button-text {
 			opacity: 0.65;
 		}
+		.fc-center {
+			h2 {
+				font-weight: 400;
+			}
+		}
 	}
 	
 	td.fc-widget-header {
-		top: 85px;
+		top: 65px;
 		position: fixed;
 		background-color: white;
 		z-index: 100;
@@ -110,6 +115,7 @@
 		border-bottom-style: solid;
 		border-bottom-width: 1px;
 		border-bottom-color:rgb(221, 221, 221);
+		font-weight: 500;
 	}
 
 	.fc-widget-header tr{
@@ -128,7 +134,7 @@
 		zoom: 1; /* for IE7, gives accurate coordinates for [un]freezeContentHeight */
 		margin-right: 10px;
 		margin-left: 10px;
-		margin-top: 110px;
+		margin-top: 90px;
 		margin-bottom: 50px;
 		}
 
@@ -169,14 +175,20 @@
 		background-color: rgb(245, 245, 245);
 		position: fixed;
 		top: 0px;
-		left: 1px;
+		left: 0px;
 		z-index: 101;
 		border: 1px solid #d8d8d8;
+		padding: 5px;
+		box-shadow: 0.5px 0.5px 0.5px 0.5px #D8D8D8;
 
 		.close {
 			float: right;
 			margin-top: 2px;
 			margin-right: 8px;
+		}
+
+		.fc-resource-list td{
+			padding: 2px;
 		}
 	}
 

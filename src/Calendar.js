@@ -431,11 +431,7 @@ function Calendar(element, instanceOptions) {
 					updateTitle();
 					updateDatePicker();
 
-					if (header.slotFinder){
-						header.slotFinder.resetNextSlotOffset();
-					}
 					updateTodayButton();
-
 					getAndRenderEvents();
 				}
 			}
@@ -582,7 +578,7 @@ function Calendar(element, instanceOptions) {
 		renderEvents();
 	}
 
-	function addEventResource(resource) {
+	function addEventResource(resource, reRenderView) {
 		if(!resourcesByID(resource.id)) {
 			eventResources.push(resource);
 		}
@@ -590,12 +586,13 @@ function Calendar(element, instanceOptions) {
 			associateResourceWithEvent(events[i]);
 		}
 		orderResources();
-		renderView(null, currentView.name, true);
+		if (reRenderView) {renderView(null, currentView.name, true);}
 	}
 
 		
-	function removeEventResource(resourceId) {
+	function removeEventResource(resourceId, reRenderView) {
 		var updatedResources = [];
+		console.log(eventResources)
 		for(var i = 0; i < eventResources.length; i++) {
 			if(eventResources[i].id != resourceId) {
 				updatedResources.push(eventResources[i]);
@@ -606,7 +603,7 @@ function Calendar(element, instanceOptions) {
 			associateResourceWithEvent(events[i]);
 		}
 		orderResources();
-		renderView(null, currentView.name, true);
+		if (reRenderView) {renderView(null, currentView.name, true);}
 	}
 
 	function clientResources(filter) {

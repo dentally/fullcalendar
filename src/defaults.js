@@ -61,7 +61,7 @@ var defaults = {
 	defaultButtonText: {
 		today: 'Today',
 		addThreeMonths: '+3',
-		addSixMonths: '+6'
+		addSixMonths: '+6',
 	},
 
 	buttonIcons: {
@@ -74,11 +74,24 @@ var defaults = {
 	fontAwsomeIcons: {
 		openMenu: 'icon-reorder',
 		month: 'icon-th',
-		week: 'icon-ellipsis-horizontal',
+		week: 'icon-ellipsis-vertical,icon-ellipsis-vertical,icon-ellipsis-vertical',
 		day: 'icon-th-list',
 		next: 'icon-angle-right',
 		prev: 'icon-angle-left',
-		findSlot: 'icon-search, icon-angle-down '
+		findSlot: 'icon-search'
+	},
+
+	buttonTitles: {
+		menu: 'Menu',
+		today: 'Go to Today',
+		month: 'Month',
+		week: 'Week',
+		day: 'Day',
+		findSlot: 'Find Available Slot',
+		next: 'Next',
+		prev: 'Previous',
+		addThreeMonths: 'Go forward three months',
+		addSixMonths: 'Go forward six months',
 	},
 	
 	// jquery-ui theming

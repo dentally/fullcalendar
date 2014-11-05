@@ -243,29 +243,45 @@
 	}
 
 	.fc-event-status {
-		border-radius: 50%;
-		width: 13px;
-		height: 13px;
-		float: right;
-		border: 2px solid #e5dfdf;
-		display: inline-block;
-		opacity: 0.6;
-		margin-left: 3px;
-		font-weight: 800;
+		font-weight: 900;
 		color: white;
 		text-align: center;
-		line-height: 1.1;
+		position: absolute;
+		top: 1px;
+		right: 1px;
+		min-width: 10px;
+	}
+
+	.fc-event-confirmation-status {
+		position: absolute;
+		top: 0px;
+		right: 12px;
+	}
+
+	.fc-event-header {
+		i {
+			margin-top: 2px;
+			font-size: 1.1em;
+		}
+		.icon-2x {
+			margin-top: 0px;
+			font-size: 1.6em;
+		}
+		.reminder-sent {
+			color: darkgrey;
+		}
 	}
 
 	.fc-event-notes {
 		overflow: hidden;
 	}
 
-	.fc-title i, .fc-event-status {
+	.fc-title i {
 		margin-top: 3px;
 	}
 	.fc-title a {
-		color: white; 
+		color: white;
+		margin-right: 16px;
 	}
 
 	.timeline {
