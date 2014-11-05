@@ -323,6 +323,8 @@ function EventManager(options) { // assumed to be a calendar
 			event.end = t.moment(event.end);
 		}
 
+		associateResourceWithEvent(event)
+
 		mutateEvent(event);
 		propagateMiscProperties(event);
 		reportEvents(cache); // reports event modifications (so we can redraw)
