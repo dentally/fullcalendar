@@ -77,24 +77,37 @@ var defaults = {
 	defaultButtonText: {
 		today: 'Today',
 		addThreeMonths: '+3',
-		addSixMonths: '+6'
+		addSixMonths: '+6',
 	},
 
 	buttonIcons: {
 		prev: 'left-single-arrow',
 		next: 'right-single-arrow',
 		prevYear: 'left-double-arrow',
-		nextYear: 'right-double-arrow',
+		nextYear: 'right-double-arrow'
 	},
 
 	fontAwsomeIcons: {
 		openMenu: 'icon-reorder',
 		month: 'icon-th',
-		week: 'icon-ellipsis-horizontal',
+		week: 'icon-ellipsis-vertical,icon-ellipsis-vertical,icon-ellipsis-vertical',
 		day: 'icon-th-list',
 		next: 'icon-angle-right',
 		prev: 'icon-angle-left',
-		findSlot: 'icon-search, icon-angle-down '
+		findSlot: 'icon-search'
+	},
+
+	buttonTitles: {
+		menu: 'Menu',
+		today: 'Go to Today',
+		month: 'Month',
+		week: 'Week',
+		day: 'Day',
+		findSlot: 'Find Available Slot',
+		next: 'Next',
+		prev: 'Previous',
+		addThreeMonths: 'Go forward three months',
+		addSixMonths: 'Go forward six months',
 	},
 	
 	// jquery-ui theming
@@ -103,7 +116,7 @@ var defaults = {
 		prev: 'circle-triangle-w',
 		next: 'circle-triangle-e',
 		prevYear: 'seek-prev',
-		nextYear: 'seek-next',
+		nextYear: 'seek-next'
 	},
 
 	dragOpacity: .75,
@@ -345,8 +358,8 @@ function Calendar(element, instanceOptions) {
 
 	var options = mergeOptions({}, defaults, instanceOptions);
 
-	var eventResources = instanceOptions.resources
-	orderResources()
+	var eventResources = instanceOptions.resources;
+	orderResources();
 	var langOptions;
 
 	// determine language options
@@ -399,15 +412,15 @@ function Calendar(element, instanceOptions) {
 	t.getView = getView;
 	t.option = option;
 	t.trigger = trigger;
-	t.getClipBoard = function() {return clipBoard;}
+	t.getClipBoard = function() {return clipBoard;};
 	t.openMenu = openMenu;
 
-	t.getResources = function() { return eventResources; }
-	t.setResources = function(resources) { eventResources = resources; render(false, true); }
-  t.addEventResource = addEventResource;
-  t.removeEventResource = removeEventResource;
-  t.clientResources = clientResources;
-  t.resourceColumn = resourceColumn;
+	t.getResources = function() { return eventResources; };
+	t.setResources = function(resources) { eventResources = resources; render(false, true); };
+	t.addEventResource = addEventResource;
+	t.removeEventResource = removeEventResource;
+	t.clientResources = clientResources;
+	t.resourceColumn = resourceColumn;
 
 
 	// Language-data Internals
@@ -608,9 +621,7 @@ function Calendar(element, instanceOptions) {
 	var clipBoard;
 	var header;
 	var headerElement;
-	var menu
-	var resourceList;
-	var resourceListElement;
+	var menu;
 	var content;
 	var tm; // for making theme classes
 	var currentView;
@@ -665,10 +676,10 @@ function Calendar(element, instanceOptions) {
 		}
 
 		content = $("<div class='fc-view-container'/>").prependTo(element);
-		var menuContainer = $("<div class='fc-menu-container' />")
+		var menuContainer = $("<div class='fc-menu-container' />");
 		element.prepend(menuContainer);
-    clipBoard = new ClipBoard(t, options)
-    menu = new Menu(t, options, menuContainer)
+		clipBoard = new ClipBoard(t, options);
+		menu = new Menu(t, options, menuContainer);
 		header = new Header(t, options);
 		headerElement = header.render();
 		if (headerElement) {
@@ -700,7 +711,7 @@ function Calendar(element, instanceOptions) {
 	}
 	
 	function getElement() {
-		return element
+		return element;
 	}
 	
 	function elementVisible() {
@@ -724,7 +735,7 @@ function Calendar(element, instanceOptions) {
 
 		// if viewName is changing, destroy the old view
 		if ((currentView && viewName && currentView.name !== viewName) || resourcesChanged) {
-			orderResources()
+			orderResources();
 			header.deactivateButton(currentView.name);
 			freezeContentHeight(); // prevent a scroll jump when view element is removed
 			if (currentView.start) { // rendered before?
@@ -767,11 +778,7 @@ function Calendar(element, instanceOptions) {
 					updateTitle();
 					updateDatePicker();
 
-					if (header.slotFinder){
-						header.slotFinder.resetNextSlotOffset()
-					}
 					updateTodayButton();
-
 					getAndRenderEvents();
 				}
 			}
@@ -880,7 +887,7 @@ function Calendar(element, instanceOptions) {
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
-			if (options['refetchResources']) { refetchResources() }; // refetch resources every time new events are loaded
+			if (options.refetchResources) { refetchResources(); }; // refetch resources every time new events are loaded
 			fetchAndRenderEvents();
 		}
 		else {
@@ -896,13 +903,13 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function refetchResources() {
-	  fetchResources(false, currentView);
-	  // remove current view
-	  //var viewName = currentView.name;
-	  //currentView = false;
-	  
-	  // show view with new resources
-	  //changeView(viewName);
+		fetchResources(false, currentView);
+		// remove current view
+		//var viewName = currentView.name;
+		//currentView = false;
+		
+		// show view with new resources
+		//changeView(viewName);
 	}
 
 	
@@ -918,31 +925,32 @@ function Calendar(element, instanceOptions) {
 		renderEvents();
 	}
 
-	function addEventResource(resource) {
+	function addEventResource(resource, reRenderView) {
 		if(!resourcesByID(resource.id)) {
 			eventResources.push(resource);
 		}
 		for(var i = 0; i < events.length; i++) {
 			associateResourceWithEvent(events[i]);
 		}
-		orderResources()
-		renderView(null, currentView.name, true);
+		orderResources();
+		if (reRenderView) {renderView(null, currentView.name, true);}
 	}
 
 		
-	function removeEventResource(resourceId) {
-		var updatedResources = []
+	function removeEventResource(resourceId, reRenderView) {
+		var updatedResources = [];
+		console.log(eventResources)
 		for(var i = 0; i < eventResources.length; i++) {
 			if(eventResources[i].id != resourceId) {
 				updatedResources.push(eventResources[i]);
 			}
 		}
 		eventResources = updatedResources;
-		for(var i = 0; i < events.length; i++) {
+		for(var j = 0; j < events.length; j++) {
 			associateResourceWithEvent(events[i]);
 		}
-		orderResources()
-		renderView(null, currentView.name, true);
+		orderResources();
+		if (reRenderView) {renderView(null, currentView.name, true);}
 	}
 
 	function clientResources(filter) {
@@ -959,22 +967,22 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function resourcesByID(id) {
-		var res
-		$.each(eventResources, function(index, resource){
-      if(resource.id === id){ res = resource}
+		var res;
+		$.each(eventResources, function(index, resource) {
+			if(resource.id === id) { res = resource; }
 			}
-		)
-		return res
+		);
+		return res;
 	}
 
 	function resourceColumn(id) {
-		return eventResources.indexOf(resourcesByID(id))
+		return eventResources.indexOf(resourcesByID(id));
 	}
 
 	function orderResources() {
-		eventResources.sort(function(a, b){
-			return a.id - b.id
-		})
+		eventResources.sort(function(a, b) {
+			return a.id - b.id;
+		});
 	}
 
 
@@ -999,7 +1007,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function updateDatePicker() {
-	  menu.updateDatePicker(t.getDate());
+		menu.updateDatePicker(t.getDate());
 	}
 	
 
@@ -1078,7 +1086,7 @@ function Calendar(element, instanceOptions) {
 
 	function gotoDay(dateInput) {
 		date = t.moment(dateInput);
-		renderView(0, "resourceDay" );
+		renderView(0, "resourceDay");
 	}
 
 	function addThreeMonths() {
@@ -1092,18 +1100,18 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function gotoEvent(eventID) {
-    var event = t.clientEvents(eventID)[0]
-    var height, view, el, scrollerEl;
-    if (event && event.start){
-    	gotoDate(event.start)
-    	view = t.getView()
-    	view.segEach(function(seg) {el = seg.el}, event)
-    	if (el && el.position()){
-    		height = el.position().top
-    		scrollerEl = getScrollParent(el)
-    		scrollerEl.scrollTop(height - 100)
-    	}
-    }
+		var event = t.clientEvents(eventID)[0];
+		var height, view, el, scrollerEl;
+		if (event && event.start){
+			gotoDate(event.start);
+			view = t.getView();
+			view.segEach(function(seg) { el = seg.el; }, event);
+			if (el && el.position()){
+				height = el.position().top;
+				scrollerEl = getScrollParent(el);
+				scrollerEl.scrollTop(height - 100);
+			}
+		}
 	}
 
 
@@ -1176,7 +1184,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function openMenu() {
-		menu.render()
+		menu.render();
 	}
 		
 	function option(name, value) {
@@ -1217,32 +1225,32 @@ function ClipBoard(calendar, options) {
   //t.renderClipboardEvents = renderClipboardEvents;
 
   //locals
-  var clipBoardElement
-  var clipBoardEvents = options.clipboardEvents
+  var clipBoardElement;
+  var clipBoardEvents = options.clipboardEvents;
 
-  bindCollectionEvents()
+  bindCollectionEvents();
 
   function bindCollectionEvents() {
-    clipBoardEvents.bind('reset', renderClipboardEvents)
-    clipBoardEvents.bind('remove', renderClipboardEvents)
-    clipBoardEvents.bind('add', renderClipboardEvents)
+    clipBoardEvents.bind('reset', renderClipboardEvents);
+    clipBoardEvents.bind('remove', renderClipboardEvents);
+    clipBoardEvents.bind('add', renderClipboardEvents);
   }
 
   function render(el) {
-    clipBoardElement = '<div class="dropdown">'
-    clipBoardElement += '<a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="#">'
-    clipBoardElement += '<i class="fa-icon icon-paper-clip"></i>'
-    clipBoardElement += '<i class="fa-icon icon-caret-down"></i>'
-    clipBoardElement += '</a>'
-    clipBoardElement += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"></ul>'
-    clipBoardElement += '<div class="notification" style="display: block;"></div>'
-    clipBoardElement += '</div>'
-    clipBoardElement = $(clipBoardElement)
-    el.find(".fc-right").prepend(clipBoardElement)
+    clipBoardElement = '<div class="dropdown">';
+    clipBoardElement += '<a class="dropdown-toggle" role="button" data-toggle="dropdown" data-target="#" href="#">';
+    clipBoardElement += '<i class="fa-icon icon-paper-clip"></i>';
+    clipBoardElement += '<i class="fa-icon icon-caret-down"></i>';
+    clipBoardElement += '</a>';
+    clipBoardElement += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel"></ul>';
+    clipBoardElement += '<div class="notification" style="display: block;"></div>';
+    clipBoardElement += '</div>';
+    clipBoardElement = $(clipBoardElement);
+    el.find(".fc-right").prepend(clipBoardElement);
   }
 
   function getClipBoardElement() {
-    return clipBoardElement
+    return clipBoardElement;
   }
 
   function destroy() {
@@ -1250,18 +1258,17 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDropped(event) {
-    calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView())
+    calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView());
   }
 
   function eventDrag(ev) {
     var cbEvent = ev.data.cbEvent;
     var view = calendar.getView();
-    var grid = view.dayGrid || view.timeGrid;
     var dropStartTime;
     var dropFinishTime;
     var dropCol;
 
-    if (view.name === "month") { return null}
+    if (view.name === "month") { return null;}
     var mouseFollower = new MouseFollower($(this), {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
@@ -1274,11 +1281,11 @@ function ClipBoard(calendar, options) {
         mouseFollower.start(ev);
       },
       cellOver: function(cell, date) {
-        dropStartTime = cell.date.clone()
-        dropFinishTime = date.clone().add(cbEvent.clipboard_duration, 'minutes')
-        var seg = null
-        dropCol = cell.col
-        var mockEvent = view.renderDrag(dropStartTime, dropFinishTime, seg, dropCol)
+        dropStartTime = cell.date.clone();
+        dropFinishTime = date.clone().add(cbEvent.clipboard_duration, 'minutes');
+        var seg = null;
+        dropCol = cell.col;
+        view.renderDrag(dropStartTime, dropFinishTime, seg, dropCol);
         mouseFollower.show();
       },
       cellOut: function() {
@@ -1290,10 +1297,10 @@ function ClipBoard(calendar, options) {
       listenStop: function() {
         view.destroyDrag();
         mouseFollower.stop();
-        var newResource = calendar.getResources()[dropCol]
+        var newResource = calendar.getResources()[dropCol];
         if (dropStartTime){
-          calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents)
-          t.closeDropDown()
+          calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents);
+          t.closeDropDown();
         }
       }
     });
@@ -1301,28 +1308,28 @@ function ClipBoard(calendar, options) {
   }
 
   function renderClipboardEvents() {
-    var clipboardItems = clipBoardElement.find("ul")
-    clipboardItems.html("")
-    clipBoardEvents.each( function(cbEvent){
-      var item = renderClipboardEvent(cbEvent)
-      item.on("mousedown", {cbEvent: cbEvent.toJSON()}, eventDrag)
-      clipboardItems.append(item)
-    })
-    updateNotificationCount()
+    var clipboardItems = clipBoardElement.find("ul");
+    clipboardItems.html("");
+    clipBoardEvents.each(function(cbEvent) {
+      var item = renderClipboardEvent(cbEvent);
+      item.on("mousedown", { cbEvent: cbEvent.toJSON() }, eventDrag);
+      clipboardItems.append(item);
+    });
+    updateNotificationCount();
   }
 
   function renderClipboardEvent(cbEvent) {
     // Must return an li element
-    return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>")
+    return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>");
   }
 
   function updateNotificationCount() {
-    var badgeEl = clipBoardElement.find(".notification")
-    badgeEl.text(clipBoardEvents.length)
+    var badgeEl = clipBoardElement.find(".notification");
+    badgeEl.text(clipBoardEvents.length);
   }
 
   function closeDropDown() {
-    clipBoardElement.find('.dropdown-toggle').dropdown("toggle")
+    clipBoardElement.find('.dropdown-toggle').dropdown("toggle");
   }
 
 }
@@ -1341,28 +1348,31 @@ function Menu(calendar, options, menuContainer) {
   // locals
   var menuShown = false;
   var datePicker;
-  var resourceList = options.resourceList
-  var resourcesEl
+  var resourceList = options.resourceList;
+  var resourcesEl = null;
 
 
   function render() {
     if (!menuShown){
+      t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
-      menuContent.find(".fc-resource-list").html(renderResourseList())
-      menuContent.find(".close").click(function(){ destroy() });
+      menuContent.find(".fc-resource-list").html(renderResourseList());
+      menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
+      menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
+      menuContent.find("select").change(function(){ eventColorChange() })
     }
   }
-  
   
   function destroy() {
     resourcesEl.find("input").unbind();
     menuContainer.find(".close").unbind();
     menuContainer.html("");
     menuShown = false;
-    resourcesEl = null
+    resourcesEl = null;
+    t.eventColorChoices = null;
   }
   
   function renderMenu() {
@@ -1370,6 +1380,7 @@ function Menu(calendar, options, menuContainer) {
     html = "<div class='fc-menu-content'>";
     html += "<span class='close'>X</span>";
     html += "<div class='fc-date-picker'></div>";
+    html += "<div class='fc-event-colour-choices'></div>"
     html += "<span>Calendars</span>";
     if (resourceList) {
       html += "<div class='fc-resource-list'></div>";
@@ -1401,272 +1412,267 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    resourcesEl = resourcesEl || $("<ul>");
-    resourceList.each(function(res, index){
-      resourceEl = renderResourse(res)
-      resourceEl.find("input").on("change", {resource: res.toJSON()}, resourceClick)
-      resourcesEl.append(resourceEl)
-    })
+    resourcesEl = resourcesEl || $("<table></table>");
+    resourceList.each(function(res, index) {
+      var resourceEl = renderResourse(res);
+      resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
+      resourcesEl.append(resourceEl);
+    });
     return resourcesEl;
   }
 
   function renderResourse(res) {
-    var el
-    el = "<li>" + res.get('name');
-    el += "<input ";
-    res.get('show') ? el += 'checked': null ;
+    var el;
+    el = "<tr><td>" + res.get('name') + "</td>";
+    el += "<td><input ";
+    if (res.get('show')) {el += 'checked'; }
     el += " type='checkbox'/>";
-    el += "</li>";
-    return $(el)
+    el += "</td></tr>";
+    return $(el);
+  }
+
+  function renderEventColorChoice() {
+    if (!t.eventColorChoices) { return "" };
+    var html, slected
+    html = '<span>Colour by - </span>'
+    html += '<select name="event-colour-determinator">'
+    $.each(t.eventColorChoices, function(index, option) {
+      selected = option.selected ? "selected" : ""
+      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>'
+    })
+    html += '</select><br/><br/>'
+    return html
   }
 
   function resourceClick(ev) {
     var resource = ev.data.resource;
-    calendar.trigger("resourceToggled", calendar, this, resource.id)
-    return true
+    calendar.trigger("resourceToggled", calendar, this, resource.id);
+    return true;
+  }
+
+  function eventColorChange(ev) {
+    var val
+    val = $("[name='event-colour-determinator']").val()
+    calendar.trigger("colorDeterminatorChange", calendar, this, val);
+    calendar.rerenderEvents()
   }
 
 }
 ;;
 /* Slot Finder
 A modual for finding free slots which meet the search critiea Linked into header and Ui is part of the header
-requests free slots from an API rather than searching internally within the calendar 
+requests free slots from an API rather than searching internally within the calendar
 ----------------------------------------------------------------------------------------------------------------------*/
 function SlotFinder(header, calendar, el, options) {
   var t = this;
-  var retryCount = 0
-  var popoverEl
-  var timezone = options.timezone
-  var nextDate = calendar.getDate()
-  var resultsTable
-  var popOverButtons = []
-  var buttons = ["find", "reset"]
+  var retryCount = 0;
+  var popoverEl;
+  var timezone = options.timezone;
+  var nextDate = calendar.getDate();
+  var resultsTable;
 
   //request variables
-  var startDate
-  var endDate
-  var ajaxInFLight = false
-  var url = options.availability_url
-  var nextFreeSlotURL = options.next_free_slot_url
-  var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes() 
+  var startDate = calendar.getDate();
+  var endDate = calendar.getDate().add(1, "month")
+
+  var ajaxInFLight = false;
+  var url = options.availability_url;
+  var defaultSlotDuration = moment.duration(options.slotDuration || "00:15:00").asMinutes();
   // asumumes resourceParam is in default rails/restfull like convention eg. This would translate user_id to users
-  var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s"
-  var offset = 0
-  var nextSlotOffset = 0
-  var resultsPerRequest = 15
+  var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s";
+  var offset = 0;
+  var resultsPerRequest = 15;
   
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
-  t.quickSlotFind = quickSlotFind;
-  t.resetNextSlotOffset = resetNextSlotOffset;
-
-  t.resetBtnClick = resetBtnClick;
-  t.findBtnClick = findBtnClick;
 
 
-  function setupSlotFinder(){
-    var popover = el.popover({placement: "bottom", title: "Find Slot", html: true, content: popoverContent(), container: ".fc-toolbar", trigger: "manual"});
-    popoverEl = popover.data("bs.popover").tip()
-    return t
+  function setupSlotFinder() {
+    var popover = el.popover({
+      placement: "bottom",
+      title: "Find Slot",
+      html: true,
+      content: popoverContent(),
+      container: ".fc-toolbar",
+      trigger: "manual"
+    });
+    popoverEl = popover.data("bs.popover").tip();
+    return t;
   }
 
   function popoverContent() {
     var el = $("<div></div>");
     var tableContainer = $("<div class='fc-freeslot-results-container'></div>");
-    resultsTable = $("<table class='fc-freeslot-results table table-striped'><tr><td>No results</td></tr></table>");
-    tableContainer.append(resultsTable)
+    resultsTable = $("<table class='fc-freeslot-results table table-striped'></table>");
+    tableContainer.append(resultsTable);
     el.append(resourceOptions());
     el.append(durationOptions());
-    $.each(buttons, function(i, button){
-      var btn = $("<div class='btn btn-mini'> " + capitaliseFirstLetter(button) + "</div>")
-      popOverButtons.push(btn)
-      el.append(btn);
-    })
-    setButtonEvents()
+    el.append("<div class='search-date'></div>");
     el.append(tableContainer);
     return el;
   }
 
-  function setButtonEvents() {
-    $.each(buttons, function(i, button){
-      var btn = popOverButtons[i]
-      btn.click(function(){
-        t[button + "BtnClick"]()
-      })
-    })
-  }
-
   function resourceOptions() {
     var resources = calendar.getResources() || [];
-    var el = "Calendar - <select name='resource_id'>";
-    el += "<option value='0'>All</option>";
-    for(i=0; i < resources.length; i++){
+    var el = "<select name='resource_id'>";
+    el += "<option value='0'>Anyone</option>";
+    for(var i=0; i < resources.length; i++){
       el += "<option value='" + resources[i].id +"'>" + resources[i].name + "</option>";
     }
-    el += "</select>";
-    el += "<br/>";
+    el += "</select> for ";
     return el;
   }
 
   function durationOptions() {
-    var el = "Interval - <select name='duration'>";
-    el += "<option value='0'>-</option>";
-    for(i=15; i < 120 ; i+= 15){
-      el += "<option value='" + i +"'>" + i + "</option>";
+    var selected
+    var el = "<select name='duration'>";
+    for(var i=5; i <= 120 ; i+= 5) {
+      i === defaultSlotDuration ? selected =  "selected" : selected = ""
+      el += "<option " + selected + " value='" + i +"'>" + i + "</option>";
     }
-    el += "</select>";
+    el += "</select> minutes";
     el += "<br/>";
     return el;
   }
 
-  function quickSlotFind() {
-    el.popover('hide');
-    if (ajaxInFLight == true) {return null}
-    ajaxInFLight = true
-    params = {
-      start_date: calendar.getDate().format("YYYY/MM/DD"),
-      offset: nextSlotOffset
-    }
-    params[resourceParam] = getActiveResources()
-    $.getJSON(nextFreeSlotURL, params)
-      .done(function(response){
-        ajaxInFLight = false
-        if (response.length == 1){
-          gotToTimeSlot(response[0])
-          nextSlotOffset += 1
-        }
-      })
-      .fail(function(response){
-        ajaxInFLight = false
-      })
-  }
-
   function toggleSlotFinder() {
     el.popover('toggle');
-    resetParms()
-    setButtonEvents()
+    reset()
   }
 
   function fetchFreeSlots() {
-    if (ajaxInFLight == true) {return null}
-    params = buildParams()
-    ajaxInFLight = true
-    resultsTable.html("<tr><td>Searching...</td></tr>")
+    var params;
+    if (ajaxInFLight === true) {return null;}
+    params = buildParams();
+    ajaxInFLight = true;
+    resultsTable.html("<tr><td>Searching...</td></tr>");
     $.getJSON(url, params)
-      .done(function(response){
-        showResults(response)
+      .done(function(response) {
+        showResults(response);
       })
-      .fail(function(response){
-        ajaxInFLight = false
-        resultsTable.html("<tr><td>Error please try again</td></tr>")
-      })
+      .fail(function(response) {
+        ajaxInFLight = false;
+        resultsTable.html("<tr><td>Error please try <a href='#'>again</a></td></tr>");
+        resultsTable.find(a).click(function(e) { findClick(e) })
+      });
   }
 
   function buildParams() {
-    var parms 
+    var params;
     params = {
       duration: getDuration(),
       offset: offset
-    }
-    startDate ? params["start_date"] = startDate : params["start_date"] = calendar.getDate().format("YYYY/MM/DD")
-    endDate ? params["end_date"] = endDate : params["end_date"] = calendar.getDate().add(1, "month").format("YYYY/MM/DD")
-    params["limit"] = resultsPerRequest
-    params[resourceParam] = getActiveResources()
-    return params
+    };
+    params.start_date = startDate.format("YYYY/MM/DD");
+    params.end_date = endDate.format("YYYY/MM/DD");
+    params.limit = resultsPerRequest;
+    params[resourceParam] = getActiveResources();
+    return params;
   }
 
-  function getDuration () {
-    return parseInt(popoverEl.find("[name='duration']").val()) || defaultSlotDuration
+  function getDuration() {
+    return parseInt(popoverEl.find("[name='duration']").val(), 10) || defaultSlotDuration;
   }
 
   function getActiveResources() {
-    var formValue = popoverEl.find("[name='resource_id']").val()
+    var formValue = popoverEl.find("[name='resource_id']").val();
     if (formValue && formValue != "0"){
-      return [formValue]
+      return [formValue];
     }
     else{
-      var resources = calendar.getResources() || []
-      resourceArray =  $.map(resources, function(res){
-        return parseInt(res.id, 10)
-      })
-      return resourceArray
+      var resources = calendar.getResources() || [];
+      var resourceArray =  $.map(resources, function(res) {
+        return parseInt(res.id, 10);
+      });
+      return resourceArray;
     }
   }
 
   function showResults(response) {
     if (!response){
-      noResults()
+      noResults();
     }
     else {
-      retryCount = 0
-      listResults(response)
-      offset += resultsPerRequest
+      retryCount = 0;
+      listResults(response);
+      offset += resultsPerRequest;
     }
-    ajaxInFLight = false
+    ajaxInFLight = false;
   }
 
   function noResults() {
-    ajaxInFLight = false
-    resetParms()
+    ajaxInFLight = false;
+    resetParms();
     if (retryCount <= 5){
-      setDateParams()
-      fetchFreeSlots()
-      retryCount++
+      setDateParams();
+      fetchFreeSlots();
+      retryCount++;
     }
   }
 
   function gotToTimeSlot(slot) {
-    var start = calendar.moment(moment.tz(slot.start_time, timezone))
-    var end = calendar.moment(moment.tz(slot.finish_time, timezone))
-    calendar.gotoDay(slot.start_time)
-    var view = calendar.getView()
-    view.timeGrid.highlightTimeSlot(start, end)
+    var start = calendar.moment(moment.tz(slot.start_time, timezone));
+    var end = calendar.moment(moment.tz(slot.finish_time, timezone));
+    calendar.gotoDay(slot.start_time);
+    var view = calendar.getView();
+    view.timeGrid.highlightTimeSlot(start, end);
   }
 
   function listResults(slots) {
-    resultsTable.html("")
-    $.each(slots, function(i, slot){
-      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + "</td></tr>")
-      tr.data("slot", slot)
-      tr.click(function(e){
-        resultsTable.find(".selected").removeClass("selected")
-        var el = $(e.currentTarget)
-        var slot = $(e.currentTarget).data("slot")
-        el.addClass("selected")
-        gotToTimeSlot(slot)
-      })
-      resultsTable.append(tr)
-    })
+    resultsTable.html("");
+    $.each(slots, function(i, slot) {
+      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + "</td></tr>");
+      tr.data("slot", slot);
+      tr.click(function(e) {
+        resultsTable.find(".selected").removeClass("selected");
+        var el = $(e.currentTarget);
+        var slot = $(e.currentTarget).data("slot");
+        el.addClass("selected");
+        gotToTimeSlot(slot);
+      });
+      resultsTable.append(tr);
+    });
+    var tr = $("<tr><td><a href='#'>Find More</a></td></tr>");
+    tr.click(function(e) {findClick(e)} )
+    resultsTable.append(tr);
   }
 
   function resetParms() {
-    offset = 0
-    nextSlotOffset = 0
-    startDate = null
-    endDate = null
+    offset = 0;
+    startDate = calendar.getDate();
+    endDate = calendar.getDate().add(1, "month");
   }
 
-  function resetNextSlotOffset() {
-    nextSlotOffset = 0
+  function findClick(e) {
+    e.preventDefault()
+    fetchFreeSlots();
   }
 
-  function findBtnClick() {
-    fetchFreeSlots()
+  function reset() {
+    nextDate = calendar.getDate();
+    retryCount = 0;
+    resetTable()
+    resetParms();
+    setStartDateText()
   }
 
-  function resetBtnClick() {
-    nextDate = calendar.getDate()
-    retryCount = 0
-    resetParms()
+  function resetTable() {
+    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>")
+    resultsTable.html(findSlotTr)
+    findSlotTr.click(function(e) { findClick(e) })
+  }
+
+  function setStartDateText() {
+    var text = "Searching " + startDate.format("Do MMM YYYY") + " onwards"
+    popoverEl.find(".search-date").html(text)
   }
 
   function setDateParams() {
-    startDate = nextDate.clone()
-    endDate = startDate.clone().add(1, "month")
-    nextDate = endDate
-    endDate = endDate.format("YYYY/MM/DD")
-    startDate = startDate.format("YYYY/MM/DD")
+    startDate = nextDate.clone();
+    endDate = startDate.clone().add(1, "month");
+    nextDate = endDate;
+    setStartDateText()
   }
 
 }
@@ -1705,9 +1711,9 @@ function Header(calendar, options) {
 				.append(renderSection('left'))
 				.append(renderSection('right'))
 				.append(renderSection('center'))
-				.append('<div class="fc-clear"/>')
+				.append('<div class="fc-clear"/>');
       
-      calendar.getClipBoard().render(el)
+      calendar.getClipBoard().render(el);
 			return el;
 		}
 	}
@@ -1743,10 +1749,6 @@ function Header(calendar, options) {
 						groupChildren = groupChildren.add($('<h2>&nbsp;</h2>')); // we always want it to take up height
 						isOnlyButtons = false;
 					}
-					else if( buttonName == 'findSlot') {
-						groupChildren = groupChildren.add(slotFinderButton());
-						isOnlyButtons = false;
-					}
 					else {
 						if (calendar[buttonName]) { // a calendar method
 							buttonClick = function() {
@@ -1759,6 +1761,9 @@ function Header(calendar, options) {
 							};
 							viewsWithButtons.push(buttonName);
 						}
+						else if(buttonName === 'findSlot') {
+							buttonClick = slotFinderClick
+						}
 						if (buttonClick) {
 
 							// smartProperty allows different text per view button (ex: "Agenda Week" vs "Basic Week")
@@ -1767,12 +1772,17 @@ function Header(calendar, options) {
 							defaultText = smartProperty(options.defaultButtonText, buttonName);
 							customText = smartProperty(options.buttonText, buttonName);
 							fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
+							buttonTitle = smartProperty(options.buttonTitles, buttonName);
 
 							if (customText) {
 								innerHtml = htmlEscape(customText);
 							}
 							else if(fontAwsomeIcon) {
-							  innerHtml = "<i class='fa-icon " + fontAwsomeIcon + "'></i>";
+								var icons = fontAwsomeIcon.split(",");
+								innerHtml = '';
+								$.each(icons, function(i) {
+									 innerHtml += ("<i class='fa-icon " + icons[i] + "'></i>");
+								});
 							}
 							else if (themeIcon && options.theme) {
 								innerHtml = "<span class='ui-icon ui-icon-" + themeIcon + "'></span>";
@@ -1790,9 +1800,9 @@ function Header(calendar, options) {
 								tm + '-state-default'
 							];
               
-              if (defaultText){classes.push('fc-button-text')}
+              if (defaultText){classes.push('fc-button-text');}
 							button = $( // type="button" so that it doesn't submit a form
-								'<button type="button" class="' + classes.join(' ') + '">' +
+								'<button type="button" class="' + classes.join(' ') + '" title="' + buttonTitle + '"">' +
 									innerHtml +
 								'</button>'
 								)
@@ -1840,6 +1850,7 @@ function Header(calendar, options) {
 											.removeClass(tm + '-state-down'); // if mouseleave happens before mouseup
 									}
 								);
+								if (buttonName === 'findSlot') { t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder(); }
 
 							groupChildren = groupChildren.add(button);
 						}
@@ -1903,27 +1914,8 @@ function Header(calendar, options) {
 		return viewsWithButtons;
 	}
 
-	function slotFinderButton() {
-		var fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, 'findSlot');
-    var button = $('<button type="button" class="fc-findSlot-button fc-button fc-state-default"/>')
-    var type = ['fc-slot-search', 'fc-slot-search-menu']
-		
-		var icons = fontAwsomeIcon.split(",")
-		for (i = 0; i < icons.length; i++) {
-			 icon = $("<i class='fa-icon " + icons[i] +' '+ type[i]+ "'/>");
-			 icon.click(function(e){ slotFinderClick(e)})
-			 button.append(icon)
-		}
-		t.slotFinder = new SlotFinder(t,calendar, button, options).setupSlotFinder()
-		return button
-	}
-
 	function slotFinderClick(e) {
-		if ($(e.currentTarget).hasClass('fc-slot-search')) {
-			t.slotFinder.quickSlotFind()
-		} else {
-			t.slotFinder.toggleSlotFinder()
-		}
+		t.slotFinder.toggleSlotFinder();
 	}
 
 }
@@ -2199,6 +2191,7 @@ function EventManager(options) { // assumed to be a calendar
 
 			// for array sources, we convert to standard Event Objects up front
 			if ($.isArray(source.events)) {
+				source.origArray = source.events; // for removeEventSource
 				source.events = $.map(source.events, function(eventInput) {
 					return buildEvent(eventInput, source);
 				});
@@ -2231,7 +2224,12 @@ function EventManager(options) { // assumed to be a calendar
 
 
 	function getSourcePrimitive(source) {
-		return ((typeof source == 'object') ? (source.events || source.url) : '') || source;
+		return (
+			(typeof source === 'object') ? // a normalized event source?
+				(source.origArray || source.url || source.events) : // get the primitive
+				null
+		) ||
+		source; // the given argument *is* the primitive
 	}
 	
 	
@@ -2246,6 +2244,8 @@ function EventManager(options) { // assumed to be a calendar
 		if (event.end) {
 			event.end = t.moment(event.end);
 		}
+
+		associateResourceWithEvent(event)
 
 		mutateEvent(event);
 		propagateMiscProperties(event);
@@ -2345,10 +2345,10 @@ function EventManager(options) { // assumed to be a calendar
 	}
 
 	function showEvent(id) {
-		var view = getView()
-		var event = clientEvents(id)
+		var view = getView();
+		var event = clientEvents(id);
 		if (view && event) {
-			view.showEvent(event[0])
+			view.showEvent(event[0]);
 		}
 	}
 	
@@ -2390,14 +2390,14 @@ function EventManager(options) { // assumed to be a calendar
 			data = source.eventDataTransform(data);
 		}
 
-		start = t.moment(data.start_time || data.date); // "date" is an alias for "start"
+		start = t.moment(moment.tz(data.start_time, options.timezone) || data.date); // "date" is an alias for "start"
 		if (!start.isValid()) {
 			return;
 		}
 
 		end = null;
 		if (data.finish_time) {
-			end = t.moment(data.finish_time);
+			end = t.moment(moment.tz(data.finish_time, options.timezone));
 			if (!end.isValid()) {
 				return;
 			}
@@ -2494,7 +2494,6 @@ function EventManager(options) { // assumed to be a calendar
 		var oldAllDay = event._allDay;
 		var oldStart = event._start;
 		var oldEnd = event._end;
-		var oldResource = event._resource;
 		var clearEnd = false;
 		var newAllDay;
 		var dateDelta;
@@ -2579,7 +2578,7 @@ function EventManager(options) { // assumed to be a calendar
 	// Returns a function that can be called to undo all the operations.
 	//
 	function mutateEvents(events, clearEnd, forceAllDay, dateDelta, durationDelta) {
-		var isAmbigTimezone = t.getIsAmbigTimezone();
+		//var isAmbigTimezone = t.getIsAmbigTimezone();
 		var undoFunctions = [];
 
 		$.each(events, function(i, event) {
@@ -2623,23 +2622,23 @@ function EventManager(options) { // assumed to be a calendar
 
 			// if the dates have changed, and we know it is impossible to recompute the
 			// timezone offsets, strip the zone.
-      
-      /*
-      NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
-      If the user drags it to a time it should report that time back to the server any timezones issues
-      can be resolved by the server and corrected when sent back or we can incorporate moment timezone
-      and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
-      same hour which is not a true representation.
+			
+			/*
+			NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
+			If the user drags it to a time it should report that time back to the server any timezones issues
+			can be resolved by the server and corrected when sent back or we can incorporate moment timezone
+			and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
+			same hour which is not a true representation.
 
-      if (isAmbigTimezone) {
-      	if (+dateDelta || +durationDelta) {
-      		newStart.stripZone();
-      		if (newEnd) {
-      			newEnd.stripZone();
-      		}
-      	}
-      }
-      */
+			if (isAmbigTimezone) {
+				if (+dateDelta || +durationDelta) {
+					newStart.stripZone();
+					if (newEnd) {
+						newEnd.stripZone();
+					}
+				}
+			}
+			*/
 
 			event.allDay = newAllDay;
 			event.start = newStart;
@@ -2668,22 +2667,22 @@ function EventManager(options) { // assumed to be a calendar
 	function associateResourceWithEvent(data, out) {
 		var resources = t.getResources();
 		var i = 0;
-		out = out || data // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
+		out = out || data; // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
 		
 		if(!data[options.resourceParam]) {
-	          return;
-	      }
-	      out.resource = null
-	      $.each(
-	          resources,
-	      	function( intIndex, resource ){
-	  			if(resource.id == data[options.resourceParam]) {
-						out.resource = resource;
-						//out.resource._col = i; watch if we need this
+			return;
+		}
+		out.resource = null;
+		$.each(
+				resources,
+			function(intIndex, resource) {
+				if(resource.id == data[options.resourceParam]) {
+					out.resource = resource;
+					//out.resource._col = i; watch if we need this
 				}
-				i++;
-	          }
-	      );
+			i++;
+			}
+		);
 	}
 
 }
@@ -2694,7 +2693,7 @@ function backupEventDates(event) {
 	event._allDay = event.allDay;
 	event._start = event.start.clone();
 	event._end = event.end ? event.end.clone() : null;
-	event._resource = event.resource
+	event._resource = event.resource;
 }
 
 ;;
@@ -4412,16 +4411,14 @@ DragListener.prototype = {
 
 	overClipboard: function(x, y) {
 		var clipboardEl = this.options.clipboardEl;
+		var minX, maxX, minY, maxY;
 	  
 		if (clipboardEl) {
-			clipboardOffset = clipboardEl.offset();
-			var minX = clipboardOffset.left;
-			var maxX = clipboardOffset.left + clipboardEl.outerWidth();
-			var minY = clipboardOffset.top;
-			var maxY = clipboardOffset.top + clipboardEl.outerHeight();
-		}
-
-		if (clipboardEl) {
+			var clipboardOffset = clipboardEl.offset();
+			minX = clipboardOffset.left;
+			maxX = clipboardOffset.left + clipboardEl.outerWidth();
+			minY = clipboardOffset.top;
+			maxY = clipboardOffset.top + clipboardEl.outerHeight();
 			return x >= minX && x < maxX && y >= minY && y < maxY;
 		}
 
@@ -4875,7 +4872,7 @@ $.extend(Grid.prototype, {
 						view.reportSelection(start, end, ev, this.cell);
 					}
 					else {
-						view.calendar.gotoDay(end.subtract(1, "day"))
+						view.calendar.gotoDay(end.subtract(1, "day"));
 					}
 				}
 			}
@@ -4930,7 +4927,7 @@ $.extend(Grid.prototype, {
 	renderRangeHelper: function(start, end, sourceSeg, col) {
 		var view = this.view;
 		var fakeEvent;
-		var resources = view.calendar.getResources()
+		var resources = view.calendar.getResources();
 
 		// compute the end time if forced to do so (this is what EventManager does)
 		if (!end && view.opt('forceEventDuration')) {
@@ -4941,7 +4938,7 @@ $.extend(Grid.prototype, {
 		fakeEvent.start = start;
 		fakeEvent.end = end;
 		fakeEvent.allDay = !(start.hasTime() || (end && end.hasTime())); // freshly compute allDay
-		fakeEvent.resource = resources[col] || resources[0] // if there is no resource then fake it. Week view does not rely on this resources
+		fakeEvent.resource = resources[col] || resources[0]; // if there is no resource then fake it. Week view does not rely on this resources
 
 		// this extra className will be useful for differentiating real events from mock events in CSS
 		fakeEvent.className = (fakeEvent.className || []).concat('fc-helper');
@@ -5079,9 +5076,9 @@ $.extend(Grid.prototype, {
 
 $.extend(Grid.prototype, {
 
-	isMouseOverSeg: false, // is the user's mouse over a segment?
-	isDraggingSeg: false, // is a segment being dragged?
-	isResizingSeg: false, // is a segment being resized?
+	mousedOverSeg: null, // the segment object the user's mouse is over. null if over nothing
+	isDraggingSeg: false, // is a segment being dragged? boolean
+	isResizingSeg: false, // is a segment being resized? boolean
 
 
 	// Renders the given events onto the grid
@@ -5096,9 +5093,9 @@ $.extend(Grid.prototype, {
 	},
 
 
-	// Unrenders all events
+	// Unrenders all events. Subclasses should implement, calling this super-method first.
 	destroyEvents: function() {
-		// subclasses must implement
+		this.triggerSegMouseout(); // trigger an eventMouseout if user's mouse is over an event
 	},
 
 
@@ -5185,7 +5182,7 @@ $.extend(Grid.prototype, {
 	bindSegHandlers: function() {
 		var _this = this;
 		var view = this.view;
-		var isMonthView = view.name == "month"
+		var isMonthView = view.name == "month";
 
 		$.each(
 			{
@@ -5199,7 +5196,7 @@ $.extend(Grid.prototype, {
 					if ($(ev.target).is('.fc-event-status')) {
 						view.trigger('cycleEventStatus', this, seg.event, ev);
 					} else if($(ev.target).is('a')) {
-						ev.preventDefault()
+						ev.preventDefault();
 						view.trigger('eventLinkClick', this, seg.event, ev);
 					} else if (!isMonthView) {
 						return view.trigger('eventClick', this, seg.event, ev); // can return `false` to cancel
@@ -5231,17 +5228,21 @@ $.extend(Grid.prototype, {
 
 	// Updates internal state and triggers handlers for when an event element is moused over
 	triggerSegMouseover: function(seg, ev) {
-		if (!this.isMouseOverSeg) {
-			this.isMouseOverSeg = true;
+		if (!this.mousedOverSeg) {
+			this.mousedOverSeg = seg;
 			this.view.trigger('eventMouseover', seg.el[0], seg.event, ev);
 		}
 	},
 
 
-	// Updates internal state and triggers handlers for when an event element is moused out
+	// Updates internal state and triggers handlers for when an event element is moused out.
+	// Can be given no arguments, in which case it will mouseout the segment that was previously moused over.
 	triggerSegMouseout: function(seg, ev) {
-		if (this.isMouseOverSeg) {
-			this.isMouseOverSeg = false;
+		ev = ev || {}; // if given no args, make a mock mouse event
+
+		if (this.mousedOverSeg) {
+			seg = seg || this.mousedOverSeg; // if given no args, use the currently moused-over segment
+			this.mousedOverSeg = null;
 			this.view.trigger('eventMouseout', seg.el[0], seg.event, ev);
 		}
 	},
@@ -5287,12 +5288,12 @@ $.extend(Grid.prototype, {
 			cellOver: function(cell, date) {
 				var origDate = seg.cellDate || dragListener.origDate;
 				var res = _this.computeDraggedEventDates(seg, origDate, date);
-				var col = cell.col
+				var col = cell.col;
 				newStart = res.start;
 				newEnd = res.end;
-				clipboardDrop = false
+				clipboardDrop = false;
 
-				var mockEvent = view.renderDrag(newStart, newEnd, seg, col)
+				var mockEvent = view.renderDrag(newStart, newEnd, seg, col);
 
 
 				if (mockEvent) { // have the view render a visual indication
@@ -5311,34 +5312,34 @@ $.extend(Grid.prototype, {
 			dragOverClipboard: function() {
 				clipboardDrop = true;
 			},
-			dragNotOverClipboard: function(){
+			dragNotOverClipboard: function() {
 				clipboardDrop = false;
 			},
 			dragStop: function(ev) {
-				var cell = dragListener.cell
+				var cell = dragListener.cell;
 				var newCol = null;
-				cell != null ? newCol = dragListener.cell.col :  null;
+				if (cell != null) { newCol = dragListener.cell.col; }
 				var resources = view.calendar.getResources();
 				var resourceView = view.calendar.getView().name == "resourceDay";
 				var resourceChange = resourceView && newCol != null &&(newCol != view.calendar.resourceColumn(event.resource.id));
 				var hasChanged = newStart && !newStart.isSame(event.start) || resourceChange;
 
 				if (view.calendar.getView().name == "resourceDay" && !clipboardDrop){
-					event.resource = resources[newCol]
+					event.resource = resources[newCol];
 				}
 
 				// do revert animation if hasn't changed. calls a callback when finished (whether animation or not)
 				mouseFollower.stop((!hasChanged && !clipboardDrop), function() {
 					_this.isDraggingSeg = false;
 					view.destroyDrag();
-					if (!clipboardDrop){view.showEvent(event)};
+					if (!clipboardDrop){view.showEvent(event);};
 					view.trigger('eventDragStop', el[0], event, ev, {}); // last argument is jqui dummy
 
 					if (hasChanged && !clipboardDrop) {
 						view.eventDrop(el[0], event, newStart, ev, newCol); // will rerender all events...
 					}
 					else if (clipboardDrop) {
-						view.calendar.getClipBoard().eventDropped(event)
+						view.calendar.getClipBoard().eventDropped(event);
 					}
 				});
 			},
@@ -5412,7 +5413,7 @@ $.extend(Grid.prototype, {
 				view.trigger('eventResizeStart', el[0], event, ev, {}); // last argument is jqui dummy
 			},
 			cellOver: function(cell, date) {
-				var col = cell.col
+				var col = cell.col;
 				// compute the new end. don't allow it to go before the event's start
 				if (date.isBefore(start)) { // allows comparing ambig to non-ambig
 					date = start;
@@ -5478,8 +5479,8 @@ $.extend(Grid.prototype, {
 	getEventSkinCss: function(event) {
 		var view = this.view;
 		var source = event.source || {};
-		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad'
-		var borderColor = backgroundColor
+		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad';
+		var borderColor = backgroundColor;
 		var textColor =
 			event.textColor ||
 			source.textColor ||
@@ -5857,9 +5858,12 @@ $.extend(DayGrid.prototype, {
 
 	// Removes all rendered event elements
 	destroyEvents: function() {
-		var rowStructs = this.rowStructs || [];
+		var rowStructs;
 		var rowStruct;
 
+		Grid.prototype.destroyEvents.call(this); // call the super-method
+
+		rowStructs = this.rowStructs || [];
 		while ((rowStruct = rowStructs.pop())) {
 			rowStruct.tbodyEl.remove();
 		}
@@ -6490,7 +6494,7 @@ $.extend(TimeGrid.prototype, {
 		this.slatEls = this.el.find('.fc-slats tr');
 
 		this.computeSlatTops();
-		this.highlightedSlot = "tim"
+		this.highlightedSlot = null;
 
 		Grid.prototype.render.call(this); // call the super-method
 	},
@@ -6523,9 +6527,7 @@ $.extend(TimeGrid.prototype, {
 	slatRowHtml: function() {
 		var view = this.view;
 		var calendar = view.calendar;
-		var isRTL = view.opt('isRTL');
 		var html = '';
-		var slotNormal = this.slotDuration.asMinutes() % 15 === 0;
 		var slotTime = moment.duration(+this.minTime); // wish there was .clone() for durations
 		var slotDate; // will be on the view's first day, but we only care about its time
 		var minutes;
@@ -6584,13 +6586,14 @@ $.extend(TimeGrid.prototype, {
 		var resources = view.calendar.getResources();
 		var segs = [];
 		var seg;
+		var col;
 
 		// normalize
 		rangeStart = rangeStart.clone().stripZone();
 		rangeEnd = rangeEnd.clone().stripZone();
-		if(resources && event && !event.resource){ return segs}
+		if(resources && event && !event.resource){ return segs;}
 
-		if (view.name == 'resourceDay' && event.resource != true){
+		if (view.name == 'resourceDay' && event.resource !== true){
 			col = view.calendar.resourceColumn(event.resource.id);
 			seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 			if (seg) {
@@ -6599,9 +6602,9 @@ $.extend(TimeGrid.prototype, {
 			}
 
 		}
-    else {
+		else {
 			for (col = 0; col < view.colCnt; col++) {
-    	  seg = this.segWithinColRange(rangeStart, rangeEnd, col)
+				seg = this.segWithinColRange(rangeStart, rangeEnd, col);
 				if (seg) {
 					seg.col = col;
 					segs.push(seg);
@@ -6612,8 +6615,8 @@ $.extend(TimeGrid.prototype, {
 		return segs;
 	},
 
-	segWithinColRange: function(rangeStart, rangeEnd, col){
-		if(col === -1 ){return false}
+	segWithinColRange: function(rangeStart, rangeEnd, col) {
+		if(col === -1){return false;}
 		var view = this.view;
 		var cellDate;
 		var colStart, colEnd;
@@ -6885,46 +6888,46 @@ $.extend(TimeGrid.prototype, {
 	},
 
 	highlightTimeSlot: function(start, end, col) {
-		var height
-		var scrollerEl
-		var highlightEl
-		var t = this
-		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'))
+		var height;
+		var scrollerEl;
+		var highlightEl;
+		var t = this;
+		var slot = $(this.highlightSkeletonHtml(start, end, col, 'fc-free-slot'));
 
 
-		this.removeHighlightedTimeSlot(this.highlightedSlot)
-    slot.appendTo(this.el);
-    highlightEl = slot.find(".fc-free-slot")
-    
-    if (highlightEl.length > 0) {
-    	height = highlightEl.position().top
-    	scrollerEl = getScrollParent(slot)
-    	scrollerEl.scrollTop(height - 100)
-    	setTimeout(function(){
-    		t.removeHighlightedTimeSlot(slot)
-    	}, 3000)
-    	this.highlightedSlot = slot
-    }
+		this.removeHighlightedTimeSlot(this.highlightedSlot);
+		slot.appendTo(this.el);
+		highlightEl = slot.find(".fc-free-slot");
+		
+		if (highlightEl.length > 0) {
+			height = highlightEl.position().top;
+			scrollerEl = getScrollParent(slot);
+			scrollerEl.scrollTop(height - 100);
+			setTimeout(function() {
+				t.removeHighlightedTimeSlot(slot);
+			}, 700);
+			this.highlightedSlot = slot;
+		}
 	},
 
 	removeHighlightedTimeSlot: function(el) {
-		if(!el){return null}
-		$(el).fadeOut(1000, function(){this.remove()})
-		this.highlightedSlot = null
+		if(!el){return null;}
+		$(el).fadeOut(500, function() { this.remove(); });
+		this.highlightedSlot = null;
 	},
 
 	// Generates HTML for a table element with containers in each column, responsible for absolutely positioning the
 	// highlight elements to cover the highlighted slots.
 	highlightSkeletonHtml: function(start, end, column, cssClass) {
 		var view = this.view;
-		var colResource = view.calendar.getResources()[column] || true // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
-		var segs = this.rangeToSegs(start, end, {resource: colResource});
+		var colResource = view.calendar.getResources()[column] || true; // end up converting to a resource and back to an in column nunber. but keeps the new resource logic in rangeToSegs the same.
+		var segs = this.rangeToSegs(start, end, { resource: colResource });
 		var cellHtml = '';
 		var col = 0;
 		var i, seg;
 		var dayDate;
 		var top, bottom;
-		var cssClass = cssClass || "fc-highlight"
+		cssClass = cssClass || "fc-highlight";
 
 		for (i = 0; i < segs.length; i++) { // loop through the segments. one per column
 			seg = segs[i];
@@ -7001,6 +7004,8 @@ $.extend(TimeGrid.prototype, {
 
 	// Removes all event segment elements from the view
 	destroyEvents: function() {
+		Grid.prototype.destroyEvents.call(this); // call the super-method
+
 		if (this.eventSkeletonEl) {
 			this.eventSkeletonEl.remove();
 			this.eventSkeletonEl = null;
@@ -7097,11 +7102,11 @@ $.extend(TimeGrid.prototype, {
 		var timeText;
 		var fullTimeText; // more verbose time text. for the print stylesheet
 		var startTimeText; // just the start time text
-		var title = view.trigger("determineEventTitle", this, event) || ''
-    var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || ''
-    var stateClass = view.trigger("determineEventStateClass", this, event) || ''
-    var eventNotes = view.trigger("determineEventNotes", this, event) || ''
-		var stateInitial = stateClass.toUpperCase()[0] || ''
+		var title = view.trigger("determineEventTitle", this, event) || '';
+    var confirmationClass = view.trigger("determineEventConfirmationClass", this, event) || '';
+    var stateClass = view.trigger("determineEventStateClass", this, event) || '';
+    var eventNotes = view.trigger("determineEventNotes", this, event) || '';
+		var stateText =  view.trigger("determineEventStateText", this, event) || '';
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...
@@ -7121,7 +7126,14 @@ $.extend(TimeGrid.prototype, {
 		}
 
 		return '<div class="' + classes.join(' ') + '"' +
-			(skinCss ? ' style="' + skinCss + '"' : '') +
+			(event.url ?
+				' href="' + htmlEscape(event.url) + '"' :
+				''
+				) +
+			(skinCss ?
+				' style="' + skinCss + '"' :
+				''
+				) +
 			'>' +
 				'<div class="fc-content">' +
 				'<div class="fc-event-header">' +
@@ -7137,7 +7149,7 @@ $.extend(TimeGrid.prototype, {
 						'<span class="fc-title">' +
 								title +
 						'</span>' +
-						'<div class="fc-event-status '+ stateClass +'" title="' + stateClass + '">' + stateInitial + '</div>'+
+						'<div class="fc-event-status '+ stateClass +'" title="' + stateClass + '">' + stateText + '</div>'+
 						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
 					'</div>' +
 					'<div class="fc-event-notes">' +
@@ -7712,7 +7724,7 @@ View.prototype = {
 		var resources = this.calendar.getResources();
 		if(this.calendar.getView().name=="resourceDay"){
 			//Get the resource from the selected cell and pass it to the select function as an argument		
-			resourceObj = resources[cell.col];			
+			resourceObj = resources[cell.col];
 		}
 		this.trigger('select', null, start, end, ev, resourceObj);
 	},
@@ -7766,8 +7778,7 @@ function View(calendar) {
 	t.isEventResizable = isEventResizable;
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
-	t.getShownEvents = getShownEvents;
-	t.workingHours = calendar.options.workingHours
+	t.workingHours = calendar.options.workingHours;
 	
 	// imports
 	var reportEventChange = calendar.reportEventChange;
@@ -7788,16 +7799,6 @@ function View(calendar) {
 		return v;
 	}
 
-	// Get currently shown events
-	function getShownEvents() {
-		evs = [];
-		for (id in eventElementsByID){
-			evs.push(eventsByID[id]);
-		}
-		return evs;
-	}
-
-	
 	function trigger(name, thisObj) {
 		return calendar.trigger.apply(
 			calendar,
@@ -8046,10 +8047,10 @@ function View(calendar) {
 	// - row, col
 	// - { row:#, col:# }
 	function cellToCellOffset(row, col) {
-		if(calendar.getView().name=="resourceDay")
+		if(calendar.getView().name === "resourceDay")
 		{
 			// Idealy this should be moved to the resouse day view when these functions are all moved into the prototype
-			return 0		
+			return 0;
 		}
 
 		var colCnt = t.colCnt;
@@ -8699,46 +8700,46 @@ Displays a line for the agenda views marking the current time, moves with he pas
 function CurrentTimeLine(curCalView, options) {
   var t = this;
 
-  var minHour = curCalView.timeGrid.minTime.hours()
-  var minMinutes = curCalView.timeGrid.minTime.minutes()
-  var maxHour = curCalView.timeGrid.maxTime.hours()
-  var maxMinutes = curCalView.timeGrid.maxTime.minutes()
+  var minHour = curCalView.timeGrid.minTime.hours();
+  var minMinutes = curCalView.timeGrid.minTime.minutes();
+  var maxHour = curCalView.timeGrid.maxTime.hours();
+  var maxMinutes = curCalView.timeGrid.maxTime.minutes();
   var parentDiv = curCalView.el.parent();
-  var timezone = curCalView.opt("timezone")
+  var timezone = curCalView.opt("timezone");
   
-  var startTime = moment.tz(curCalView.start, timezone).set("hour", minHour).set("minutes", minMinutes)
-  var finishTime = startTime.clone().set("hour", maxHour ).set("minutes", maxMinutes)
-  var duration =  (finishTime - startTime)/1000
+  var startTime = moment.tz(curCalView.start, timezone).set("hour", minHour).set("minutes", minMinutes);
+  var finishTime = startTime.clone().set("hour", maxHour).set("minutes", maxMinutes);
+  var duration =  (finishTime - startTime)/1000;
 
-  var timeline = $("<hr class='timeline'>")
+  var timeline = $("<hr class='timeline'>");
 
 
-  t.start = start
-  t.stop = stop
+  t.start = start;
+  t.stop = stop;
 
-  function start () {
-    var timeLineRequired = isTimeLineRequired()
+  function start() {
+    var timeLineRequired = isTimeLineRequired();
     if (timeLineRequired) {
-      t.timelineInterval = setInterval(function(){setTimeline()}, 1500)
+      t.timelineInterval = setInterval(function() { setTimeline(); }, 1500);
     }
     parentDiv.append(timeline);
-    return t
+    return t;
   }
 
   function stop() {
-    clearInterval(t.timelineInterval)
-    timeline.remove() 
+    clearInterval(t.timelineInterval);
+    timeline.remove();
   }
 
-  function isTimeLineRequired(){
-    var currentTime = moment.tz(moment(), timezone)
-    return (currentTime > startTime  && currentTime < finishTime)
+  function isTimeLineRequired() {
+    var currentTime = moment.tz(moment(), timezone);
+    return (currentTime > startTime  && currentTime < finishTime);
   }
 
   function setTimeline() {
-   var currentTime = moment.tz(moment(), timezone)
-   var currentTimeDuration = (currentTime - startTime)/1000
-   var timeLineRequired = isTimeLineRequired()
+   var currentTime = moment.tz(moment(), timezone);
+   var currentTimeDuration = (currentTime - startTime)/1000;
+   var timeLineRequired = isTimeLineRequired();
 
    if (timeLineRequired) {
      timeline.show();
@@ -8749,11 +8750,15 @@ function CurrentTimeLine(curCalView, options) {
   var percentOfDay = currentTimeDuration / duration;
   var topLoc = Math.floor(parentDiv.height() * percentOfDay);
 
-  timeline.css({"top": topLoc + "px", width: calcWidth(), left: calcLeft()  });
+  timeline.css({
+    top: topLoc + "px",
+    width: calcWidth(),
+    left: calcLeft()
+  });
 
   }
 
-  function calcWidth () {
+  function calcWidth() {
     if (curCalView.name == "agendaWeek") { //week view, don't want the timeline to go the whole way across
       var dayCol = $(".fc-today:visible");
       if(dayCol.position() != null)
@@ -8761,7 +8766,7 @@ function CurrentTimeLine(curCalView, options) {
         return dayCol.width() + 1;
       }
     } else {
-      return parentDiv.width() - 66 //for margin + borders. in future pull this varible from view
+      return parentDiv.width() - 66; //for margin + borders. in future pull this varible from view
     }
   }
 
@@ -8773,7 +8778,7 @@ function CurrentTimeLine(curCalView, options) {
         return dayCol.position().left + 1;
       }
     } else {
-      return 33 //for margin + borders. in future pull this varible from view
+      return 33; //for margin + borders. in future pull this varible from view
     }
   }
 }
@@ -8785,54 +8790,56 @@ but had to look rows and columns = huge performance hit.
 ----------------------------------------------------------------------------------------------------------------------*/
 function WorkingHours(curCalView, workingHours) {
   var t = this;
-  var startTimes = workingHours.startTimes
-  var finishTimes = workingHours.finishTimes
+  var startTimes = workingHours.startTimes;
+  var finishTimes = workingHours.finishTimes;
 
-  var minHour = curCalView.timeGrid.minTime.hours()
-  var minMinutes = curCalView.timeGrid.minTime.minutes()
-  var maxHour = curCalView.timeGrid.maxTime.hours()
-  var maxMinutes = curCalView.timeGrid.maxTime.minutes()
-  var timezone = curCalView.opt("timezone")
+  var minHour = curCalView.timeGrid.minTime.hours();
+  var minMinutes = curCalView.timeGrid.minTime.minutes();
+  var maxHour = curCalView.timeGrid.maxTime.hours();
+  var maxMinutes = curCalView.timeGrid.maxTime.minutes();
 
 
-  t.overlayNonWorkingHours = overlayNonWorkingHours
+  t.overlayNonWorkingHours = overlayNonWorkingHours;
 
-  function overlayNonWorkingHours () {
-    if (!areTimesValid()){return null}
-    days = curCalView.end.diff(curCalView.start, "days")
-    for (day = 0; day < days; day++){
-      var currentDay = curCalView.start.clone().add(day, "days")
-      overlayTimeBeforeStart(currentDay)
-      overlayTimeAfterEnd(currentDay)
+  function overlayNonWorkingHours() {
+    var days;
+    if (!areTimesValid()){return null;}
+    days = curCalView.end.diff(curCalView.start, "days");
+    for (var day = 0; day < days; day++){
+      var currentDay = curCalView.start.clone().add(day, "days");
+      overlayTimeBeforeStart(currentDay);
+      overlayTimeAfterEnd(currentDay);
     }
   }
 
   function overlayTimeBeforeStart(currentDay) {
-    openingTime = startTimes[currentDay.day()].split(":")
-    startOfBlock = fc.moment(currentDay).set("hour", minHour ).set("minutes", minMinutes)
+    var openingTime, startOfBlock, endOfBlock;
+    openingTime = startTimes[currentDay.day()].split(":");
+    startOfBlock = fc.moment(currentDay).set("hour", minHour).set("minutes", minMinutes);
     endOfBlock = startOfBlock.clone().set("hour", openingTime[0]).set("minutes", openingTime[1]);
-    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
+    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock);
   }
 
   function overlayTimeAfterEnd(currentDay) {
-    closingTime = finishTimes[currentDay.day()].split(":")
-    endOfBlock = fc.moment(currentDay).set("hour", maxHour ).set("minutes", maxMinutes)
-    startOfBlock = startOfBlock.clone().set("hour", closingTime[0]).set("minutes", closingTime[1]);
-    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock)
+    var closingTime, startOfBlock, endOfBlock;
+    closingTime = finishTimes[currentDay.day()].split(":");
+    endOfBlock = fc.moment(currentDay).set("hour", maxHour).set("minutes", maxMinutes);
+    startOfBlock = endOfBlock.clone().set("hour", closingTime[0]).set("minutes", closingTime[1]);
+    curCalView.timeGrid.highlightNonWorkingPeriod(startOfBlock, endOfBlock);
   }
 
  //validating input
 
- function areTimesValid () {
-  return containtsTimes() && containsTimesForAllDays()
+ function areTimesValid() {
+  return containtsTimes() && containsTimesForAllDays();
  }
 
  function containtsTimes() {
-  return startTimes && finishTimes
+  return startTimes && finishTimes;
  }
  
- function containsTimesForAllDays () {
-  return startTimes.length === 7 && finishTimes.length === 7
+ function containsTimesForAllDays() {
+  return startTimes.length === 7 && finishTimes.length === 7;
  }
 
 
@@ -8950,10 +8957,10 @@ $.extend(AgendaView.prototype, {
 		View.prototype.render.call(this); // call the super-method
 
 		this.resetScroll(); // do this after sizes have been set
-		this.timeLine = new CurrentTimeLine(this).start()
-    if (this.workingHours) {
-    	workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
-    }
+		this.timeLine = new CurrentTimeLine(this).start();
+		if (this.workingHours) {
+			this.viewWorkingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
+		}
 	},
 
 
@@ -9160,7 +9167,7 @@ $.extend(AgendaView.prototype, {
 			_this.scrollerEl.scrollTop(top);
 		}
 
-		scroll()
+		scroll();
 		setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 	},
 
@@ -9359,46 +9366,6 @@ $.extend(AgendaDayView.prototype, {
 });
 
 ;;
-
-setDefaults({
-	allDayText: 'all-day',
-
-	scrollTime: '06:00:00',
-
-	slotDuration: '00:30:00',
-
-	axisFormat: generateAgendaAxisFormat,
-	timeFormat: {
-		agenda: generateAgendaTimeFormat
-	},
-
-	dragOpacity: {
-		resource: .5
-	},
-	minTime: '00:00:00',
-	maxTime: '24:00:00',
-	slotEventOverlap: true
-});
-
-
-function generateAgendaAxisFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(':mm', '(:mm)')
-		.replace(/(\Wmm)$/, '($1)') // like above, but for foreign langs
-		.replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
-}
-
-
-function generateAgendaTimeFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(/\s*a$/i, ''); // remove trailing AM/PM
-}
-
-
-// TODO: make it work in quirks mode (event corners, all-day height)
-// TODO: test liquid width, especially in IE6
-
-
 function ResourceView(calendar) {
 	View.call(this, calendar); // call the super-constructor
 
@@ -9431,7 +9398,7 @@ $.extend(ResourceView.prototype, {
 
 	// when the time-grid isn't tall enough to occupy the given height, we render an <hr> underneath
 	bottomRuleEl: null,
-	bottomRuleHeight: null,	
+	bottomRuleHeight: null,
 	
 
 	
@@ -9447,8 +9414,8 @@ $.extend(ResourceView.prototype, {
 			this.rowCnt = 1;
 			this.colCnt = colCnt;
 			if(this.colCnt <= 0){
-				this.el.append("<h2 class='no-calendars'>No Calendar's are currently selected</h2>")
-				return null
+				this.el.append("<h2 class='no-calendars'>No Calendar's are currently selected</h2>");
+				return null;
 			}
 
 			this.el.addClass('fc-agenda-view').html(this.renderHtml());
@@ -9478,9 +9445,9 @@ $.extend(ResourceView.prototype, {
 
 			this.resetScroll(); // do this after sizes have been set
 
-			this.timeLine = new CurrentTimeLine(this).start()
+			this.timeLine = new CurrentTimeLine(this).start();
 			if (this.workingHours) {
-				workingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours()
+				this.veiwWorkingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
 			}
 		},
 
@@ -9687,7 +9654,7 @@ $.extend(ResourceView.prototype, {
 				_this.scrollerEl.scrollTop(top);
 			}
 
-			scroll()
+			scroll();
 			setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
 		},
 
@@ -9703,7 +9670,7 @@ $.extend(ResourceView.prototype, {
 			var daySegs = [];
 			var timedSegs;
 			var i;
-			if(this.colCnt <= 0){return null}
+			if(this.colCnt <= 0){return null;}
 
 			// separate the events into all-day and timed
 			for (i = 0; i < events.length; i++) {
@@ -9839,7 +9806,7 @@ $.extend(ResourceDayView.prototype, {
   headCellHtml: function(row, col, date) {
     var calendar = this.calendar;
     var resources = calendar.getResources();
-    var name
+    var name;
   
     if(resources[col]) {
       name = resources[col].name;
@@ -9852,7 +9819,7 @@ $.extend(ResourceDayView.prototype, {
       '<th class="fc-day-header ' + this.widgetHeaderClass + ' fc-' + dayIDs[date.day()] + '">' +
         htmlEscape(name) +
       '</th>';
-  },
+  }
 
 });
 ;;
