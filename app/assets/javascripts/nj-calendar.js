@@ -687,7 +687,7 @@ function Calendar(element, instanceOptions) {
 			element.prepend(headerElement);
 		}
 
-		changeView(options.defaultView);
+		renderView(0, options.defaultView);
 
 		if (options.handleWindowResize) {
 			windowResizeProxy = debounce(windowResize, options.windowResizeDelay); // prevents rapid calls
@@ -725,6 +725,7 @@ function Calendar(element, instanceOptions) {
 
 
 	function changeView(viewName) {
+		t.trigger('viewChange', t, viewName);
 		renderView(0, viewName);
 	}
 
@@ -939,7 +940,6 @@ function Calendar(element, instanceOptions) {
 		
 	function removeEventResource(resourceId, reRenderView) {
 		var updatedResources = [];
-		console.log(eventResources)
 		for(var i = 0; i < eventResources.length; i++) {
 			if(eventResources[i].id != resourceId) {
 				updatedResources.push(eventResources[i]);
@@ -1356,13 +1356,15 @@ function Menu(calendar, options, menuContainer) {
     if (!menuShown){
       t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
-      menuContent.find(".fc-resource-list").html(renderResourseList());
+      resourceListDiv = menuContent.find(".fc-resource-list")
+      resourceListDiv.html(renderResourseList());
       menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
       menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
       menuContent.find("select").change(function(){ eventColorChange() })
+      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); console.log("bobob") })
     }
   }
   
@@ -1373,6 +1375,7 @@ function Menu(calendar, options, menuContainer) {
     menuShown = false;
     resourcesEl = null;
     t.eventColorChoices = null;
+    resourceList.off("change")
   }
   
   function renderMenu() {
@@ -1412,7 +1415,8 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    resourcesEl = resourcesEl || $("<table></table>");
+    if (resourcesEl){ resourcesEl.find("input").unbind() }
+    resourcesEl = $("<table></table>");
     resourceList.each(function(res, index) {
       var resourceEl = renderResourse(res);
       resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
@@ -1498,6 +1502,7 @@ function SlotFinder(header, calendar, el, options) {
       trigger: "manual"
     });
     popoverEl = popover.data("bs.popover").tip();
+    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl) })
     return t;
   }
 
@@ -1527,9 +1532,8 @@ function SlotFinder(header, calendar, el, options) {
   function durationOptions() {
     var selected
     var el = "<select name='duration'>";
-    for(var i=5; i <= 120 ; i+= 5) {
-      i === defaultSlotDuration ? selected =  "selected" : selected = ""
-      el += "<option " + selected + " value='" + i +"'>" + i + "</option>";
+    for(var i = defaultSlotDuration; i <= 120 ; i+= 5) {
+      el += "<option value='" + i +"'>" + i + "</option>";
     }
     el += "</select> minutes";
     el += "<br/>";
@@ -1554,7 +1558,7 @@ function SlotFinder(header, calendar, el, options) {
       .fail(function(response) {
         ajaxInFLight = false;
         resultsTable.html("<tr><td>Error please try <a href='#'>again</a></td></tr>");
-        resultsTable.find(a).click(function(e) { findClick(e) })
+        resultsTable.find("a").click(function(e) { findClick(e) })
       });
   }
 
@@ -1640,8 +1644,8 @@ function SlotFinder(header, calendar, el, options) {
 
   function resetParms() {
     offset = 0;
-    startDate = calendar.getDate();
-    endDate = calendar.getDate().add(1, "month");
+    startDate = calendar.getDate().isAfter(moment()) ? calendar.getDate() : moment();
+    endDate = startDate.clone().add(1, "month");
   }
 
   function findClick(e) {
@@ -1673,6 +1677,13 @@ function SlotFinder(header, calendar, el, options) {
     endDate = startDate.clone().add(1, "month");
     nextDate = endDate;
     setStartDateText()
+  }
+
+  function bindSelectionChanges(el) {
+    el.find("select").on("change", function(){
+      reset()
+      fetchFreeSlots()
+    })
   }
 
 }

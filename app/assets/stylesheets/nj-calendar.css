@@ -617,6 +617,10 @@
 		color: grey;
 	}
 
+	.fc-state-active .fa-icon{
+		color: rgb(107, 165, 219);
+	}
+
 	.fc-findSlot-button i {
 		font-size: 16pt
 	}
@@ -1180,7 +1184,7 @@
 		padding: 0 1px;
 	}
 	
-	.fc-time-grid-event .fc-time, .fc-time-grid-event .fc-title {
+	.fc-time-grid-event .fc-time, .fc-time-grid-event .fc-title, .fc-time-grid-event .fc-event-notes {
 		font-size: 13px;
 		white-space: nowrap;
 	}
