@@ -176,7 +176,7 @@
 		padding: 0 1px;
 	}
 	
-	.fc-time-grid-event .fc-time, .fc-time-grid-event .fc-title {
+	.fc-time-grid-event .fc-time, .fc-time-grid-event .fc-title, .fc-time-grid-event .fc-event-notes {
 		font-size: 13px;
 		white-space: nowrap;
 	}
