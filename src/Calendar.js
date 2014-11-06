@@ -340,7 +340,7 @@ function Calendar(element, instanceOptions) {
 			element.prepend(headerElement);
 		}
 
-		changeView(options.defaultView);
+		renderView(0, options.defaultView);
 
 		if (options.handleWindowResize) {
 			windowResizeProxy = debounce(windowResize, options.windowResizeDelay); // prevents rapid calls
@@ -378,6 +378,7 @@ function Calendar(element, instanceOptions) {
 
 
 	function changeView(viewName) {
+		t.trigger('viewChange', t, viewName);
 		renderView(0, viewName);
 	}
 
@@ -592,7 +593,6 @@ function Calendar(element, instanceOptions) {
 		
 	function removeEventResource(resourceId, reRenderView) {
 		var updatedResources = [];
-		console.log(eventResources)
 		for(var i = 0; i < eventResources.length; i++) {
 			if(eventResources[i].id != resourceId) {
 				updatedResources.push(eventResources[i]);

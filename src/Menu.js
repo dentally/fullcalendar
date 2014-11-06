@@ -20,13 +20,15 @@ function Menu(calendar, options, menuContainer) {
     if (!menuShown){
       t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
-      menuContent.find(".fc-resource-list").html(renderResourseList());
+      resourceListDiv = menuContent.find(".fc-resource-list")
+      resourceListDiv.html(renderResourseList());
       menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
       menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
       menuContent.find("select").change(function(){ eventColorChange() })
+      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); console.log("bobob") })
     }
   }
   
@@ -37,6 +39,7 @@ function Menu(calendar, options, menuContainer) {
     menuShown = false;
     resourcesEl = null;
     t.eventColorChoices = null;
+    resourceList.off("change")
   }
   
   function renderMenu() {
@@ -76,7 +79,8 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    resourcesEl = resourcesEl || $("<table></table>");
+    if (resourcesEl){ resourcesEl.find("input").unbind() }
+    resourcesEl = $("<table></table>");
     resourceList.each(function(res, index) {
       var resourceEl = renderResourse(res);
       resourceEl.find("input").on("change", { resource: res.toJSON() }, resourceClick);
