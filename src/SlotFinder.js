@@ -37,6 +37,7 @@ function SlotFinder(header, calendar, el, options) {
       trigger: "manual"
     });
     popoverEl = popover.data("bs.popover").tip();
+    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl) })
     return t;
   }
 
@@ -66,9 +67,8 @@ function SlotFinder(header, calendar, el, options) {
   function durationOptions() {
     var selected
     var el = "<select name='duration'>";
-    for(var i=5; i <= 120 ; i+= 5) {
-      i === defaultSlotDuration ? selected =  "selected" : selected = ""
-      el += "<option " + selected + " value='" + i +"'>" + i + "</option>";
+    for(var i = defaultSlotDuration; i <= 120 ; i+= 5) {
+      el += "<option value='" + i +"'>" + i + "</option>";
     }
     el += "</select> minutes";
     el += "<br/>";
@@ -93,7 +93,7 @@ function SlotFinder(header, calendar, el, options) {
       .fail(function(response) {
         ajaxInFLight = false;
         resultsTable.html("<tr><td>Error please try <a href='#'>again</a></td></tr>");
-        resultsTable.find(a).click(function(e) { findClick(e) })
+        resultsTable.find("a").click(function(e) { findClick(e) })
       });
   }
 
@@ -179,8 +179,8 @@ function SlotFinder(header, calendar, el, options) {
 
   function resetParms() {
     offset = 0;
-    startDate = calendar.getDate();
-    endDate = calendar.getDate().add(1, "month");
+    startDate = calendar.getDate().isAfter(moment()) ? calendar.getDate() : moment();
+    endDate = startDate.clone().add(1, "month");
   }
 
   function findClick(e) {
@@ -212,6 +212,13 @@ function SlotFinder(header, calendar, el, options) {
     endDate = startDate.clone().add(1, "month");
     nextDate = endDate;
     setStartDateText()
+  }
+
+  function bindSelectionChanges(el) {
+    el.find("select").on("change", function(){
+      reset()
+      fetchFreeSlots()
+    })
   }
 
 }
