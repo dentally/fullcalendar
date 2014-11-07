@@ -28,7 +28,7 @@ function Menu(calendar, options, menuContainer) {
       setupDatePicker(menuContent);
       menuShown = true;
       menuContent.find("select").change(function(){ eventColorChange() })
-      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); console.log("bobob") })
+      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); })
     }
   }
   
