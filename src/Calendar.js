@@ -600,10 +600,10 @@ function Calendar(element, instanceOptions) {
 		}
 		eventResources = updatedResources;
 		for(var j = 0; j < events.length; j++) {
-			associateResourceWithEvent(events[i]);
+			associateResourceWithEvent(events[j]);
 		}
 		orderResources();
-		if (reRenderView) {renderView(null, currentView.name, true);}
+		if (reRenderView) { renderView(null, currentView.name, true); }
 	}
 
 	function clientResources(filter) {
