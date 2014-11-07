@@ -947,10 +947,10 @@ function Calendar(element, instanceOptions) {
 		}
 		eventResources = updatedResources;
 		for(var j = 0; j < events.length; j++) {
-			associateResourceWithEvent(events[i]);
+			associateResourceWithEvent(events[j]);
 		}
 		orderResources();
-		if (reRenderView) {renderView(null, currentView.name, true);}
+		if (reRenderView) { renderView(null, currentView.name, true); }
 	}
 
 	function clientResources(filter) {
@@ -1364,7 +1364,7 @@ function Menu(calendar, options, menuContainer) {
       setupDatePicker(menuContent);
       menuShown = true;
       menuContent.find("select").change(function(){ eventColorChange() })
-      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); console.log("bobob") })
+      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); })
     }
   }
   
