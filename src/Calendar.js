@@ -634,7 +634,18 @@ function Calendar(element, instanceOptions) {
 
 	function orderResources() {
 		eventResources.sort(function(a, b) {
-			return a.id - b.id;
+			if(a.calendarPosition && b.calendarPosition){
+				return a.calendarPosition - b.calendarPosition;
+			}
+			else if(!a.calendarPosition && !b.calendarPosition){
+				return a.id - b.id;
+			}
+			else if (b.calendarPosition) {
+				return true
+			}
+			else {
+				return false
+			}
 		});
 	}
 
