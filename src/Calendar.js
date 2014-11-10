@@ -641,10 +641,10 @@ function Calendar(element, instanceOptions) {
 				return a.id - b.id;
 			}
 			else if (b.calendarPosition) {
-				return true
+				return 1
 			}
 			else {
-				return false
+				return 0
 			}
 		});
 	}
