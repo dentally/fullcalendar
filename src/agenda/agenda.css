@@ -242,6 +242,18 @@
 		content: "=";
 	}
 
+	.fc-time-grid-event .fc-start-end-time {
+		display: none;
+	}
+
+	.fc-time-grid-event.fc-helper .fc-start-time {
+		display: none;
+	}
+
+	.fc-time-grid-event.fc-helper .fc-start-end-time {
+		display: inline;
+	}
+
 	.fc-event-status {
 		font-weight: 900;
 		color: white;

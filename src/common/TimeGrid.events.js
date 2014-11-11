@@ -133,7 +133,7 @@ $.extend(TimeGrid.prototype, {
 			// Otherwise, display the time text for the *segment's* times (like 6pm-midnight or midnight-10am)
 			if (seg.isStart || seg.isEnd) {
 				timeText = view.getEventTimeText(seg.start, seg.end);
-				fullTimeText = view.getEventTimeText(seg.start, seg.end, 'LT');
+				fullTimeText = view.getEventTimeText(seg.start, seg.end);
 				startTimeText = view.getEventTimeText(seg.start, null);
 			}
 		} else {
@@ -160,7 +160,8 @@ $.extend(TimeGrid.prototype, {
 						' data-start="' + htmlEscape(startTimeText) + '"' +
 						' data-full="' + htmlEscape(fullTimeText) + '"' +
 						'>' +
-							'<span>' + htmlEscape(startTimeText) + '</span>' +
+							'<span class="fc-start-time">' + htmlEscape(startTimeText) + '</span>' +
+							'<span class="fc-start-end-time">' + htmlEscape(timeText) + '</span>' +
 						'</div>' :
 						''
 						) +
