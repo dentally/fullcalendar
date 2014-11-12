@@ -26,6 +26,11 @@
 		padding: 0 4px;
 		white-space: nowrap;
 	}
+
+	.fc-axis.fc-time span {
+		position: relative;
+		top: -10px;
+	}
 	
 	.fc-ltr .fc-axis {
 		text-align: center;
@@ -318,5 +323,13 @@
 	.no-calendars {
 		font-size: 22px;
 		text-align: center;
+	}
+
+	.fc-axis-white-space {
+		display: inline-block;
+		background-color:  white;
+		height: 22px;
+		width: 20px;
+		margin-top: -4px;
 	}
 }

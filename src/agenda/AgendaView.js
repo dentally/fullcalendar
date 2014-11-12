@@ -188,8 +188,12 @@ $.extend(AgendaView.prototype, {
 				'</th>';
 		}
 		else {
-			return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '></th>';
+			return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></th>';
 		}
+	},
+
+	headOutroHtml: function() {
+		return '<td class="fc-axis" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></td>';
 	},
 
 
