@@ -74,17 +74,25 @@ $.extend(TimeGrid.prototype, {
 		var slotDate; // will be on the view's first day, but we only care about its time
 		var minutes;
 		var axisHtml;
+		var fifteenMinMarker;
 
 		// Calculate the time for each slot
 		while (slotTime < this.maxTime) {
 			slotDate = view.start.clone().time(slotTime); // will be in UTC but that's good. to avoid DST issues
 			minutes = slotDate.minutes();
+			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime')
 
 			axisHtml =
 				'<td class="fc-axis fc-time ' + view.widgetContentClass + '" ' + view.axisStyleAttr() + '>' +
 					(minutes === 0 ? // if irregular slot duration, or on the hour, then display the time
 						'<span>' + // for matchCellWidths
 							htmlEscape(calendar.formatDate(slotDate, view.opt('axisFormat'))) +
+						'</span>' :
+						''
+						) +
+					(fifteenMinMarker ? // if irregular slot duration, or on the hour, then display the time
+						'<span>' + // for matchCellWidths
+							htmlEscape(calendar.formatDate(slotDate, "mm"))+
 						'</span>' :
 						''
 						) +

@@ -11,6 +11,8 @@ setDefaults({
 
 	slotDuration: '00:30:00',
 
+	showMinorAxisTime: true,
+
 	axisFormat: generateAgendaAxisFormat,
 	timeFormat: {
 		agenda: generateAgendaTimeFormat
