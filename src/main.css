@@ -66,9 +66,12 @@
 	td.fc-widget-header {
 		top: 65px;
 		position: fixed;
-		background-color: white;
 		z-index: 100;
 		margin-right: 10px;
+	}
+
+	th.fc-day-header {
+		background-color: white;
 	}
 	
 	.fc-toolbar td {
@@ -146,7 +149,6 @@
 	.fc-view {
 		position: relative;
 		width: 100%;
-		overflow: hidden;
 		}
 
 	.fc-fixed-subheader th{
