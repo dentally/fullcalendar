@@ -6554,17 +6554,25 @@ $.extend(TimeGrid.prototype, {
 		var slotDate; // will be on the view's first day, but we only care about its time
 		var minutes;
 		var axisHtml;
+		var fifteenMinMarker;
 
 		// Calculate the time for each slot
 		while (slotTime < this.maxTime) {
 			slotDate = view.start.clone().time(slotTime); // will be in UTC but that's good. to avoid DST issues
 			minutes = slotDate.minutes();
+			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime')
 
 			axisHtml =
 				'<td class="fc-axis fc-time ' + view.widgetContentClass + '" ' + view.axisStyleAttr() + '>' +
 					(minutes === 0 ? // if irregular slot duration, or on the hour, then display the time
 						'<span>' + // for matchCellWidths
 							htmlEscape(calendar.formatDate(slotDate, view.opt('axisFormat'))) +
+						'</span>' :
+						''
+						) +
+					(fifteenMinMarker ? // if irregular slot duration, or on the hour, then display the time
+						'<span>' + // for matchCellWidths
+							htmlEscape(calendar.formatDate(slotDate, "mm"))+
 						'</span>' :
 						''
 						) +
@@ -7132,7 +7140,7 @@ $.extend(TimeGrid.prototype, {
 			// Otherwise, display the time text for the *segment's* times (like 6pm-midnight or midnight-10am)
 			if (seg.isStart || seg.isEnd) {
 				timeText = view.getEventTimeText(seg.start, seg.end);
-				fullTimeText = view.getEventTimeText(seg.start, seg.end, 'LT');
+				fullTimeText = view.getEventTimeText(seg.start, seg.end);
 				startTimeText = view.getEventTimeText(seg.start, null);
 			}
 		} else {
@@ -7159,7 +7167,8 @@ $.extend(TimeGrid.prototype, {
 						' data-start="' + htmlEscape(startTimeText) + '"' +
 						' data-full="' + htmlEscape(fullTimeText) + '"' +
 						'>' +
-							'<span>' + htmlEscape(startTimeText) + '</span>' +
+							'<span class="fc-start-time">' + htmlEscape(startTimeText) + '</span>' +
+							'<span class="fc-start-end-time">' + htmlEscape(timeText) + '</span>' +
 						'</div>' :
 						''
 						) +
@@ -8875,6 +8884,8 @@ setDefaults({
 
 	slotDuration: '00:30:00',
 
+	showMinorAxisTime: true,
+
 	axisFormat: generateAgendaAxisFormat,
 	timeFormat: {
 		agenda: generateAgendaTimeFormat
@@ -9052,8 +9063,12 @@ $.extend(AgendaView.prototype, {
 				'</th>';
 		}
 		else {
-			return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '></th>';
+			return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></th>';
 		}
+	},
+
+	headOutroHtml: function() {
+		return '<td class="fc-axis" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></td>';
 	},
 
 
@@ -9539,8 +9554,12 @@ $.extend(ResourceView.prototype, {
 					'</th>';
 			}
 			else {
-				return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '></th>';
+				return '<th class="fc-axis ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></th>';
 			}
+		},
+
+		headOutroHtml: function() {
+			return '<td class="fc-axis" ' + this.axisStyleAttr() + '><span class="fc-axis-white-space"></span></td>';
 		},
 
 

@@ -586,9 +586,12 @@
 	td.fc-widget-header {
 		top: 65px;
 		position: fixed;
-		background-color: white;
 		z-index: 100;
 		margin-right: 10px;
+	}
+
+	th.fc-day-header {
+		background-color: white;
 	}
 	
 	.fc-toolbar td {
@@ -666,7 +669,6 @@
 	.fc-view {
 		position: relative;
 		width: 100%;
-		overflow: hidden;
 		}
 
 	.fc-fixed-subheader th{
@@ -1034,6 +1036,11 @@
 		padding: 0 4px;
 		white-space: nowrap;
 	}
+
+	.fc-axis.fc-time span {
+		position: relative;
+		top: -10px;
+	}
 	
 	.fc-ltr .fc-axis {
 		text-align: center;
@@ -1250,6 +1257,18 @@
 		content: "=";
 	}
 
+	.fc-time-grid-event .fc-start-end-time {
+		display: none;
+	}
+
+	.fc-time-grid-event.fc-helper .fc-start-time {
+		display: none;
+	}
+
+	.fc-time-grid-event.fc-helper .fc-start-end-time {
+		display: inline;
+	}
+
 	.fc-event-status {
 		font-weight: 900;
 		color: white;
@@ -1314,6 +1333,27 @@
 	.no-calendars {
 		font-size: 22px;
 		text-align: center;
+	}
+
+	.fc-axis-white-space {
+		display: inline-block;
+		background-color:  white;
+		height: 22px;
+		width: 20px;
+		margin-top: -4px;
+	}
+
+	.fc-minor .fc-axis.fc-time span {
+		font-size: 12px;
+		color: #A5A1A1;
+	}
+
+	.fc-minor .fc-axis:first-child.fc-time span{
+		right: -4px;
+	}
+
+	.fc-minor .fc-axis:last-child.fc-time span{
+		left: -4px;
 	}
 }
 
