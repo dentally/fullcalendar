@@ -48,7 +48,7 @@ $.extend(TimeGrid.prototype, {
 		var i, seg;
 		var col, colSegs;
 		var containerEl;
-		
+
 		segs = this.renderSegs(segs); // returns only the visible segs
 		segCols = this.groupSegCols(segs); // group into sub-arrays, and assigns 'col' to each seg
 
@@ -56,7 +56,7 @@ $.extend(TimeGrid.prototype, {
 
 		for (col = 0; col < segCols.length; col++) { // iterate each column grouping
 			colSegs = segCols[col];
-			placeSlotSegs(colSegs); // compute horizontal coordinates, z-index's, and reorder the array
+			placeSlotSegs(colSegs, this.view); // compute horizontal coordinates, z-index's, and reorder the array
 
 			containerEl = $('<div class="fc-event-container"/>');
 
@@ -196,10 +196,10 @@ $.extend(TimeGrid.prototype, {
 		var left; // amount of space from left edge, a fraction of the total width
 		var right; // amount of space from right edge, a fraction of the total width
 
-		if (shouldOverlap) {
-			// double the width, but don't go beyond the maximum forward coordinate (1.0)
-			forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-		}
+		// if (shouldOverlap) {
+		// 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
+		// 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+		// }
 
 		if (isRTL) {
 			left = 1 - forwardCoord;
@@ -216,7 +216,7 @@ $.extend(TimeGrid.prototype, {
 
 		if (shouldOverlap && seg.forwardPressure) {
 			// add padding to the edge so that forward stacked events don't cover the resizer's icon
-			props[isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width 
+			props[isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
 		}
 
 		return props;
@@ -254,7 +254,7 @@ $.extend(TimeGrid.prototype, {
 
 // Given an array of segments that are all in the same column, sets the backwardCoord and forwardCoord on each.
 // Also reorders the given array by date!
-function placeSlotSegs(segs) {
+function placeSlotSegs(segs, view) {
 	var levels;
 	var level0;
 	var i;
@@ -263,14 +263,32 @@ function placeSlotSegs(segs) {
 	levels = buildSlotSegLevels(segs);
 	computeForwardSlotSegs(levels);
 
-	if ((level0 = levels[0])) {
-
-		for (i = 0; i < level0.length; i++) {
-			computeSlotSegPressures(level0[i]);
+	if (view.name === "agendaWeek") {
+		resourceIds = view.calendar.clientResourceIds();
+		totalNumberOfResources = resourceIds.length;
+		width = 1 / totalNumberOfResources;
+		for (i = 0; i < segs.length; i++) {
+			seg = segs[i];
+			if (seg.event.practitioner_id) {
+				position = resourceIds.indexOf(seg.event.practitioner_id);
+				seg.backwardCoord = width * position;
+				seg.forwardCoord = seg.backwardCoord + width;
+			}
+			else {
+				seg.backwardCoord = 0;
+				seg.forwardCoord = 1;
+			};
 		}
+	} else {
+		if ((level0 = levels[0])) {
 
-		for (i = 0; i < level0.length; i++) {
-			computeSlotSegCoords(level0[i], 0, 0);
+			for (i = 0; i < level0.length; i++) {
+				computeSlotSegPressures(level0[i]);
+			}
+
+			for (i = 0; i < level0.length; i++) {
+				computeSlotSegCoords(level0[i], 0, 0);
+			}
 		}
 	}
 }

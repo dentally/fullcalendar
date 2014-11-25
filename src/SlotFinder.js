@@ -21,7 +21,7 @@ function SlotFinder(header, calendar, el, options) {
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s";
   var offset = 0;
   var resultsPerRequest = 15;
-  
+
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
