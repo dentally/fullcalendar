@@ -379,7 +379,7 @@ function Calendar(element, instanceOptions) {
 	}
 
 
-	
+
 	// Exports
 	// -----------------------------------------------------------------------------------
 
@@ -421,6 +421,7 @@ function Calendar(element, instanceOptions) {
 	t.removeEventResource = removeEventResource;
 	t.clientResources = clientResources;
 	t.resourceColumn = resourceColumn;
+	t.clientResourceIds = clientResourceIds;
 
 
 	// Language-data Internals
@@ -599,7 +600,7 @@ function Calendar(element, instanceOptions) {
 	};
 
 
-	
+
 	// Imports
 	// -----------------------------------------------------------------------------------
 
@@ -630,9 +631,9 @@ function Calendar(element, instanceOptions) {
 	var ignoreWindowResize = 0;
 	var date;
 	var events = [];
-	
-	
-	
+
+
+
 	// Main Rendering
 	// -----------------------------------------------------------------------------------
 
@@ -643,8 +644,8 @@ function Calendar(element, instanceOptions) {
 	else {
 		date = t.getNow();
 	}
-	
-	
+
+
 	function render(inc) {
 		if (!content) {
 			initialRender();
@@ -655,8 +656,8 @@ function Calendar(element, instanceOptions) {
 			renderView(inc);
 		}
 	}
-	
-	
+
+
 	function initialRender() {
 		tm = options.theme ? 'ui' : 'fc';
 		element.addClass('fc');
@@ -694,8 +695,8 @@ function Calendar(element, instanceOptions) {
 			$(window).resize(windowResizeProxy);
 		}
 	}
-	
-	
+
+
 	function destroy() {
 
 		if (currentView) {
@@ -709,16 +710,16 @@ function Calendar(element, instanceOptions) {
 
 		$(window).unbind('resize', windowResizeProxy);
 	}
-	
+
 	function getElement() {
 		return element;
 	}
-	
+
 	function elementVisible() {
 		return element.is(':visible');
 	}
-	
-	
+
+
 
 	// View Rendering
 	// -----------------------------------------------------------------------------------
@@ -788,8 +789,8 @@ function Calendar(element, instanceOptions) {
 		unfreezeContentHeight(); // undo any lone freezeContentHeight calls
 		ignoreWindowResize--;
 	}
-	
-	
+
+
 
 	// Resizing
 	// -----------------------------------------------------------------------------------
@@ -806,8 +807,8 @@ function Calendar(element, instanceOptions) {
 	t.isHeightAuto = function() {
 		return options.contentHeight === 'auto' || options.height === 'auto';
 	};
-	
-	
+
+
 	function updateSize(shouldRecalc) {
 		if (elementVisible()) {
 
@@ -829,8 +830,8 @@ function Calendar(element, instanceOptions) {
 			_calcSize();
 		}
 	}
-	
-	
+
+
 	function _calcSize() { // assumes elementVisible
 		if (typeof options.contentHeight === 'number') { // exists and not 'auto'
 			suggestedViewHeight = options.contentHeight;
@@ -842,8 +843,8 @@ function Calendar(element, instanceOptions) {
 			suggestedViewHeight = Math.round(content.width() / Math.max(options.aspectRatio, .5));
 		}
 	}
-	
-	
+
+
 	function windowResize(ev) {
 		if (
 			!ignoreWindowResize &&
@@ -855,9 +856,9 @@ function Calendar(element, instanceOptions) {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Event Fetching/Rendering
 	-----------------------------------------------------------------------------*/
 	// TODO: going forward, most of this stuff should be directly handled by the view
@@ -884,7 +885,7 @@ function Calendar(element, instanceOptions) {
 		currentView.destroyEvents();
 		unfreezeContentHeight();
 	}
-	
+
 
 	function getAndRenderEvents() {
 		if (!options.lazyFetching || isFetchNeeded(currentView.start, currentView.end)) {
@@ -908,12 +909,12 @@ function Calendar(element, instanceOptions) {
 		// remove current view
 		//var viewName = currentView.name;
 		//currentView = false;
-		
+
 		// show view with new resources
 		//changeView(viewName);
 	}
 
-	
+
 	// called when event data arrives
 	function reportEvents(_events) {
 		events = _events;
@@ -937,7 +938,7 @@ function Calendar(element, instanceOptions) {
 		if (reRenderView) {renderView(null, currentView.name, true);}
 	}
 
-		
+
 	function removeEventResource(resourceId, reRenderView) {
 		var updatedResources = [];
 		for(var i = 0; i < eventResources.length; i++) {
@@ -964,6 +965,12 @@ function Calendar(element, instanceOptions) {
 			});
 		}
 		return eventResources; // else, return all
+	}
+
+	function clientResourceIds() {
+		return $.map(eventResources, function(resource) {
+			return resource.id
+		});
 	}
 
 	function resourcesByID(id) {
@@ -1020,12 +1027,12 @@ function Calendar(element, instanceOptions) {
 	function updateDatePicker() {
 		menu.updateDatePicker(t.getDate());
 	}
-	
+
 
 
 	/* Selection
 	-----------------------------------------------------------------------------*/
-	
+
 
 	function select(start, end) {
 
@@ -1042,54 +1049,54 @@ function Calendar(element, instanceOptions) {
 
 		currentView.select(start, end);
 	}
-	
+
 
 	function unselect() { // safe to be called before renderView
 		if (currentView) {
 			currentView.unselect();
 		}
 	}
-	
-	
-	
+
+
+
 	/* Date
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function prev() {
 		renderView(-1);
 	}
-	
-	
+
+
 	function next() {
 		renderView(1);
 	}
-	
-	
+
+
 	function prevYear() {
 		date.add(-1, 'years');
 		renderView();
 	}
-	
-	
+
+
 	function nextYear() {
 		date.add(1, 'years');
 		renderView();
 	}
-	
-	
+
+
 	function today() {
 		date = t.getNow();
 		renderView();
 	}
-	
-	
+
+
 	function gotoDate(dateInput) {
 		date = t.moment(dateInput);
 		renderView();
 	}
-	
-	
+
+
 	function incrementDate(delta) {
 		date.add(moment.duration(delta));
 		renderView();
@@ -1150,8 +1157,8 @@ function Calendar(element, instanceOptions) {
 		date = newDate;
 		changeView(viewName);
 	}
-	
-	
+
+
 	function getDate() {
 		return date.clone();
 	}
@@ -1178,18 +1185,18 @@ function Calendar(element, instanceOptions) {
 			overflow: ''
 		});
 	}
-	
-	
-	
+
+
+
 	/* Misc
 	-----------------------------------------------------------------------------*/
-	
+
 
 	function getCalendar() {
 		return t;
 	}
 
-	
+
 	function getView() {
 		return currentView;
 	}
@@ -1197,7 +1204,7 @@ function Calendar(element, instanceOptions) {
 	function openMenu() {
 		menu.render();
 	}
-		
+
 	function option(name, value) {
 		if (value === undefined) {
 			return options[name];
@@ -1207,8 +1214,8 @@ function Calendar(element, instanceOptions) {
 			updateSize(true); // true = allow recalculation of height
 		}
 	}
-	
-	
+
+
 	function trigger(name, thisObj) {
 		if (options[name]) {
 			return options[name].apply(
@@ -1497,7 +1504,7 @@ function SlotFinder(header, calendar, el, options) {
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s";
   var offset = 0;
   var resultsPerRequest = 15;
-  
+
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
@@ -1637,7 +1644,7 @@ function SlotFinder(header, calendar, el, options) {
   function listResults(slots) {
     resultsTable.html("");
     $.each(slots, function(i, slot) {
-      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + "</td></tr>");
+      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + " (" + slot.gap_size + ")</td></tr>");
       tr.data("slot", slot);
       tr.click(function(e) {
         resultsTable.find(".selected").removeClass("selected");
@@ -1706,7 +1713,7 @@ function SlotFinder(header, calendar, el, options) {
 
 function Header(calendar, options) {
 	var t = this;
-	
+
 	// exports
 	t.render = render;
 	t.destroy = destroy;
@@ -1716,7 +1723,7 @@ function Header(calendar, options) {
 	t.disableButton = disableButton;
 	t.enableButton = enableButton;
 	t.getViewsWithButtons = getViewsWithButtons;
-	
+
 	// locals
 	var el = $();
 	var viewsWithButtons = [];
@@ -1734,18 +1741,18 @@ function Header(calendar, options) {
 				.append(renderSection('right'))
 				.append(renderSection('center'))
 				.append('<div class="fc-clear"/>');
-      
+
       calendar.getClipBoard().render(el);
 			return el;
 		}
 	}
-	
-	
+
+
 	function destroy() {
 		el.remove();
 	}
-	
-	
+
+
 	function renderSection(position) {
 		var sectionEl = $('<div class="fc-' + position + '"/>');
 		var buttonStr = options.header[position];
@@ -1821,7 +1828,7 @@ function Header(calendar, options) {
 								tm + '-button',
 								tm + '-state-default'
 							];
-              
+
               if (defaultText){classes.push('fc-button-text');}
 							button = $( // type="button" so that it doesn't submit a form
 								'<button type="button" class="' + classes.join(' ') + '" title="' + buttonTitle + '"">' +
@@ -1905,27 +1912,27 @@ function Header(calendar, options) {
 	function updateTitle(text) {
 		el.find('h2').text(text);
 	}
-	
-	
+
+
 	function activateButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.addClass(tm + '-state-active');
 	}
-	
-	
+
+
 	function deactivateButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.removeClass(tm + '-state-active');
 	}
-	
-	
+
+
 	function disableButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.attr('disabled', 'disabled')
 			.addClass(tm + '-state-disabled');
 	}
-	
-	
+
+
 	function enableButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.removeAttr('disabled')
@@ -5191,7 +5198,6 @@ $.extend(Grid.prototype, {
 			seg.eventStartMS = +eventStart;
 			seg.eventDurationMS = eventEnd - eventStart;
 		}
-
 		return segs;
 	},
 
@@ -6909,7 +6915,7 @@ $.extend(TimeGrid.prototype, {
 			this.highlightEl = null;
 		}
 	},
-  
+
   // Greys out perio of time that is out of working hours
 	highlightNonWorkingPeriod: function(start, end, col) {
 		$(
@@ -6928,7 +6934,7 @@ $.extend(TimeGrid.prototype, {
 		this.removeHighlightedTimeSlot(this.highlightedSlot);
 		slot.appendTo(this.el);
 		highlightEl = slot.find(".fc-free-slot");
-		
+
 		if (highlightEl.length > 0) {
 			height = highlightEl.position().top;
 			scrollerEl = getScrollParent(slot);
@@ -7055,7 +7061,7 @@ $.extend(TimeGrid.prototype, {
 		var i, seg;
 		var col, colSegs;
 		var containerEl;
-		
+
 		segs = this.renderSegs(segs); // returns only the visible segs
 		segCols = this.groupSegCols(segs); // group into sub-arrays, and assigns 'col' to each seg
 
@@ -7063,7 +7069,7 @@ $.extend(TimeGrid.prototype, {
 
 		for (col = 0; col < segCols.length; col++) { // iterate each column grouping
 			colSegs = segCols[col];
-			placeSlotSegs(colSegs); // compute horizontal coordinates, z-index's, and reorder the array
+			placeSlotSegs(colSegs, this.view); // compute horizontal coordinates, z-index's, and reorder the array
 
 			containerEl = $('<div class="fc-event-container"/>');
 
@@ -7204,9 +7210,9 @@ $.extend(TimeGrid.prototype, {
 		var right; // amount of space from right edge, a fraction of the total width
 
 		if (shouldOverlap) {
-			// double the width, but don't go beyond the maximum forward coordinate (1.0)
-			forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-		}
+		 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
+		 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+		 }
 
 		if (isRTL) {
 			left = 1 - forwardCoord;
@@ -7223,7 +7229,7 @@ $.extend(TimeGrid.prototype, {
 
 		if (shouldOverlap && seg.forwardPressure) {
 			// add padding to the edge so that forward stacked events don't cover the resizer's icon
-			props[isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width 
+			props[isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2; // 10 is a guesstimate of the icon's width
 		}
 
 		return props;
@@ -7261,7 +7267,7 @@ $.extend(TimeGrid.prototype, {
 
 // Given an array of segments that are all in the same column, sets the backwardCoord and forwardCoord on each.
 // Also reorders the given array by date!
-function placeSlotSegs(segs) {
+function placeSlotSegs(segs, view) {
 	var levels;
 	var level0;
 	var i;
@@ -7270,14 +7276,32 @@ function placeSlotSegs(segs) {
 	levels = buildSlotSegLevels(segs);
 	computeForwardSlotSegs(levels);
 
-	if ((level0 = levels[0])) {
-
-		for (i = 0; i < level0.length; i++) {
-			computeSlotSegPressures(level0[i]);
+	if (view.name === "agendaWeek") {
+		resourceIds = view.calendar.clientResourceIds();
+		totalNumberOfResources = resourceIds.length;
+		width = 1 / totalNumberOfResources;
+		for (i = 0; i < segs.length; i++) {
+			seg = segs[i];
+			if (seg.event.practitioner_id) {
+				position = resourceIds.indexOf(seg.event.practitioner_id);
+				seg.backwardCoord = width * position;
+				seg.forwardCoord = seg.backwardCoord + width;
+			}
+			else {
+				seg.backwardCoord = 0;
+				seg.forwardCoord = 1;
+			};
 		}
+	} else {
+		if ((level0 = levels[0])) {
 
-		for (i = 0; i < level0.length; i++) {
-			computeSlotSegCoords(level0[i], 0, 0);
+			for (i = 0; i < level0.length; i++) {
+				computeSlotSegPressures(level0[i]);
+			}
+
+			for (i = 0; i < level0.length; i++) {
+				computeSlotSegCoords(level0[i], 0, 0);
+			}
 		}
 	}
 }
@@ -7749,7 +7773,7 @@ View.prototype = {
 		var resourceObj = false;
 		var resources = this.calendar.getResources();
 		if(this.calendar.getView().name=="resourceDay"){
-			//Get the resource from the selected cell and pass it to the select function as an argument		
+			//Get the resource from the selected cell and pass it to the select function as an argument
 			resourceObj = resources[cell.col];
 		}
 		this.trigger('select', null, start, end, ev, resourceObj);
@@ -7795,7 +7819,7 @@ View.prototype = {
 // constructor. Going forward, methods should be part of the prototype.
 function View(calendar) {
 	var t = this;
-	
+
 	// exports
 	t.calendar = calendar;
 	t.opt = opt;
@@ -7805,18 +7829,18 @@ function View(calendar) {
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
 	t.workingHours = calendar.options.workingHours;
-	
+
 	// imports
 	var reportEventChange = calendar.reportEventChange;
-	
+
 	// locals
 	var options = calendar.options;
 	var nextDayThreshold = moment.duration(options.nextDayThreshold);
 
 
 	t.init(); // the "constructor" that concerns the prototype methods
-	
-	
+
+
 	function opt(name) {
 		var v = options[name];
 		if ($.isPlainObject(v) && !isForcedAtomicOption(name)) {
@@ -7831,13 +7855,13 @@ function View(calendar) {
 			[name, thisObj || t].concat(Array.prototype.slice.call(arguments, 2), [t])
 		);
 	}
-	
+
 
 
 	/* Event Editable Boolean Calculations
 	------------------------------------------------------------------------------*/
 
-	
+
 	function isEventDraggable(event) {
 		var source = event.source || {};
 
@@ -7850,8 +7874,8 @@ function View(calendar) {
 			opt('editable')
 		);
 	}
-	
-	
+
+
 	function isEventResizable(event) {
 		var source = event.source || {};
 
@@ -7864,9 +7888,9 @@ function View(calendar) {
 			opt('editable')
 		);
 	}
-	
-	
-	
+
+
+
 	/* Event Elements
 	------------------------------------------------------------------------------*/
 
@@ -7903,12 +7927,12 @@ function View(calendar) {
 		}
 	};
 
-	
-	
+
+
 	/* Event Modification Reporting
 	---------------------------------------------------------------------------------*/
 
-	
+
 	function eventDrop(el, event, newStart, ev, ui) {
 		var mutateResult = calendar.mutateEvent(event, newStart, null);
 
@@ -8893,7 +8917,7 @@ setDefaults({
 
 	minTime: '00:00:00',
 	maxTime: '24:00:00',
-	slotEventOverlap: true
+	slotEventOverlap:{ week: false, resourceDay: true}
 });
 
 var AGENDA_ALL_DAY_EVENT_LIMIT = 5;
@@ -9234,6 +9258,7 @@ $.extend(AgendaView.prototype, {
 
 		// the all-day area is flexible and might have a lot of events, so shift the height
 		this.updateHeight();
+
 
 		View.prototype.renderEvents.call(this, events); // call the super-method
 	},
