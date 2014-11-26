@@ -21,7 +21,7 @@ function SlotFinder(header, calendar, el, options) {
   var resourceParam = options.resourceParam && options.resourceParam.split("_")[0] + "s";
   var offset = 0;
   var resultsPerRequest = 15;
-  
+
   // Exports
   t.setupSlotFinder = setupSlotFinder;
   t.toggleSlotFinder = toggleSlotFinder;
@@ -161,7 +161,7 @@ function SlotFinder(header, calendar, el, options) {
   function listResults(slots) {
     resultsTable.html("");
     $.each(slots, function(i, slot) {
-      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + "</td></tr>");
+      var tr = $("<tr><td>" + moment.tz(slot.start_time, timezone).format("HH:mm - dddd Do MMM YYYY") + " (" + slot.gap_size + ")</td></tr>");
       tr.data("slot", slot);
       tr.click(function(e) {
         resultsTable.find(".selected").removeClass("selected");
