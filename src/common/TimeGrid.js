@@ -429,7 +429,7 @@ $.extend(TimeGrid.prototype, {
 			this.highlightEl = null;
 		}
 	},
-  
+
   // Greys out perio of time that is out of working hours
 	highlightNonWorkingPeriod: function(start, end, col) {
 		$(
@@ -448,7 +448,7 @@ $.extend(TimeGrid.prototype, {
 		this.removeHighlightedTimeSlot(this.highlightedSlot);
 		slot.appendTo(this.el);
 		highlightEl = slot.find(".fc-free-slot");
-		
+
 		if (highlightEl.length > 0) {
 			height = highlightEl.position().top;
 			scrollerEl = getScrollParent(slot);

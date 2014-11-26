@@ -97,7 +97,6 @@ $.extend(Grid.prototype, {
 			seg.eventStartMS = +eventStart;
 			seg.eventDurationMS = eventEnd - eventStart;
 		}
-
 		return segs;
 	},
 

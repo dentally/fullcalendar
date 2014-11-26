@@ -20,7 +20,7 @@ setDefaults({
 
 	minTime: '00:00:00',
 	maxTime: '24:00:00',
-	slotEventOverlap: true
+	slotEventOverlap:{ week: false, resourceDay: true}
 });
 
 var AGENDA_ALL_DAY_EVENT_LIMIT = 5;
@@ -361,6 +361,7 @@ $.extend(AgendaView.prototype, {
 
 		// the all-day area is flexible and might have a lot of events, so shift the height
 		this.updateHeight();
+
 
 		View.prototype.renderEvents.call(this, events); // call the super-method
 	},
