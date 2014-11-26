@@ -312,7 +312,7 @@ View.prototype = {
 		var resourceObj = false;
 		var resources = this.calendar.getResources();
 		if(this.calendar.getView().name=="resourceDay"){
-			//Get the resource from the selected cell and pass it to the select function as an argument		
+			//Get the resource from the selected cell and pass it to the select function as an argument
 			resourceObj = resources[cell.col];
 		}
 		this.trigger('select', null, start, end, ev, resourceObj);
@@ -358,7 +358,7 @@ View.prototype = {
 // constructor. Going forward, methods should be part of the prototype.
 function View(calendar) {
 	var t = this;
-	
+
 	// exports
 	t.calendar = calendar;
 	t.opt = opt;
@@ -368,18 +368,18 @@ function View(calendar) {
 	t.eventDrop = eventDrop;
 	t.eventResize = eventResize;
 	t.workingHours = calendar.options.workingHours;
-	
+
 	// imports
 	var reportEventChange = calendar.reportEventChange;
-	
+
 	// locals
 	var options = calendar.options;
 	var nextDayThreshold = moment.duration(options.nextDayThreshold);
 
 
 	t.init(); // the "constructor" that concerns the prototype methods
-	
-	
+
+
 	function opt(name) {
 		var v = options[name];
 		if ($.isPlainObject(v) && !isForcedAtomicOption(name)) {
@@ -394,13 +394,13 @@ function View(calendar) {
 			[name, thisObj || t].concat(Array.prototype.slice.call(arguments, 2), [t])
 		);
 	}
-	
+
 
 
 	/* Event Editable Boolean Calculations
 	------------------------------------------------------------------------------*/
 
-	
+
 	function isEventDraggable(event) {
 		var source = event.source || {};
 
@@ -413,8 +413,8 @@ function View(calendar) {
 			opt('editable')
 		);
 	}
-	
-	
+
+
 	function isEventResizable(event) {
 		var source = event.source || {};
 
@@ -427,9 +427,9 @@ function View(calendar) {
 			opt('editable')
 		);
 	}
-	
-	
-	
+
+
+
 	/* Event Elements
 	------------------------------------------------------------------------------*/
 
@@ -466,12 +466,12 @@ function View(calendar) {
 		}
 	};
 
-	
-	
+
+
 	/* Event Modification Reporting
 	---------------------------------------------------------------------------------*/
 
-	
+
 	function eventDrop(el, event, newStart, ev, ui) {
 		var mutateResult = calendar.mutateEvent(event, newStart, null);
 

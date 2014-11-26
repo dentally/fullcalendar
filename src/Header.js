@@ -5,7 +5,7 @@
 
 function Header(calendar, options) {
 	var t = this;
-	
+
 	// exports
 	t.render = render;
 	t.destroy = destroy;
@@ -15,7 +15,7 @@ function Header(calendar, options) {
 	t.disableButton = disableButton;
 	t.enableButton = enableButton;
 	t.getViewsWithButtons = getViewsWithButtons;
-	
+
 	// locals
 	var el = $();
 	var viewsWithButtons = [];
@@ -33,18 +33,18 @@ function Header(calendar, options) {
 				.append(renderSection('right'))
 				.append(renderSection('center'))
 				.append('<div class="fc-clear"/>');
-      
+
       calendar.getClipBoard().render(el);
 			return el;
 		}
 	}
-	
-	
+
+
 	function destroy() {
 		el.remove();
 	}
-	
-	
+
+
 	function renderSection(position) {
 		var sectionEl = $('<div class="fc-' + position + '"/>');
 		var buttonStr = options.header[position];
@@ -120,7 +120,7 @@ function Header(calendar, options) {
 								tm + '-button',
 								tm + '-state-default'
 							];
-              
+
               if (defaultText){classes.push('fc-button-text');}
 							button = $( // type="button" so that it doesn't submit a form
 								'<button type="button" class="' + classes.join(' ') + '" title="' + buttonTitle + '"">' +
@@ -204,27 +204,27 @@ function Header(calendar, options) {
 	function updateTitle(text) {
 		el.find('h2').text(text);
 	}
-	
-	
+
+
 	function activateButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.addClass(tm + '-state-active');
 	}
-	
-	
+
+
 	function deactivateButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.removeClass(tm + '-state-active');
 	}
-	
-	
+
+
 	function disableButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.attr('disabled', 'disabled')
 			.addClass(tm + '-state-disabled');
 	}
-	
-	
+
+
 	function enableButton(buttonName) {
 		el.find('.fc-' + buttonName + '-button')
 			.removeAttr('disabled')
