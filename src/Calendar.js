@@ -621,12 +621,9 @@ function Calendar(element, instanceOptions) {
 	}
 
 	function clientResourceIds() {
-		var ids = [];
-		$.each(eventResources, function(index, resource) {
-			ids.push(resource.id);
-			}
-		);
-		return ids;
+		return $.map(eventResources, function(resource) {
+			return resource.id
+		});
 	}
 
 	function resourcesByID(id) {
