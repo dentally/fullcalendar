@@ -196,10 +196,10 @@ $.extend(TimeGrid.prototype, {
 		var left; // amount of space from left edge, a fraction of the total width
 		var right; // amount of space from right edge, a fraction of the total width
 
-		// if (shouldOverlap) {
-		// 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
-		// 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-		// }
+		if (shouldOverlap) {
+		 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
+		 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+		 }
 
 		if (isRTL) {
 			left = 1 - forwardCoord;

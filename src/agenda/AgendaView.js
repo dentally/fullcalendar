@@ -20,7 +20,7 @@ setDefaults({
 
 	minTime: '00:00:00',
 	maxTime: '24:00:00',
-	slotEventOverlap: true
+	slotEventOverlap:{ week: false, resourceDay: true}
 });
 
 var AGENDA_ALL_DAY_EVENT_LIMIT = 5;
