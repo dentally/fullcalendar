@@ -35,7 +35,7 @@ function ClipBoard(calendar, options) {
     clipBoardElement += '<div class="notification" style="display: block;"></div>';
     clipBoardElement += '</div>';
     clipBoardElement = $(clipBoardElement);
-    el.find(".fc-right").prepend(clipBoardElement);
+    el.find('.fc-right').prepend(clipBoardElement);
   }
 
   function getClipBoardElement() {
@@ -47,7 +47,7 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDropped(event) {
-    calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView());
+    calendar.trigger('moveEventToClipboard', this, clipBoardEvents, event, calendar.getView());
   }
 
   function eventDrag(ev) {
@@ -57,13 +57,13 @@ function ClipBoard(calendar, options) {
     var dropFinishTime;
     var dropCol;
 
-    if (view.name === "month") { return null;}
+    if (view.name === 'month') { return null;}
     var mouseFollower = new MouseFollower($(this), {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
       revertDuration: view.opt('dragRevertDuration'),
       zIndex: 10, // one above the .fc-view
-      width: "300px"
+      width: '300px'
     });
     var dragListener = new DragListener(view.coordMap, {
       listenStart: function(ev) {
@@ -88,7 +88,7 @@ function ClipBoard(calendar, options) {
         mouseFollower.stop();
         var newResource = calendar.getResources()[dropCol];
         if (dropStartTime){
-          calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents);
+          calendar.trigger('clipBoardEventDropped', this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents);
           t.closeDropDown();
         }
       }
@@ -97,11 +97,17 @@ function ClipBoard(calendar, options) {
   }
 
   function renderClipboardEvents() {
-    var clipboardItems = clipBoardElement.find("ul");
-    clipboardItems.html("");
+    var clipboardItems = clipBoardElement.find('ul');
+    clipboardItems.html('');
     clipBoardEvents.each(function(cbEvent) {
       var item = renderClipboardEvent(cbEvent);
-      item.on("mousedown", { cbEvent: cbEvent.toJSON() }, eventDrag);
+      item.on('mousedown', 'a', { cbEvent: cbEvent.toJSON() }, eventDrag);
+      item.on('click', '.remove-event', function(ev) {
+        ev.stopImmediatePropagation();
+        var event = {};
+        event.model = cbEvent;
+        calendar.trigger('deleteEvent', this, event);
+      });
       clipboardItems.append(item);
     });
     updateNotificationCount();
@@ -109,16 +115,20 @@ function ClipBoard(calendar, options) {
 
   function renderClipboardEvent(cbEvent) {
     // Must return an li element
-    return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>");
+    return calendar.trigger('renderClipboardEvent', this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>");
   }
 
   function updateNotificationCount() {
-    var badgeEl = clipBoardElement.find(".notification");
-    badgeEl.text(clipBoardEvents.length);
+    var badgeEl = clipBoardElement.find('.notification');
+    if (clipBoardEvents.length === 0) {
+      badgeEl.hide();
+    } else {
+      badgeEl.show().text(clipBoardEvents.length);
+    };
   }
 
   function closeDropDown() {
-    clipBoardElement.find('.dropdown-toggle').dropdown("toggle");
+    clipBoardElement.find('.dropdown-toggle').dropdown('toggle');
   }
 
-}
+};

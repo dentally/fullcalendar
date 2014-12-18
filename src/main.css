@@ -4,23 +4,23 @@
 	 * Docs & License: <%= meta.homepage %>
 	 * (c) <%= meta.copyright %>
 	 */
-	
-	
+
+
 	.fc {
 		direction: ltr;
 		text-align: left;
 		}
-		
+
 	.fc table {
 		border-collapse: collapse;
 		/* border-spacing: 0;  no longer have adjacent borders*/
 		}
-		
+
 	html .fc,
 	.fc table {
 		font-size: 1em;
 		}
-		
+
 	.fc td,
 	.fc th {
 		padding: 0;
@@ -30,12 +30,12 @@
 	.fc-axis {
 		border: none !important;
 	}
-	
-	
-	
+
+
+
 	/* Header
 	------------------------------------------------------------------------*/
-	
+
 	.fc-toolbar {
 		background-color: rgb(245, 245, 245);
 		position: fixed;
@@ -62,7 +62,7 @@
 			}
 		}
 	}
-	
+
 	td.fc-widget-header {
 		top: 65px;
 		position: fixed;
@@ -73,12 +73,12 @@
 	th.fc-day-header {
 		background-color: white;
 	}
-	
+
 	.fc-toolbar td {
 		white-space: nowrap;
 		}
-	
-		
+
+
 	.fc .fc-header-space {
 		padding-left: 10px;
 		height: 45px;
@@ -88,7 +88,7 @@
 		z-index: 9;
 		margin-top: -70px;
 		}
-		
+
 	.fc-toolbar .fc-button {
 		padding-bottom: 10px;
 		vertical-align: top;
@@ -96,8 +96,23 @@
 		}
 
 	.fa-icon{
-		font-size: 18pt;
+		font-size: 18px;
 		color: grey;
+	}
+	.clipboard-event {
+		position: relative;
+	}
+	.clipboard-event a {
+		padding-right: 30px;
+	}
+	li.clipboard-event a:hover .remove-event,
+	li.clipboard-event a:focus .remove-event { color: #FFF; }
+	.remove-event {
+		cursor: pointer;;
+		font-size: 15px;
+		position: absolute;
+		right: 7px;
+		top: 6px;
 	}
 
 	.fc-state-active .fa-icon{
@@ -111,7 +126,7 @@
 	.fc-slot-search-menu {
 		vertical-align: sub;
 	}
-		
+
 	.fc-widget-header, .fc-widget-header th  {
 		border-top: none !important;
 		border-right: none !important;
@@ -128,12 +143,12 @@
 	.fc-widget-header tr{
 		height: 25px;
 	}
-		
-		
-		
+
+
+
 	/* Content
 	------------------------------------------------------------------------*/
-		
+
 	.fc-view-container {
 		position: relative;
 		z-index: 1; /* scopes all other z-index's to be inside this container */
@@ -145,7 +160,7 @@
 		margin-bottom: 50px;
 		}
 
-		
+
 	.fc-view {
 		position: relative;
 		width: 100%;
@@ -273,10 +288,10 @@
 
 		.ui-icon{
 			background: none;
-			width: 0; 
+			width: 0;
 			height: 0;
 			border-top: 10px solid transparent;
-			border-bottom: 10px solid transparent; 
+			border-bottom: 10px solid transparent;
 		}
 
 		.ui-icon-circle-triangle-e {
@@ -321,72 +336,72 @@
 			padding: 4px;
 		}
 	}
-	
+
 	/* Toolbar
 	--------------------------------------------------------------------------------------------------*/
-	
+
 	.fc-toolbar {
 		text-align: center;
 		margin-bottom: 1em;
 	}
-	
+
 	.fc-toolbar .fc-left {
 		float: left;
 	}
-	
+
 	.fc-toolbar .fc-right {
 		float: right;
 	}
-	
+
 	.fc-toolbar .fc-center {
 		display: inline-block;
 	}
-	
+
 	/* the things within each left/right/center section */
 	.fc .fc-toolbar > * > * { /* extra precedence to override button border margins */
 		float: left;
 		margin-left: .75em;
 	}
-	
+
 	/* the first thing within each left/center/right section */
 	.fc .fc-toolbar > * > :first-child { /* extra precedence to override button border margins */
 		margin-left: 0;
 	}
-		
+
 	/* title text */
-	
+
 	.fc-toolbar h2 {
 		padding-top: 4px;
 	}
-	
+
 	/* button layering (for border precedence) */
-	
+
 	.fc-toolbar button {
 		position: relative;
 	}
-	
+
 	.fc-toolbar .fc-state-hover,
 	.fc-toolbar .ui-state-hover {
 		z-index: 2;
 	}
-		
+
 	.fc-toolbar .fc-state-down {
 		z-index: 3;
 	}
-	
+
 	.fc-toolbar .fc-state-active,
 	.fc-toolbar .ui-state-active {
 		z-index: 4;
 	}
-	
+
 	.fc-toolbar button:focus {
 		z-index: 5;
 	}
-	
-	
+
+
 	/* View Structure
 	--------------------------------------------------------------------------------------------------*/
-	
+
 	/* undo twitter bootstrap's box-sizing rules. normalizes positioning techniques */
 	/* don't do this for the toolbar because we'll want bootstrap to style those buttons as some pt */
 	.fc-view-container *,
@@ -396,7 +411,7 @@
 		   -moz-box-sizing: content-box;
 		        box-sizing: content-box;
 	}
-	
+
 	.fc-view, /* scope positioning and z-index's for everything within the view */
 	.fc-view > table { /* so dragged elements can be above the view's main element */
 		position: relative;

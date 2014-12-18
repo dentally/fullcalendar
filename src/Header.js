@@ -83,7 +83,7 @@ function Header(calendar, options) {
 							viewsWithButtons.push(buttonName);
 						}
 						else if(buttonName === 'findSlot') {
-							buttonClick = slotFinderClick
+							buttonClick = slotFinderClick;
 						}
 						if (buttonClick) {
 
@@ -93,7 +93,7 @@ function Header(calendar, options) {
 							defaultText = smartProperty(options.defaultButtonText, buttonName);
 							customText = smartProperty(options.buttonText, buttonName);
 							fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
-							buttonTitle = smartProperty(options.buttonTitles, buttonName);
+							var buttonTitle = smartProperty(options.buttonTitles, buttonName);
 
 							if (customText) {
 								innerHtml = htmlEscape(customText);

@@ -80,7 +80,7 @@ $.extend(TimeGrid.prototype, {
 		while (slotTime < this.maxTime) {
 			slotDate = view.start.clone().time(slotTime); // will be in UTC but that's good. to avoid DST issues
 			minutes = slotDate.minutes();
-			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime')
+			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime');
 
 			axisHtml =
 				'<td class="fc-axis fc-time ' + view.widgetContentClass + '" ' + view.axisStyleAttr() + '>' +
