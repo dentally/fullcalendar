@@ -172,7 +172,7 @@ $.extend(TimeGrid.prototype, {
 						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
 					'</div>' +
 					'<div class="fc-event-notes">' +
-            eventNotes +
+						eventNotes +
 					'</div>' +
 				'</div>' +
 				'<div class="fc-bg"/>' +
@@ -197,9 +197,9 @@ $.extend(TimeGrid.prototype, {
 		var right; // amount of space from right edge, a fraction of the total width
 
 		if (shouldOverlap) {
-		 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
-		 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-		 }
+			// double the width, but don't go beyond the maximum forward coordinate (1.0)
+			forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+		}
 
 		if (isRTL) {
 			left = 1 - forwardCoord;
@@ -264,13 +264,13 @@ function placeSlotSegs(segs, view) {
 	computeForwardSlotSegs(levels);
 
 	if (view.name === "agendaWeek") {
-		resourceIds = view.calendar.clientResourceIds();
-		totalNumberOfResources = resourceIds.length;
-		width = 1 / totalNumberOfResources;
+		var resourceIds = view.calendar.clientResourceIds();
+		var totalNumberOfResources = resourceIds.length;
+		var width = 1 / totalNumberOfResources;
 		for (i = 0; i < segs.length; i++) {
-			seg = segs[i];
+			var seg = segs[i];
 			if (seg.event.practitioner_id) {
-				position = resourceIds.indexOf(seg.event.practitioner_id);
+				var position = resourceIds.indexOf(seg.event.practitioner_id);
 				seg.backwardCoord = width * position;
 				seg.forwardCoord = seg.backwardCoord + width;
 			}
