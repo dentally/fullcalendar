@@ -38,9 +38,9 @@ var defaults = {
 
 	weekNumberTitle: 'W',
 	weekNumberCalculation: 'local',
-	
+
 	//editable: false,
-	
+
 	// event ajax
 	lazyFetching: true,
 	startParam: 'start',
@@ -50,7 +50,7 @@ var defaults = {
 	timezone: false,
 
 	//allDayDefault: undefined,
-	
+
 	// time formats
 	titleFormat: {
 		month: 'MMMM YYYY', // like "September 1986". each language will override this
@@ -71,13 +71,13 @@ var defaults = {
 		basicWeek: false,
 		'default': true
 	},
-	
+
 	// locale
 	isRTL: false,
 	defaultButtonText: {
 		today: 'Today',
 		addThreeMonths: '+3',
-		addSixMonths: '+6',
+		addSixMonths: '+6'
 	},
 
 	buttonIcons: {
@@ -107,9 +107,9 @@ var defaults = {
 		next: 'Next',
 		prev: 'Previous',
 		addThreeMonths: 'Go forward three months',
-		addSixMonths: 'Go forward six months',
+		addSixMonths: 'Go forward six months'
 	},
-	
+
 	// jquery-ui theming
 	theme: false,
 	themeButtonIcons: {
@@ -122,20 +122,20 @@ var defaults = {
 	dragOpacity: .75,
 	dragRevertDuration: 500,
 	dragScroll: true,
-	
+
 	selectable: true,
 	unselectAuto: true,
-	
+
 	dropAccept: '*',
 
 	eventLimit: false,
 	eventLimitText: 'more',
 	eventLimitClick: 'popover',
 	dayPopoverFormat: 'LL',
-	
+
 	handleWindowResize: true,
 	windowResizeDelay: 200 // milliseconds before a rerender happens
-	
+
 };
 
 
@@ -969,7 +969,7 @@ function Calendar(element, instanceOptions) {
 
 	function clientResourceIds() {
 		return $.map(eventResources, function(resource) {
-			return resource.id
+			return resource.id;
 		});
 	}
 
@@ -995,10 +995,10 @@ function Calendar(element, instanceOptions) {
 				return a.id - b.id;
 			}
 			else if (b.calendarPosition) {
-				return 1
+				return 1;
 			}
 			else {
-				return 0
+				return 0;
 			}
 		});
 	}
@@ -1264,7 +1264,7 @@ function ClipBoard(calendar, options) {
     clipBoardElement += '<div class="notification" style="display: block;"></div>';
     clipBoardElement += '</div>';
     clipBoardElement = $(clipBoardElement);
-    el.find(".fc-right").prepend(clipBoardElement);
+    el.find('.fc-right').prepend(clipBoardElement);
   }
 
   function getClipBoardElement() {
@@ -1276,7 +1276,7 @@ function ClipBoard(calendar, options) {
   }
 
   function eventDropped(event) {
-    calendar.trigger("moveEventToClipboard", this, clipBoardEvents, event, calendar.getView());
+    calendar.trigger('moveEventToClipboard', this, clipBoardEvents, event, calendar.getView());
   }
 
   function eventDrag(ev) {
@@ -1286,13 +1286,13 @@ function ClipBoard(calendar, options) {
     var dropFinishTime;
     var dropCol;
 
-    if (view.name === "month") { return null;}
+    if (view.name === 'month') { return null;}
     var mouseFollower = new MouseFollower($(this), {
       parentEl: view.calendar.getElement(),
       opacity: view.opt('dragOpacity'),
       revertDuration: view.opt('dragRevertDuration'),
       zIndex: 10, // one above the .fc-view
-      width: "300px"
+      width: '300px'
     });
     var dragListener = new DragListener(view.coordMap, {
       listenStart: function(ev) {
@@ -1317,7 +1317,7 @@ function ClipBoard(calendar, options) {
         mouseFollower.stop();
         var newResource = calendar.getResources()[dropCol];
         if (dropStartTime){
-          calendar.trigger("clipBoardEventDropped", this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents);
+          calendar.trigger('clipBoardEventDropped', this, dropStartTime, dropFinishTime, newResource, cbEvent, clipBoardEvents);
           t.closeDropDown();
         }
       }
@@ -1326,11 +1326,17 @@ function ClipBoard(calendar, options) {
   }
 
   function renderClipboardEvents() {
-    var clipboardItems = clipBoardElement.find("ul");
-    clipboardItems.html("");
+    var clipboardItems = clipBoardElement.find('ul');
+    clipboardItems.html('');
     clipBoardEvents.each(function(cbEvent) {
       var item = renderClipboardEvent(cbEvent);
-      item.on("mousedown", { cbEvent: cbEvent.toJSON() }, eventDrag);
+      item.on('mousedown', 'a', { cbEvent: cbEvent.toJSON() }, eventDrag);
+      item.on('click', '.remove-event', function(ev) {
+        ev.stopImmediatePropagation();
+        var event = {};
+        event.model = cbEvent;
+        calendar.trigger('deleteEvent', this, event);
+      });
       clipboardItems.append(item);
     });
     updateNotificationCount();
@@ -1338,19 +1344,23 @@ function ClipBoard(calendar, options) {
 
   function renderClipboardEvent(cbEvent) {
     // Must return an li element
-    return calendar.trigger("renderClipboardEvent", this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>");
+    return calendar.trigger('renderClipboardEvent', this, cbEvent) || $("<li><a href='#' class='clipboard-event'>Event</a></li>");
   }
 
   function updateNotificationCount() {
-    var badgeEl = clipBoardElement.find(".notification");
-    badgeEl.text(clipBoardEvents.length);
+    var badgeEl = clipBoardElement.find('.notification');
+    if (clipBoardEvents.length === 0) {
+      badgeEl.hide();
+    } else {
+      badgeEl.show().text(clipBoardEvents.length);
+    };
   }
 
   function closeDropDown() {
-    clipBoardElement.find('.dropdown-toggle').dropdown("toggle");
+    clipBoardElement.find('.dropdown-toggle').dropdown('toggle');
   }
 
-}
+};
 ;;
 
 /* Side bar menu
@@ -1362,7 +1372,7 @@ function Menu(calendar, options, menuContainer) {
   t.updateDatePicker = updateDatePicker;
   t.render = render;
   t.destroy = destroy;
-  
+
   // locals
   var menuShown = false;
   var datePicker;
@@ -1374,18 +1384,18 @@ function Menu(calendar, options, menuContainer) {
     if (!menuShown){
       t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
-      resourceListDiv = menuContent.find(".fc-resource-list")
+      var resourceListDiv = menuContent.find(".fc-resource-list");
       resourceListDiv.html(renderResourseList());
       menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
       menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
-      menuContent.find("select").change(function(){ eventColorChange() })
-      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); })
+      menuContent.find("select").change(function() { eventColorChange(); });
+      resourceList.on("change", function() { resourceListDiv.html(renderResourseList()); });
     }
   }
-  
+
   function destroy() {
     resourcesEl.find("input").unbind();
     menuContainer.find(".close").unbind();
@@ -1393,15 +1403,15 @@ function Menu(calendar, options, menuContainer) {
     menuShown = false;
     resourcesEl = null;
     t.eventColorChoices = null;
-    resourceList.off("change")
+    resourceList.off("change");
   }
-  
+
   function renderMenu() {
     var html;
     html = "<div class='fc-menu-content'>";
     html += "<span class='close'>X</span>";
     html += "<div class='fc-date-picker'></div>";
-    html += "<div class='fc-event-colour-choices'></div>"
+    html += "<div class='fc-event-colour-choices'></div>";
     html += "<span>Calendars</span>";
     if (resourceList) {
       html += "<div class='fc-resource-list'></div>";
@@ -1433,7 +1443,7 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    if (resourcesEl){ resourcesEl.find("input").unbind() }
+    if (resourcesEl){ resourcesEl.find("input").unbind(); }
     resourcesEl = $("<table></table>");
     resourceList.each(function(res, index) {
       var resourceEl = renderResourse(res);
@@ -1454,16 +1464,16 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderEventColorChoice() {
-    if (!t.eventColorChoices) { return "" };
-    var html, slected
-    html = '<span>Colour by - </span>'
-    html += '<select name="event-colour-determinator">'
+    if (!t.eventColorChoices) { return ""; };
+    var html, selected;
+    html = '<span>Colour by - </span>';
+    html += '<select name="event-colour-determinator">';
     $.each(t.eventColorChoices, function(index, option) {
-      selected = option.selected ? "selected" : ""
-      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>'
-    })
-    html += '</select><br/><br/>'
-    return html
+      selected = option.selected ? "selected" : "";
+      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>';
+    });
+    html += '</select><br/><br/>';
+    return html;
   }
 
   function resourceClick(ev) {
@@ -1473,10 +1483,10 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function eventColorChange(ev) {
-    var val
-    val = $("[name='event-colour-determinator']").val()
+    var val;
+    val = $("[name='event-colour-determinator']").val();
     calendar.trigger("colorDeterminatorChange", calendar, this, val);
-    calendar.rerenderEvents()
+    calendar.rerenderEvents();
   }
 
 }
@@ -1495,7 +1505,7 @@ function SlotFinder(header, calendar, el, options) {
 
   //request variables
   var startDate = calendar.getDate();
-  var endDate = calendar.getDate().add(1, "month")
+  var endDate = calendar.getDate().add(1, "month");
 
   var ajaxInFLight = false;
   var url = options.availability_url;
@@ -1520,7 +1530,7 @@ function SlotFinder(header, calendar, el, options) {
       trigger: "manual"
     });
     popoverEl = popover.data("bs.popover").tip();
-    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl) })
+    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl); });
     return t;
   }
 
@@ -1548,7 +1558,6 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function durationOptions() {
-    var selected
     var el = "<select name='duration'>";
     for(var i = defaultSlotDuration; i <= 120 ; i+= 5) {
       el += "<option value='" + i +"'>" + i + "</option>";
@@ -1560,7 +1569,7 @@ function SlotFinder(header, calendar, el, options) {
 
   function toggleSlotFinder() {
     el.popover('toggle');
-    reset()
+    reset();
   }
 
   function fetchFreeSlots() {
@@ -1576,7 +1585,7 @@ function SlotFinder(header, calendar, el, options) {
       .fail(function(response) {
         ajaxInFLight = false;
         resultsTable.html("<tr><td>Error please try <a href='#'>again</a></td></tr>");
-        resultsTable.find("a").click(function(e) { findClick(e) })
+        resultsTable.find("a").click(function(e) { findClick(e); });
       });
   }
 
@@ -1656,7 +1665,7 @@ function SlotFinder(header, calendar, el, options) {
       resultsTable.append(tr);
     });
     var tr = $("<tr><td><a href='#'>Find More</a></td></tr>");
-    tr.click(function(e) {findClick(e)} )
+    tr.click(function(e) {findClick(e);});
     resultsTable.append(tr);
   }
 
@@ -1667,41 +1676,41 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function findClick(e) {
-    e.preventDefault()
+    e.preventDefault();
     fetchFreeSlots();
   }
 
   function reset() {
     nextDate = calendar.getDate();
     retryCount = 0;
-    resetTable()
+    resetTable();
     resetParms();
-    setStartDateText()
+    setStartDateText();
   }
 
   function resetTable() {
-    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>")
-    resultsTable.html(findSlotTr)
-    findSlotTr.click(function(e) { findClick(e) })
+    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>");
+    resultsTable.html(findSlotTr);
+    findSlotTr.click(function(e) { findClick(e); });
   }
 
   function setStartDateText() {
-    var text = "Searching " + startDate.format("Do MMM YYYY") + " onwards"
-    popoverEl.find(".search-date").html(text)
+    var text = "Searching " + startDate.format("Do MMM YYYY") + " onwards";
+    popoverEl.find(".search-date").html(text);
   }
 
   function setDateParams() {
     startDate = nextDate.clone();
     endDate = startDate.clone().add(1, "month");
     nextDate = endDate;
-    setStartDateText()
+    setStartDateText();
   }
 
   function bindSelectionChanges(el) {
-    el.find("select").on("change", function(){
-      reset()
-      fetchFreeSlots()
-    })
+    el.find("select").on("change", function() {
+      reset();
+      fetchFreeSlots();
+    });
   }
 
 }
@@ -1791,7 +1800,7 @@ function Header(calendar, options) {
 							viewsWithButtons.push(buttonName);
 						}
 						else if(buttonName === 'findSlot') {
-							buttonClick = slotFinderClick
+							buttonClick = slotFinderClick;
 						}
 						if (buttonClick) {
 
@@ -1801,7 +1810,7 @@ function Header(calendar, options) {
 							defaultText = smartProperty(options.defaultButtonText, buttonName);
 							customText = smartProperty(options.buttonText, buttonName);
 							fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
-							buttonTitle = smartProperty(options.buttonTitles, buttonName);
+							var buttonTitle = smartProperty(options.buttonTitles, buttonName);
 
 							if (customText) {
 								innerHtml = htmlEscape(customText);
@@ -2274,7 +2283,7 @@ function EventManager(options) { // assumed to be a calendar
 			event.end = t.moment(event.end);
 		}
 
-		associateResourceWithEvent(event)
+		associateResourceWithEvent(event);
 
 		mutateEvent(event);
 		propagateMiscProperties(event);
@@ -6566,7 +6575,7 @@ $.extend(TimeGrid.prototype, {
 		while (slotTime < this.maxTime) {
 			slotDate = view.start.clone().time(slotTime); // will be in UTC but that's good. to avoid DST issues
 			minutes = slotDate.minutes();
-			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime')
+			fifteenMinMarker = minutes !==0 && minutes % 15 === 0 && this.minTime.minutes() < 15 && view.opt('showMinorAxisTime');
 
 			axisHtml =
 				'<td class="fc-axis fc-time ' + view.widgetContentClass + '" ' + view.axisStyleAttr() + '>' +
@@ -7185,7 +7194,7 @@ $.extend(TimeGrid.prototype, {
 						'<i class="fc-event-confirmation-status right '+ confirmationClass +'"></i>'+
 					'</div>' +
 					'<div class="fc-event-notes">' +
-            eventNotes +
+						eventNotes +
 					'</div>' +
 				'</div>' +
 				'<div class="fc-bg"/>' +
@@ -7210,9 +7219,9 @@ $.extend(TimeGrid.prototype, {
 		var right; // amount of space from right edge, a fraction of the total width
 
 		if (shouldOverlap) {
-		 	// double the width, but don't go beyond the maximum forward coordinate (1.0)
-		 	forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
-		 }
+			// double the width, but don't go beyond the maximum forward coordinate (1.0)
+			forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2);
+		}
 
 		if (isRTL) {
 			left = 1 - forwardCoord;
@@ -7277,13 +7286,13 @@ function placeSlotSegs(segs, view) {
 	computeForwardSlotSegs(levels);
 
 	if (view.name === "agendaWeek") {
-		resourceIds = view.calendar.clientResourceIds();
-		totalNumberOfResources = resourceIds.length;
-		width = 1 / totalNumberOfResources;
+		var resourceIds = view.calendar.clientResourceIds();
+		var totalNumberOfResources = resourceIds.length;
+		var width = 1 / totalNumberOfResources;
 		for (i = 0; i < segs.length; i++) {
-			seg = segs[i];
+			var seg = segs[i];
 			if (seg.event.practitioner_id) {
-				position = resourceIds.indexOf(seg.event.practitioner_id);
+				var position = resourceIds.indexOf(seg.event.practitioner_id);
 				seg.backwardCoord = width * position;
 				seg.forwardCoord = seg.backwardCoord + width;
 			}
@@ -8917,7 +8926,7 @@ setDefaults({
 
 	minTime: '00:00:00',
 	maxTime: '24:00:00',
-	slotEventOverlap:{ week: false, resourceDay: true}
+	slotEventOverlap: { week: false, resourceDay: true }
 });
 
 var AGENDA_ALL_DAY_EVENT_LIMIT = 5;
