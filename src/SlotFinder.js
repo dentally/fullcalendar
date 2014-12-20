@@ -12,7 +12,7 @@ function SlotFinder(header, calendar, el, options) {
 
   //request variables
   var startDate = calendar.getDate();
-  var endDate = calendar.getDate().add(1, "month")
+  var endDate = calendar.getDate().add(1, "month");
 
   var ajaxInFLight = false;
   var url = options.availability_url;
@@ -37,7 +37,7 @@ function SlotFinder(header, calendar, el, options) {
       trigger: "manual"
     });
     popoverEl = popover.data("bs.popover").tip();
-    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl) })
+    popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl); });
     return t;
   }
 
@@ -65,7 +65,6 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function durationOptions() {
-    var selected
     var el = "<select name='duration'>";
     for(var i = defaultSlotDuration; i <= 120 ; i+= 5) {
       el += "<option value='" + i +"'>" + i + "</option>";
@@ -77,7 +76,7 @@ function SlotFinder(header, calendar, el, options) {
 
   function toggleSlotFinder() {
     el.popover('toggle');
-    reset()
+    reset();
   }
 
   function fetchFreeSlots() {
@@ -93,7 +92,7 @@ function SlotFinder(header, calendar, el, options) {
       .fail(function(response) {
         ajaxInFLight = false;
         resultsTable.html("<tr><td>Error please try <a href='#'>again</a></td></tr>");
-        resultsTable.find("a").click(function(e) { findClick(e) })
+        resultsTable.find("a").click(function(e) { findClick(e); });
       });
   }
 
@@ -173,7 +172,7 @@ function SlotFinder(header, calendar, el, options) {
       resultsTable.append(tr);
     });
     var tr = $("<tr><td><a href='#'>Find More</a></td></tr>");
-    tr.click(function(e) {findClick(e)} )
+    tr.click(function(e) {findClick(e);});
     resultsTable.append(tr);
   }
 
@@ -184,41 +183,41 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function findClick(e) {
-    e.preventDefault()
+    e.preventDefault();
     fetchFreeSlots();
   }
 
   function reset() {
     nextDate = calendar.getDate();
     retryCount = 0;
-    resetTable()
+    resetTable();
     resetParms();
-    setStartDateText()
+    setStartDateText();
   }
 
   function resetTable() {
-    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>")
-    resultsTable.html(findSlotTr)
-    findSlotTr.click(function(e) { findClick(e) })
+    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>");
+    resultsTable.html(findSlotTr);
+    findSlotTr.click(function(e) { findClick(e); });
   }
 
   function setStartDateText() {
-    var text = "Searching " + startDate.format("Do MMM YYYY") + " onwards"
-    popoverEl.find(".search-date").html(text)
+    var text = "Searching " + startDate.format("Do MMM YYYY") + " onwards";
+    popoverEl.find(".search-date").html(text);
   }
 
   function setDateParams() {
     startDate = nextDate.clone();
     endDate = startDate.clone().add(1, "month");
     nextDate = endDate;
-    setStartDateText()
+    setStartDateText();
   }
 
   function bindSelectionChanges(el) {
-    el.find("select").on("change", function(){
-      reset()
-      fetchFreeSlots()
-    })
+    el.find("select").on("change", function() {
+      reset();
+      fetchFreeSlots();
+    });
   }
 
 }

@@ -8,7 +8,7 @@ function Menu(calendar, options, menuContainer) {
   t.updateDatePicker = updateDatePicker;
   t.render = render;
   t.destroy = destroy;
-  
+
   // locals
   var menuShown = false;
   var datePicker;
@@ -20,18 +20,18 @@ function Menu(calendar, options, menuContainer) {
     if (!menuShown){
       t.eventColorChoices = options.eventColorChoices && options.eventColorChoices();
       var menuContent = renderMenu();
-      resourceListDiv = menuContent.find(".fc-resource-list")
+      var resourceListDiv = menuContent.find(".fc-resource-list");
       resourceListDiv.html(renderResourseList());
       menuContent.find(".fc-event-colour-choices").html(renderEventColorChoice());
       menuContent.find(".close").click(function() { destroy(); });
       menuContainer.html(menuContent);
       setupDatePicker(menuContent);
       menuShown = true;
-      menuContent.find("select").change(function(){ eventColorChange() })
-      resourceList.on("change", function(){ resourceListDiv.html(renderResourseList()); })
+      menuContent.find("select").change(function() { eventColorChange(); });
+      resourceList.on("change", function() { resourceListDiv.html(renderResourseList()); });
     }
   }
-  
+
   function destroy() {
     resourcesEl.find("input").unbind();
     menuContainer.find(".close").unbind();
@@ -39,15 +39,15 @@ function Menu(calendar, options, menuContainer) {
     menuShown = false;
     resourcesEl = null;
     t.eventColorChoices = null;
-    resourceList.off("change")
+    resourceList.off("change");
   }
-  
+
   function renderMenu() {
     var html;
     html = "<div class='fc-menu-content'>";
     html += "<span class='close'>X</span>";
     html += "<div class='fc-date-picker'></div>";
-    html += "<div class='fc-event-colour-choices'></div>"
+    html += "<div class='fc-event-colour-choices'></div>";
     html += "<span>Calendars</span>";
     if (resourceList) {
       html += "<div class='fc-resource-list'></div>";
@@ -79,7 +79,7 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderResourseList() {
-    if (resourcesEl){ resourcesEl.find("input").unbind() }
+    if (resourcesEl){ resourcesEl.find("input").unbind(); }
     resourcesEl = $("<table></table>");
     resourceList.each(function(res, index) {
       var resourceEl = renderResourse(res);
@@ -100,16 +100,16 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function renderEventColorChoice() {
-    if (!t.eventColorChoices) { return "" };
-    var html, slected
-    html = '<span>Colour by - </span>'
-    html += '<select name="event-colour-determinator">'
+    if (!t.eventColorChoices) { return ""; };
+    var html, selected;
+    html = '<span>Colour by - </span>';
+    html += '<select name="event-colour-determinator">';
     $.each(t.eventColorChoices, function(index, option) {
-      selected = option.selected ? "selected" : ""
-      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>'
-    })
-    html += '</select><br/><br/>'
-    return html
+      selected = option.selected ? "selected" : "";
+      html += '<option value="'+ option.name +'" '+ selected +'>' + option.humanName + '</option>';
+    });
+    html += '</select><br/><br/>';
+    return html;
   }
 
   function resourceClick(ev) {
@@ -119,10 +119,10 @@ function Menu(calendar, options, menuContainer) {
   }
 
   function eventColorChange(ev) {
-    var val
-    val = $("[name='event-colour-determinator']").val()
+    var val;
+    val = $("[name='event-colour-determinator']").val();
     calendar.trigger("colorDeterminatorChange", calendar, this, val);
-    calendar.rerenderEvents()
+    calendar.rerenderEvents();
   }
 
 }

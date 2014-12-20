@@ -622,7 +622,7 @@ function Calendar(element, instanceOptions) {
 
 	function clientResourceIds() {
 		return $.map(eventResources, function(resource) {
-			return resource.id
+			return resource.id;
 		});
 	}
 
@@ -648,10 +648,10 @@ function Calendar(element, instanceOptions) {
 				return a.id - b.id;
 			}
 			else if (b.calendarPosition) {
-				return 1
+				return 1;
 			}
 			else {
-				return 0
+				return 0;
 			}
 		});
 	}
