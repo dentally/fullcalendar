@@ -95,37 +95,29 @@
 		font-weight: 500;
 		}
 
-	.fa-icon{
+	.fa-icon {
 		font-size: 18px;
 		color: grey;
 	}
-	.clipboard-event {
-		position: relative;
-	}
-	.clipboard-event a {
-		padding-right: 30px;
-	}
+	.clipboard-event { position: relative; }
+	.clipboard-event a { padding: 3px 30px; }
 	li.clipboard-event a:hover .remove-event,
 	li.clipboard-event a:focus .remove-event { color: #FFF; }
-	.remove-event {
-		cursor: pointer;;
+	.remove-event,
+	.find-availability {
+		cursor: pointer;
 		font-size: 15px;
 		position: absolute;
-		right: 7px;
 		top: 6px;
 	}
+	.remove-event { right: 7px; }
+	.find-availability { left: 7px; }
 
-	.fc-state-active .fa-icon{
-		color: rgb(107, 165, 219);
-	}
+	.fc-state-active .fa-icon {	color: rgb(107, 165, 219); }
 
-	.fc-findSlot-button i {
-		font-size: 16pt
-	}
+	.fc-findSlot-button i { font-size: 16pt }
 
-	.fc-slot-search-menu {
-		vertical-align: sub;
-	}
+	.fc-slot-search-menu { vertical-align: sub; }
 
 	.fc-widget-header, .fc-widget-header th  {
 		border-top: none !important;
@@ -140,11 +132,7 @@
 		font-weight: 500;
 	}
 
-	.fc-widget-header tr{
-		height: 25px;
-	}
-
-
+	.fc-widget-header tr { height: 25px; }
 
 	/* Content
 	------------------------------------------------------------------------*/

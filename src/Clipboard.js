@@ -42,9 +42,7 @@ function ClipBoard(calendar, options) {
     return clipBoardElement;
   }
 
-  function destroy() {
-
-  }
+  function destroy() {  }
 
   function eventDropped(event) {
     calendar.trigger('moveEventToClipboard', this, clipBoardEvents, event, calendar.getView());
@@ -107,6 +105,14 @@ function ClipBoard(calendar, options) {
         var event = {};
         event.model = cbEvent;
         calendar.trigger('deleteEvent', this, event);
+      });
+      item.on('click', '.find-availability', function(ev) {
+        ev.stopImmediatePropagation();
+        var options = {
+          resource_id: cbEvent.get("practitioner_id"),
+          duration: cbEvent.get("clipboard_duration")
+        };
+        $(".fc-findSlot-button").trigger("openSearch", options);
       });
       clipboardItems.append(item);
     });

@@ -12,8 +12,8 @@ var eventGUID = 1;
 
 function EventManager(options) { // assumed to be a calendar
 	var t = this;
-	
-	
+
+
 	// exports
 	t.isFetchNeeded = isFetchNeeded;
 	t.fetchEvents = fetchEvents;
@@ -26,15 +26,15 @@ function EventManager(options) { // assumed to be a calendar
 	t.mutateEvent = mutateEvent;
 	t.showEvent = showEvent;
 	t.associateResourceWithEvent = associateResourceWithEvent;
-	
-	
+
+
 	// imports
 	var trigger = t.trigger;
 	var getView = t.getView;
 	var reportEvents = t.reportEvents;
 	var getEventEnd = t.getEventEnd;
-	
-	
+
+
 	// locals
 	var stickySource = { events: [] };
 	var sources = [ stickySource ];
@@ -54,21 +54,21 @@ function EventManager(options) { // assumed to be a calendar
 			}
 		}
 	);
-	
-	
-	
+
+
+
 	/* Fetching
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function isFetchNeeded(start, end) {
 		return !rangeStart || // nothing has been fetched yet?
 			// or, a part of the new range is outside of the old range? (after normalizing)
 			start.clone().stripZone() < rangeStart.clone().stripZone() ||
 			end.clone().stripZone() > rangeEnd.clone().stripZone();
 	}
-	
-	
+
+
 	function fetchEvents(start, end) {
 		rangeStart = start;
 		rangeEnd = end;
@@ -80,8 +80,8 @@ function EventManager(options) { // assumed to be a calendar
 			fetchEventSource(sources[i], fetchID);
 		}
 	}
-	
-	
+
+
 	function fetchEventSource(source, fetchID) {
 		_fetchEventSource(source, function(events) {
 			var isArraySource = $.isArray(source.events);
@@ -112,8 +112,8 @@ function EventManager(options) { // assumed to be a calendar
 			}
 		});
 	}
-	
-	
+
+
 	function _fetchEventSource(source, callback) {
 		var i;
 		var fetchers = fc.sourceFetchers;
@@ -222,12 +222,12 @@ function EventManager(options) { // assumed to be a calendar
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	/* Sources
 	-----------------------------------------------------------------------------*/
-	
+
 
 	function addEventSource(sourceInput) {
 		var source = buildEventSource(sourceInput);
@@ -309,9 +309,9 @@ function EventManager(options) { // assumed to be a calendar
 		) ||
 		source; // the given argument *is* the primitive
 	}
-	
-	
-	
+
+
+
 	/* Manipulation
 	-----------------------------------------------------------------------------*/
 
@@ -362,8 +362,8 @@ function EventManager(options) { // assumed to be a calendar
 		}
 	}
 
-	
-	
+
+
 	function renderEvent(eventData, stick) {
 		var event = buildEvent(eventData);
 		if (event) {
@@ -377,8 +377,8 @@ function EventManager(options) { // assumed to be a calendar
 			reportEvents(cache);
 		}
 	}
-	
-	
+
+
 	function removeEvents(filter) {
 		var eventID;
 		var i;
@@ -407,8 +407,8 @@ function EventManager(options) { // assumed to be a calendar
 
 		reportEvents(cache);
 	}
-	
-	
+
+
 	function clientEvents(filter) {
 		if ($.isFunction(filter)) {
 			return $.grep(cache, filter);
@@ -429,28 +429,28 @@ function EventManager(options) { // assumed to be a calendar
 			view.showEvent(event[0]);
 		}
 	}
-	
-	
-	
+
+
+
 	/* Loading State
 	-----------------------------------------------------------------------------*/
-	
-	
+
+
 	function pushLoading() {
 		if (!(loadingLevel++)) {
 			trigger('loading', null, true, getView());
 		}
 	}
-	
-	
+
+
 	function popLoading() {
 		if (!(--loadingLevel)) {
 			trigger('loading', null, false, getView());
 		}
 	}
-	
-	
-	
+
+
+
 	/* Event Normalization
 	-----------------------------------------------------------------------------*/
 
@@ -700,12 +700,12 @@ function EventManager(options) { // assumed to be a calendar
 
 			// if the dates have changed, and we know it is impossible to recompute the
 			// timezone offsets, strip the zone.
-			
+
 			/*
-			NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server. 
+			NJNOTE - unsure if this is the right way to do this as the wrong time is reported to the server.
 			If the user drags it to a time it should report that time back to the server any timezones issues
 			can be resolved by the server and corrected when sent back or we can incorporate moment timezone
-			and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the 
+			and try to calculate it on the front end. Currently it just sets the timezone to UTC and keeps the
 			same hour which is not a true representation.
 
 			if (isAmbigTimezone) {
@@ -746,7 +746,7 @@ function EventManager(options) { // assumed to be a calendar
 		var resources = t.getResources();
 		var i = 0;
 		out = out || data; // If we are simply Reassociateing an event then out varible is not suppled, just modify the existing Event object
-		
+
 		if(!data[options.resourceParam]) {
 			return;
 		}
