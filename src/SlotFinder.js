@@ -38,11 +38,12 @@ function SlotFinder(header, calendar, el, options) {
     });
     popoverEl = popover.data("bs.popover").tip();
     popover.on("shown.bs.popover", function() {  bindSelectionChanges(popoverEl); });
+    popover.on("openSearch", function(event, options) { populateSearchCriteria(options); });
     return t;
   }
 
   function popoverContent() {
-    var el = $("<div></div>");
+    var el = $("<div class='event-availability'></div>");
     var tableContainer = $("<div class='fc-freeslot-results-container'></div>");
     resultsTable = $("<table class='fc-freeslot-results table table-striped'></table>");
     tableContainer.append(resultsTable);
@@ -196,7 +197,7 @@ function SlotFinder(header, calendar, el, options) {
   }
 
   function resetTable() {
-    var findSlotTr = $("<tr><td><a href='#'>Find Slots</a></td></tr>");
+    var findSlotTr = $("<tr><td><a href='#' class='find-available-slots'>Find Slots</a></td></tr>");
     resultsTable.html(findSlotTr);
     findSlotTr.click(function(e) { findClick(e); });
   }
@@ -220,4 +221,16 @@ function SlotFinder(header, calendar, el, options) {
     });
   }
 
+  function populateSearchCriteria(options) {
+    if ($(".event-availability").length === 0) {
+      $(".fc-findSlot-button").click();
+    } else {
+      reset();
+    }
+    var element;
+    element = $(".event-availability");
+    element.find("select[name=resource_id]").val(options.resource_id);
+    element.find("select[name=duration]").val(options.duration);
+    $(".find-available-slots").click();
+  }
 }
