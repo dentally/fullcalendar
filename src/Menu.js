@@ -64,7 +64,8 @@ function Menu(calendar, options, menuContainer) {
       onSelect: setDate,
       dateFormat: "yy-mm-dd",
       selectOtherMonths: true,
-      defaultDate: calendar.getDate().format("YY-MM-DD")
+      defaultDate: calendar.getDate().format("YY-MM-DD"),
+      beforeShowDay: shouldShowDay
     });
   }
 
@@ -125,4 +126,8 @@ function Menu(calendar, options, menuContainer) {
     calendar.rerenderEvents();
   }
 
+  function shouldShowDay(date) {
+    var day = date.getDay();
+    return [($.inArray(day, options.hiddenDays) === -1), ""];
+  }
 }
