@@ -46,10 +46,10 @@ function WorkingHours(curCalView, workingHours) {
  //validating input
 
  function areTimesValid() {
-  return containtsTimes() && containsTimesForAllDays();
+  return containsTimes() && containsTimesForAllDays();
  }
 
- function containtsTimes() {
+ function containsTimes() {
   return startTimes && finishTimes;
  }
  
