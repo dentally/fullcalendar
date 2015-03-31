@@ -20,7 +20,7 @@ function WorkingHours(curCalView, workingHours) {
     var days;
     if (!areTimesValid()){return null;}
     days = curCalView.end.diff(curCalView.start, "days");
-    for (var day = 0; day < days; day++){
+    for (var day = 0; day <= days; day++){
       var currentDay = curCalView.start.clone().add(day, "days");
       overlayTimeBeforeStart(currentDay);
       overlayTimeAfterEnd(currentDay);
