@@ -177,7 +177,7 @@ $.extend(TimeGrid.prototype, {
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				(isResizable ?
-					'<div class="fc-resizer"/>' :
+					'<div class="fc-resizer" style="' + skinCss + '"><div class="fc-event-footer"></div></div>' :
 					''
 					) +
 			'</div>';
