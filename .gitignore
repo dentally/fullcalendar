@@ -6,3 +6,9 @@ node_modules
 
 # bower components
 lib/*/*
+
+# mac
+.DS_Store
+
+# NJ calendar
+app/
