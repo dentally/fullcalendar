@@ -60,6 +60,7 @@ var defaults = {
 	isRTL: false,
 	defaultButtonText: {
 		today: 'Today',
+		addOneWeeks: '+w',
 		addThreeMonths: '+3',
 		addSixMonths: '+6'
 	},
@@ -90,6 +91,7 @@ var defaults = {
 		findSlot: 'Find Available Slot',
 		next: 'Next',
 		prev: 'Previous',
+		addOneWeeks: 'Go forward one week',
 		addThreeMonths: 'Go forward three months',
 		addSixMonths: 'Go forward six months'
 	},
