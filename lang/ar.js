@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("ar", {
-	defaultButtonText: {
+	buttonText: {
 		month: "شهر",
 		week: "أسبوع",
 		day: "يوم",

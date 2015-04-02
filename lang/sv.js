@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("sv", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Månad",
 		week: "Vecka",
 		day: "Dag",

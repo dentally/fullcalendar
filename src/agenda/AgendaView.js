@@ -4,64 +4,31 @@
 // Is a manager for the TimeGrid subcomponent and possibly the DayGrid subcomponent (if allDaySlot is on).
 // Responsible for managing width/height.
 
-setDefaults({
+
+var AGENDA_DEFAULTS = {
+	allDaySlot: true,
 	allDayText: 'all-day',
-
 	scrollTime: '06:00:00',
-
 	slotDuration: '00:30:00',
 
 	showMinorAxisTime: true,
 
-	axisFormat: generateAgendaAxisFormat,
+	axisFormat: 'h(:mm)a',
 	timeFormat: {
-		agenda: generateAgendaTimeFormat
+		agenda: 'h:mm'
 	},
 
 	minTime: '00:00:00',
 	maxTime: '24:00:00',
-	slotEventOverlap: { week: false, resourceDay: true }
-});
+	slotEventOverlap: { week: false, resourceDay: true },
+	minTime: '00:00:00',
+	maxTime: '24:00:00',
+	slotEventOverlap: true // a bad name. confused with overlap/constraint system
+};
 
 var AGENDA_ALL_DAY_EVENT_LIMIT = 5;
 
-
-function generateAgendaAxisFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(':mm', '(:mm)')
-		.replace(/(\Wmm)$/, '($1)') // like above, but for foreign langs
-		.replace(/\s*a$/i, 'a'); // convert AM/PM/am/pm to lowercase. remove any spaces beforehand
-}
-
-
-function generateAgendaTimeFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(/\s*a$/i, ''); // remove trailing AM/PM
-}
-
-
-function AgendaView(calendar) {
-	View.call(this, calendar); // call the super-constructor
-
-	this.timeGrid = new TimeGrid(this);
-
-	if (this.opt('allDaySlot')) { // should we display the "all-day" area?
-		this.dayGrid = new DayGrid(this); // the all-day subcomponent of this view
-
-		// the coordinate grid will be a combination of both subcomponents' grids
-		this.coordMap = new ComboCoordMap([
-			this.dayGrid.coordMap,
-			this.timeGrid.coordMap
-		]);
-	}
-	else {
-		this.coordMap = this.timeGrid.coordMap;
-	}
-}
-
-
-AgendaView.prototype = createObject(View.prototype); // define the super-class
-$.extend(AgendaView.prototype, {
+var AgendaView = fcViews.agenda = View.extend({
 
 	timeGrid: null, // the main time-grid subcomponent of this view
 	dayGrid: null, // the "all-day" subcomponent. if all-day is turned off, this will be null
@@ -75,9 +42,36 @@ $.extend(AgendaView.prototype, {
 	bottomRuleHeight: null,
 
 
+	initialize: function() {
+		this.timeGrid = new TimeGrid(this);
+
+		if (this.opt('allDaySlot')) { // should we display the "all-day" area?
+			this.dayGrid = new DayGrid(this); // the all-day subcomponent of this view
+
+			// the coordinate grid will be a combination of both subcomponents' grids
+			this.coordMap = new ComboCoordMap([
+				this.dayGrid.coordMap,
+				this.timeGrid.coordMap
+			]);
+		}
+		else {
+			this.coordMap = this.timeGrid.coordMap;
+		}
+	},
+
+	setRange: function(range) {
+		View.prototype.setRange.call(this, range); // call the super-method
+
+		this.timeGrid.setRange(range);
+		if (this.dayGrid) {
+			this.dayGrid.setRange(range);
+		}
+	},
+
+
 	/* Rendering
 	------------------------------------------------------------------------------------------------------------------*/
-
+  // Sets the display range and computes all necessary dates
 
 	// Renders the view into `this.el`, which has already been assigned.
 	// `colCnt` has been calculated by a subclass and passed here.
@@ -92,43 +86,53 @@ $.extend(AgendaView.prototype, {
 		this.scrollerEl = this.el.find('.fc-time-grid-container');
 		this.timeGrid.coordMap.containerEl = this.scrollerEl; // don't accept clicks/etc outside of this
 
-		this.timeGrid.el = this.el.find('.fc-time-grid');
-		this.timeGrid.render();
+		this.timeGrid.setElement(this.el.find('.fc-time-grid'));
+		this.timeGrid.renderDates();
 
 		// the <hr> that sometimes displays under the time-grid
-		this.bottomRuleEl = $('<hr class="' + this.widgetHeaderClass + '"/>')
+		this.bottomRuleEl = $('<hr class="fc-divider ' + this.widgetHeaderClass + '"/>')
 			.appendTo(this.timeGrid.el); // inject it into the time-grid
 
 		if (this.dayGrid) {
-			this.dayGrid.el = this.el.find('.fc-day-grid');
-			this.dayGrid.render();
+			this.dayGrid.setElement(this.el.find('.fc-day-grid'));
+			this.dayGrid.renderDates();
 
 			// have the day-grid extend it's coordinate area over the <hr> dividing the two grids
 			this.dayGrid.bottomCoordPadding = this.dayGrid.el.next('hr').outerHeight();
 		}
-
-		this.noScrollRowEls = this.el.find('.fc-row:not(.fc-scroller *)'); // fake rows not within the scroller
-
-		View.prototype.render.call(this); // call the super-method
 
 		this.resetScroll(); // do this after sizes have been set
 		this.timeLine = new CurrentTimeLine(this).start();
 		if (this.workingHours) {
 			this.viewWorkingHours = new WorkingHours(this, this.workingHours).overlayNonWorkingHours();
 		}
+
+		this.noScrollRowEls = this.el.find('.fc-row:not(.fc-scroller *)'); // fake rows not within the scroller
 	},
 
 
-	// Make subcomponents ready for cleanup
 	destroy: function() {
-		this.timeGrid.destroy();
+		this.timeGrid.destroyDates();
+		this.timeGrid.removeElement();
+
 		if (this.dayGrid) {
-			this.dayGrid.destroy();
+			this.dayGrid.destroyDates();
+			this.dayGrid.removeElement();
 		}
+	},
+
+
+	renderBusinessHours: function() {
+		this.timeGrid.renderBusinessHours();
+
+		if (this.dayGrid) {
+			this.dayGrid.renderBusinessHours();
+		}
+
 		if (this.timeLine) {
 			this.timeLine.stop();
 		}
-		View.prototype.destroy.call(this); // call the super-method
+		View.prototype.destroy.call(this); // njcalendar is this needed? // call the super-method
 	},
 
 
@@ -137,19 +141,19 @@ $.extend(AgendaView.prototype, {
 	renderHtml: function() {
 		return '' +
 			'<table>' +
-				'<thead>' +
+				'<thead class="fc-head">' +
 					'<tr>' +
 						'<td class="' + this.widgetHeaderClass + '">' +
 							this.timeGrid.headHtml() + // render the day-of-week headers
 						'</td>' +
 					'</tr>' +
 				'</thead>' +
-				'<tbody>' +
+				'<tbody class="fc-body">' +
 					'<tr>' +
 						'<td class="' + this.widgetContentClass + '">' +
 							(this.dayGrid ?
 								'<div class="fc-day-grid"/>' +
-								'<hr class="' + this.widgetHeaderClass + '"/>' :
+								'<hr class="fc-divider ' + this.widgetHeaderClass + '"/>' :
 								''
 								) +
 							'<div class="fc-time-grid-container">' +
@@ -166,21 +170,11 @@ $.extend(AgendaView.prototype, {
 	// Queried by the TimeGrid subcomponent when generating rows. Ordering depends on isRTL.
 	headIntroHtml: function() {
 		var date;
-		var weekNumber;
-		var weekTitle;
 		var weekText;
 
 		if (this.opt('weekNumbers')) {
-			date = this.cellToDate(0, 0);
-			weekNumber = this.calendar.calculateWeekNumber(date);
-			weekTitle = this.opt('weekNumberTitle');
-
-			if (this.opt('isRTL')) {
-				weekText = weekNumber + weekTitle;
-			}
-			else {
-				weekText = weekTitle + weekNumber;
-			}
+			date = this.timeGrid.getCell(0).start;
+			weekText = date.format(this.opt('smallWeekFormat'));
 
 			return '' +
 				'<th class="fc-axis fc-week-number ' + this.widgetHeaderClass + '" ' + this.axisStyleAttr() + '>' +
@@ -241,11 +235,11 @@ $.extend(AgendaView.prototype, {
 	/* Dimensions
 	------------------------------------------------------------------------------------------------------------------*/
 
+
 	updateSize: function(isResize) {
-		if (isResize) {
-			this.timeGrid.resize();
-		}
-		View.prototype.updateSize.call(this, isResize);
+		this.timeGrid.updateSize(isResize);
+
+		View.prototype.updateSize.call(this, isResize); // call the super-method
 	},
 
 
@@ -297,8 +291,6 @@ $.extend(AgendaView.prototype, {
 				// and reapply the desired height to the scroller.
 				scrollerHeight = this.computeScrollerHeight(totalHeight);
 				this.scrollerEl.height(scrollerHeight);
-
-				this.restoreScroll();
 			}
 			else { // no scrollbars
 				// still, force a height and display the bottom rule (marks the end of day)
@@ -309,9 +301,8 @@ $.extend(AgendaView.prototype, {
 	},
 
 
-	// Sets the scroll value of the scroller to the intial pre-configured state prior to allowing the user to change it.
-	resetScroll: function() {
-		var _this = this;
+	// Computes the initial pre-configured scroll state prior to allowing the user to change it
+	computeInitialScroll: function() {
 		var scrollTime = moment.duration(this.opt('scrollTime'));
 		var top = this.timeGrid.computeTimeTop(scrollTime);
 
@@ -322,12 +313,7 @@ $.extend(AgendaView.prototype, {
 			top++; // to overcome top border that slots beyond the first have. looks better
 		}
 
-		function scroll() {
-			_this.scrollerEl.scrollTop(top);
-		}
-
-		scroll();
-		setTimeout(scroll, 0); // overrides any previous scroll state made by the browser
+		return top;
 	},
 
 
@@ -362,26 +348,20 @@ $.extend(AgendaView.prototype, {
 		// the all-day area is flexible and might have a lot of events, so shift the height
 		this.updateHeight();
 
-
-		View.prototype.renderEvents.call(this, events); // call the super-method
+		View.prototype.renderEvents.call(this, events); //njcalendar is this needed? // call the super-method
 	},
 
 
 	// Retrieves all segment objects that are rendered in the view
-	getSegs: function() {
-		return this.timeGrid.getSegs().concat(
-			this.dayGrid ? this.dayGrid.getSegs() : []
+	getEventSegs: function() {
+		return this.timeGrid.getEventSegs().concat(
+			this.dayGrid ? this.dayGrid.getEventSegs() : []
 		);
 	},
 
 
 	// Unrenders all event elements and clears internal segment data
 	destroyEvents: function() {
-		View.prototype.destroyEvents.call(this); // do this before the grids' segs have been cleared
-
-		// if destroyEvents is being called as part of an event rerender, renderEvents will be called shortly
-		// after, so remember what the scroll value was so we can restore it.
-		this.recordScroll();
 
 		// destroy the events in the subcomponents
 		this.timeGrid.destroyEvents();
@@ -395,23 +375,21 @@ $.extend(AgendaView.prototype, {
 	},
 
 
-	/* Event Dragging
+	/* Dragging (for events and external elements)
 	------------------------------------------------------------------------------------------------------------------*/
 
 
-	// Renders a visual indication of an event being dragged over the view.
 	// A returned value of `true` signals that a mock "helper" event has been rendered.
-	renderDrag: function(start, end, seg, col) {
-		if (start.hasTime()) {
-			return this.timeGrid.renderDrag(start, end, seg, col);
+	renderDrag: function(dropLocation, seg, col) {
+		if (dropLocation.start.hasTime()) {
+			return this.timeGrid.renderDrag(dropLocation, seg);
 		}
 		else if (this.dayGrid) {
-			return this.dayGrid.renderDrag(start, end, seg);
+			return this.dayGrid.renderDrag(dropLocation, seg);
 		}
 	},
 
 
-	// Unrenders a visual indications of an event being dragged over the view
 	destroyDrag: function() {
 		this.timeGrid.destroyDrag();
 		if (this.dayGrid) {
@@ -425,12 +403,12 @@ $.extend(AgendaView.prototype, {
 
 
 	// Renders a visual indication of a selection
-	renderSelection: function(start, end) {
-		if (start.hasTime() || end.hasTime()) {
-			this.timeGrid.renderSelection(start, end);
+	renderSelection: function(range) {
+		if (range.start.hasTime() || range.end.hasTime()) {
+			this.timeGrid.renderSelection(range);
 		}
 		else if (this.dayGrid) {
-			this.dayGrid.renderSelection(start, end);
+			this.dayGrid.renderSelection(range);
 		}
 	},
 

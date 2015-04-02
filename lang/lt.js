@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("lt", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Mėnuo",
 		week: "Savaitė",
 		day: "Diena",

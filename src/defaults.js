@@ -1,7 +1,8 @@
 
-var defaults = {
+Calendar.defaults = {
 
-	lang: 'en',
+	titleRangeSeparator: ' \u2014 ', // emphasized dash
+	monthYearFormat: 'MMMM YYYY', // required for en. other languages rely on datepicker computable option
 
 	defaultTimedEventDuration: '02:00:00',
 	defaultAllDayEventDuration: { days: 1 },
@@ -43,11 +44,11 @@ var defaults = {
 	},
 	columnFormat: {
 		month: 'ddd', // like "Sat"
-		week: generateWeekColumnFormat,
+		week: 'dddd',
 		day: 'dddd' // like "Saturday"
 	},
 	timeFormat: { // for event elements
-		'default': generateShortTimeFormat
+		'default': 'h:mm'
 	},
 
 	displayEventEnd: {
@@ -56,10 +57,24 @@ var defaults = {
 		'default': true
 	},
 
+
 	// locale
-	isRTL: false,
 	defaultButtonText: {
 		today: 'Today',
+		addThreeMonths: '+3',
+		addSixMonths: '+6',
+	},
+	isRTL: false,
+	buttonText: {
+		prev: "prev",
+		next: "next",
+		prevYear: "prev year",
+		nextYear: "next year",
+		year: 'year', // TODO: locale files need to specify this
+		today: 'today',
+		month: 'month',
+		week: 'week',
+		day: 'day',
 		addThreeMonths: '+3',
 		addSixMonths: '+6'
 	},
@@ -103,6 +118,7 @@ var defaults = {
 		nextYear: 'seek-next'
 	},
 
+	//eventResizableFromStart: false,
 	dragOpacity: .75,
 	dragRevertDuration: 500,
 	dragScroll: true,
@@ -118,45 +134,18 @@ var defaults = {
 	dayPopoverFormat: 'LL',
 
 	handleWindowResize: true,
-	windowResizeDelay: 200 // milliseconds before a rerender happens
-
+	windowResizeDelay: 200 // milliseconds before an updateSize happens
+	
 };
 
 
-function generateShortTimeFormat(options, langData) {
-	return langData.longDateFormat('LT')
-		.replace(':mm', '(:mm)')
-		.replace(/(\Wmm)$/, '($1)') // like above, but for foreign langs
-		.replace(/\s*a$/i, 't'); // convert to AM/PM/am/pm to lowercase one-letter. remove any spaces beforehand
-}
-
-
-function generateWeekColumnFormat(options, langData) {
-	var format = langData.longDateFormat('L'); // for the format like "MM/DD/YYYY"
-	format = format.replace(/^Y+[^\w\s]*|[^\w\s]*Y+$/g, ''); // strip the year off the edge, as well as other misc non-whitespace chars
-	if (options.isRTL) {
-		format += ' ddd'; // for RTL, add day-of-week to end
-	}
-	else {
-		format = 'ddd ' + format; // for LTR, add day-of-week to beginning
-	}
-	return format;
-}
-
-
-var langOptionHash = {
-	en: {
-		columnFormat: {
-			week: 'ddd M/D' // override for english. different from the generated default, which is MM/DD
-		},
-		dayPopoverFormat: 'dddd, MMMM D'
-	}
+Calendar.englishDefaults = { // used by lang.js
+	dayPopoverFormat: 'dddd, MMMM D'
 };
 
 
-// right-to-left defaults
-var rtlDefaults = {
-	header: {
+Calendar.rtlDefaults = { // right-to-left defaults
+	header: { // TODO: smarter solution (first/center/last ?)
 		left: 'next,prev today',
 		center: '',
 		right: 'title'

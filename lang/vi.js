@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("vi", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Tháng",
 		week: "Tuần",
 		day: "Ngày",

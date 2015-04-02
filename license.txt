@@ -1,6 +1,5 @@
-Copyright (c) 2014 Adam Shaw
+Copyright (c) 2015 Adam Shaw
 Copyright (c) 2014 Abletech & Jarno Kurlin (Resource View)
-
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

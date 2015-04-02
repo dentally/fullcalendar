@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("tl", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Buwan",
 		week: "Linggo",
 		day: "Araw",

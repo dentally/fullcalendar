@@ -5,7 +5,6 @@
 	 * (c) <%= meta.copyright %>
 	 */
 	
-	
 	.fc {
 		direction: ltr;
 		text-align: left;
@@ -27,6 +26,7 @@
 	.fc-unthemed td,
 	.fc-unthemed thead,
 	.fc-unthemed tbody,
+	.fc-unthemed .fc-divider,
 	.fc-unthemed .fc-row,
 	.fc-unthemed .fc-popover {
 		border-color: #ddd;
@@ -36,9 +36,11 @@
 		background-color: #fff;
 	}
 	
+	.fc-unthemed .fc-divider,
 	.fc-unthemed .fc-popover .fc-header {
 		background: #eee;
 	}
+
 	
 	.fc-unthemed .fc-popover .fc-header .fc-close {
 		color: #666;
@@ -53,6 +55,17 @@
 		opacity: .3;
 		filter: alpha(opacity=30); /* for IE */
 	}
+
+	.fc-bgevent { /* default look for background events */
+		background: rgb(143, 223, 130);
+		opacity: .3;
+		filter: alpha(opacity=30); /* for IE */
+	}
+
+	.fc-nonbusiness { /* default look for non-business-hours areas */
+		/* will inherit .fc-bgevent's styles */
+		background: #d7d7d7;
+	}
 	
 	
 	/* Icons (inline elements with styled text that mock arrow icons)
@@ -60,33 +73,77 @@
 	
 	.fc-icon {
 		display: inline-block;
-		font-size: 2em;
-		line-height: .5em;
-		height: .5em; /* will make the total height 1em */
+		width: 1em;
+		height: 1em;
+		line-height: 1em;
+		font-size: 1em;
+		text-align: center;
+		overflow: hidden;
 		font-family: "Courier New", Courier, monospace;
 	}
-	
+
+	/*
+	Acceptable font-family overrides for individual icons:
+		"Arial", sans-serif
+		"Times New Roman", serif
+
+	NOTE: use percentage font sizes or else old IE chokes
+	*/
+
 	.fc-icon-left-single-arrow:after {
 		content: "\02039";
 		font-weight: bold;
+		font-size: 200%;
+		top: -7%;
+		left: 3%;
 	}
-	
+
 	.fc-icon-right-single-arrow:after {
 		content: "\0203A";
 		font-weight: bold;
+		font-size: 200%;
+		top: -7%;
+		left: -3%;
 	}
-	
+
 	.fc-icon-left-double-arrow:after {
 		content: "\000AB";
+		font-size: 160%;
+		top: -7%;
 	}
-	
+
 	.fc-icon-right-double-arrow:after {
 		content: "\000BB";
+		font-size: 160%;
+		top: -7%;
 	}
-	
+
+	.fc-icon-left-triangle:after {
+		content: "\25C4";
+		font-size: 125%;
+		top: 3%;
+		left: -2%;
+	}
+
+	.fc-icon-right-triangle:after {
+		content: "\25BA";
+		font-size: 125%;
+		top: 3%;
+		left: 2%;
+	}
+
+	.fc-icon-down-triangle:after {
+		content: "\25BC";
+		font-size: 125%;
+		top: 2%;
+	}
+
 	.fc-icon-x:after {
 		content: "\000D7";
+		font-size: 200%;
+		top: 6%;
 	}
+
 	
 	
 	/* Buttons (styled <button> tags, normalized to work cross-browser)
@@ -120,12 +177,24 @@
   	outline:0;
   }
 
+
+	.fc-state-default.fc-corner-left { /* non-theme */
+		border-top-left-radius: 4px;
+		border-bottom-left-radius: 4px;
+	}
+
+	.fc-state-default.fc-corner-right { /* non-theme */
+		border-top-right-radius: 4px;
+		border-bottom-right-radius: 4px;
+	}
+
 	/* icons in buttons */
-	
+
 	.fc button .fc-icon { /* non-theme */
 		position: relative;
-		top: .05em; /* seems to be a good adjustment across browsers */
-		margin: 0 .1em;
+		top: -0.05em; /* seems to be a good adjustment across browsers */
+		margin: 0 .2em;
+		vertical-align: middle;
 	}
 		
 	/*
@@ -134,11 +203,20 @@
 	*/
 	
 	.fc-state-default {
-		border-color: transparent;
+		background-color: #f5f5f5;
+		background-image: -moz-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), to(#e6e6e6));
+		background-image: -webkit-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: -o-linear-gradient(top, #ffffff, #e6e6e6);
+		background-image: linear-gradient(to bottom, #ffffff, #e6e6e6);
+		background-repeat: repeat-x;
+		border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+		border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 		color: #333;
 		text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
 	}
-	
+
 	.fc-state-hover,
 	.fc-state-down,
 	.fc-state-active,
@@ -146,7 +224,7 @@
 		color: #333333;
 		background-color: #e6e6e6;
 	}
-	
+
 	.fc-state-hover {
 		color: #333333;
 		text-decoration: none;
@@ -156,13 +234,14 @@
 		     -o-transition: background-position 0.1s linear;
 		        transition: background-position 0.1s linear;
 	}
-	
+
 	.fc-state-down,
 	.fc-state-active {
 		background-color: #cccccc;
 		background-image: none;
+		box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15), 0 1px 2px rgba(0, 0, 0, 0.05);
 	}
-	
+
 	.fc-state-disabled {
 		cursor: default;
 		background-image: none;
@@ -170,8 +249,8 @@
 		filter: alpha(opacity=65);
 		box-shadow: none;
 	}
-	
-	
+
+
 	/* Buttons Groups
 	--------------------------------------------------------------------------------------------------*/
 	
@@ -246,11 +325,24 @@
 	/* Misc Reusable Components
 	--------------------------------------------------------------------------------------------------*/
 	
+	.fc-divider {
+		border-style: solid;
+		border-width: 1px;
+	}
+
+	hr.fc-divider {
+		height: 0;
+		margin: 0;
+		padding: 0 0 2px; /* height is unreliable across browsers, so use padding */
+		border-width: 1px 0;
+	}
+
 	.fc-clear {
 		clear: both;
 	}
 	
 	.fc-bg,
+	.fc-bgevent-skeleton,
 	.fc-highlight-skeleton,
 	.fc-helper-skeleton {
 		/* these element should always cling to top-left/right corners */
@@ -282,6 +374,14 @@
 	
 	.fc th {
 		text-align: center;
+	}
+
+	.fc th,
+	.fc td {
+		border-style: solid;
+		border-width: 1px;
+		padding: 0;
+		vertical-align: top;
 	}
 	
 	.fc-widget-content td,
@@ -315,6 +415,8 @@
 		/* no bottom borders on rows dissabled for aggenda views but watch on basic views may have to scope further
 		border-bottom: 0 hidden transparent; 
 		*/
+
+		border-bottom: 0 hidden transparent; 
 	}
 	
 	.fc-row:first-child table {
@@ -347,6 +449,15 @@
 	.fc-row .fc-highlight-skeleton td {
 		border-color: transparent;
 	}
+
+	.fc-row .fc-bgevent-skeleton {
+		z-index: 2;
+
+	}
+
+	.fc-row .fc-highlight-skeleton {
+		z-index: 3;
+	}
 	
 	/*
 	row content (which contains day/week numbers and events) as well as "helper" (which contains
@@ -360,7 +471,7 @@
 	}
 	
 	.fc-row .fc-helper-skeleton {
-		z-index: 4;
+		z-index: 5;
 	}
 	
 	.fc-row .fc-content-skeleton td,
@@ -421,7 +532,84 @@
 	.fc-event.fc-draggable {
 		cursor: pointer; /* give events with links and draggable events a hand mouse pointer */
 	}
-	
+
+	.fc-not-allowed, /* causes a "warning" cursor. applied on body */
+	.fc-not-allowed .fc-event { /* to override an event's custom cursor */
+		cursor: not-allowed;
+	}
+
+	.fc-event .fc-bg { /* the generic .fc-bg already does position */
+		z-index: 1;
+		background: #fff;
+		opacity: .25;
+		filter: alpha(opacity=25); /* for IE */
+	}
+
+	.fc-event .fc-content {
+		position: relative;
+		z-index: 2;
+	}
+
+	.fc-event .fc-resizer {
+		position: absolute;
+		z-index: 3;
+	}
+
+	/* Horizontal Events
+	--------------------------------------------------------------------------------------------------*/
+
+	/* events that are continuing to/from another week. kill rounded corners and butt up against edge */
+
+	.fc-ltr .fc-h-event.fc-not-start,
+	.fc-rtl .fc-h-event.fc-not-end {
+		margin-left: 0;
+		border-left-width: 0;
+		padding-left: 1px; /* replace the border with padding */
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	.fc-ltr .fc-h-event.fc-not-end,
+	.fc-rtl .fc-h-event.fc-not-start {
+		margin-right: 0;
+		border-right-width: 0;
+		padding-right: 1px; /* replace the border with padding */
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+	}
+
+	/* resizer */
+
+	.fc-h-event .fc-resizer { /* positioned it to overcome the event's borders */
+		top: -1px;
+		bottom: -1px;
+		left: -1px;
+		right: -1px;
+		width: 5px;
+	}
+
+	/* left resizer  */
+	.fc-ltr .fc-h-event .fc-start-resizer,
+	.fc-ltr .fc-h-event .fc-start-resizer:before,
+	.fc-ltr .fc-h-event .fc-start-resizer:after,
+	.fc-rtl .fc-h-event .fc-end-resizer,
+	.fc-rtl .fc-h-event .fc-end-resizer:before,
+	.fc-rtl .fc-h-event .fc-end-resizer:after {
+		right: auto; /* ignore the right and only use the left */
+		cursor: w-resize;
+	}
+
+	/* right resizer */
+	.fc-ltr .fc-h-event .fc-end-resizer,
+	.fc-ltr .fc-h-event .fc-end-resizer:before,
+	.fc-ltr .fc-h-event .fc-end-resizer:after,
+	.fc-rtl .fc-h-event .fc-start-resizer,
+	.fc-rtl .fc-h-event .fc-start-resizer:before,
+	.fc-rtl .fc-h-event .fc-start-resizer:after {
+		left: auto; /* ignore the left and only use the right */
+		cursor: e-resize;
+	}
+
 	
 	/* DayGrid events
 	----------------------------------------------------------------------------------------------------
@@ -429,57 +617,19 @@
 	be a descendant of the grid when it is being dragged.
 	*/
 	
-	.fc-day-grid-event {
-		margin: 1px 2px 0; /* spacing between events and edges */
-		padding: 0 1px;
-	}
-	
-	/* events that are continuing to/from another week. kill rounded corners and butt up against edge */
-	
-	.fc-ltr .fc-day-grid-event.fc-not-start,
-	.fc-rtl .fc-day-grid-event.fc-not-end {
-		margin-left: 0;
-		border-left-width: 0;
-		padding-left: 1px; /* replace the border with padding */
-		border-top-left-radius: 0;
-		border-bottom-left-radius: 0;
-	}
-	
-	.fc-ltr .fc-day-grid-event.fc-not-end,
-	.fc-rtl .fc-day-grid-event.fc-not-start {
-		margin-right: 0;
-		border-right-width: 0;
-		padding-right: 1px; /* replace the border with padding */
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
-	}
-	
-	.fc-day-grid-event > .fc-content { /* force events to be one-line tall */
+	.fc-day-grid-event .fc-content { /* force events to be one-line tall */
 		white-space: nowrap;
 		overflow: hidden;
 	}
-	
+
 	.fc-day-grid-event .fc-time {
 		font-weight: bold;
 	}
-	
-	/* resize handle (outside of fc-content, so can go outside of bounds) */
-	
-	.fc-day-grid-event .fc-resizer {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		width: 7px;
-	}
-	
-	.fc-ltr .fc-day-grid-event .fc-resizer {
-		right: -3px;
-		cursor: e-resize;
-	}
-	
-	.fc-rtl .fc-day-grid-event .fc-resizer {
+
+	.fc-day-grid-event .fc-resizer { /* enlarge the default hit area */
 		left: -3px;
-		cursor: w-resize;
+		right: -3px;
+		width: 7px;
 	}
 	
 	

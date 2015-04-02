@@ -56,11 +56,12 @@ function Header(calendar, options) {
 				var groupEl;
 
 				$.each(this.split(','), function(j, buttonName) {
+					var viewSpec;
 					var buttonClick;
+					var overrideText; // text explicitly set by calendar's constructor options. overcomes icons
+					var defaultText;
 					var themeIcon;
 					var normalIcon;
-					var defaultText;
-					var customText;
 					var innerHtml;
 					var classes;
 					var button;
@@ -71,32 +72,39 @@ function Header(calendar, options) {
 						isOnlyButtons = false;
 					}
 					else {
-						if (calendar[buttonName]) { // a calendar method
-							buttonClick = function() {
-								calendar[buttonName]();
-							};
-						}
-						else if (fcViews[buttonName]) { // a view name
+						viewSpec = calendar.getViewSpec(buttonName);
+
+						if (viewSpec) {
 							buttonClick = function() {
 								calendar.changeView(buttonName);
 							};
 							viewsWithButtons.push(buttonName);
+							overrideText = viewSpec.buttonTextOverride;
+							defaultText = viewSpec.buttonTextDefault;
+						}
+						else if (calendar[buttonName]) { // a calendar method
+							buttonClick = function() {
+								calendar[buttonName]();
+							};
+							overrideText = (calendar.overrides.buttonText || {})[buttonName];
+							defaultText = options.buttonText[buttonName]; // everything else is considered default
 						}
 						else if(buttonName === 'findSlot') {
 							buttonClick = slotFinderClick;
 						}
+						
 						if (buttonClick) {
 
 							// smartProperty allows different text per view button (ex: "Agenda Week" vs "Basic Week")
-							themeIcon = smartProperty(options.themeButtonIcons, buttonName);
-							normalIcon = smartProperty(options.buttonIcons, buttonName);
-							defaultText = smartProperty(options.defaultButtonText, buttonName);
-							customText = smartProperty(options.buttonText, buttonName);
-							fontAwsomeIcon = smartProperty(options.fontAwsomeIcons, buttonName);
-							var buttonTitle = smartProperty(options.buttonTitles, buttonName);
+							themeIcon = options.themeButtonIcons[buttonName]; //smartProperty(options.themeButtonIcons, buttonName);
+							normalIcon = options.buttonIcons[buttonName]; //smartProperty(options.buttonIcons, buttonName);
+							defaultText = options.defaultButtonText[buttonName];
+							customText = options.buttonText[buttonName];
+							fontAwsomeIcon = options.fontAwsomeIcons[buttonName];
+							var buttonTitle = options.buttonTitles[buttonName];
 
-							if (customText) {
-								innerHtml = htmlEscape(customText);
+							if (overrideText) {
+								innerHtml = htmlEscape(overrideText);
 							}
 							else if(fontAwsomeIcon) {
 								var icons = fontAwsomeIcon.split(",");
@@ -112,7 +120,7 @@ function Header(calendar, options) {
 								innerHtml = "<span class='fc-icon fc-icon-" + normalIcon + "'></span>";
 							}
 							else {
-								innerHtml = htmlEscape(defaultText || buttonName);
+								innerHtml = htmlEscape(defaultText);
 							}
 
 							classes = [

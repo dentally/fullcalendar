@@ -8,5 +8,8 @@ node_modules
 # bower components
 lib/*/*
 
-# Bloody OSX
+# mac
 .DS_Store
+
+# NJ calendar
+app/

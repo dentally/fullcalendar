@@ -73,11 +73,12 @@
 		z-index: 2;
 	}
 	
-	.fc-time-grid .fc-highlight-skeleton {
+	.fc-time-grid .fc-highlight-skeleton, .fc-bgevent-skeleton {
 		z-index: 3;
 	}
 	
-	.fc-time-grid .fc-content-skeleton {
+	.fc-time-grid .fc-bgevent-skeleton,
+  .fc-time-grid .fc-content-skeleton {
 		position: absolute;
 		z-index: 4;
 		top: 0;
@@ -87,6 +88,10 @@
 	
 	.fc-time-grid > .fc-helper-skeleton {
 		z-index: 5;
+	}
+
+	.fc-time-grid .fc-helper-skeleton {
+		z-index: 6;
 	}
 	
 	
@@ -125,7 +130,8 @@
 	/* TimeGrid Event Containment
 	--------------------------------------------------------------------------------------------------*/
 	
-	.fc-time-grid .fc-event-container { /* a div within a cell within the fc-content-skeleton */
+	.fc-time-grid .fc-event-container,
+	.fc-time-grid .fc-bgevent-container { /* a div within a cell within the fc-content-skeleton */
 		position: relative;
 	}
 	
@@ -237,6 +243,11 @@
 		font-size: .85em; /* make the title text the same size as the time */
 		padding: 0; /* undo padding from above */
 	}
+
+	.fc-time-grid-event {
+		overflow: hidden; /* don't let the bg flow over rounded corners */
+	}
+
 	
 	/* resizer */
 	

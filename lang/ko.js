@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("ko", {
-	defaultButtonText: {
+	buttonText: {
 		month: "월",
 		week: "주",
 		day: "일",

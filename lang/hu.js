@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("hu", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Hónap",
 		week: "Hét",
 		day: "Nap",

@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("bg", {
-	defaultButtonText: {
+	buttonText: {
 		month: "Месец",
 		week: "Седмица",
 		day: "Ден",

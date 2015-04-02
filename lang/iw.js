@@ -1,6 +1,6 @@
 
 $.njCalendar.lang("iw", {
-	defaultButtonText: {
+	buttonText: {
 		month: "חודש",
 		week: "שבוע",
 		day: "יום",

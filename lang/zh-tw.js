@@ -1,6 +1,5 @@
-
 $.njCalendar.lang("zh-tw", {
-	defaultButtonText: {
+	buttonText: {
 		month: "月",
 		week: "週",
 		day: "天",
