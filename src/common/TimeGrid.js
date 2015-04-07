@@ -101,7 +101,7 @@ $.extend(TimeGrid.prototype, {
 			html +=
 				'<tr ' + (!minutes ? '' : 'class="fc-minor"') + '>' +
 					axisHtml +
-					'<td class="' + view.widgetContentClass + '"/>' +
+					'<td class="' + view.widgetContentClass + '" title="' + slotDate.format("HH:mm") + '"/>' +
 					axisHtml +
 				"</tr>";
 
