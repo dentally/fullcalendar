@@ -80,7 +80,7 @@ $.extend(DayGrid.prototype, {
 		var isDraggable = view.isEventDraggable(event);
 		var isResizable = !disableResizing && event.allDay && seg.isEnd && view.isEventResizable(event);
 		var classes = this.getSegClasses(seg, isDraggable, isResizable);
-		var skinCss = this.getEventSkinCss(event);
+		var skinCss = this.getEventSkinCss(event).join(';');
 		var timeHtml = '';
 		var titleHtml;
 		var title = view.trigger("determineBasicEventTitle", this, event) || '';

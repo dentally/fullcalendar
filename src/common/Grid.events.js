@@ -406,13 +406,15 @@ $.extend(Grid.prototype, {
 	getEventSkinCss: function(event) {
 		var view = this.view;
 		var source = event.source || {};
-		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad';
+		var eventStyle = view.trigger("determineEventStyle", this, event) || {}
+		var backgroundColor = eventStyle["background-color"] || '#3b91ad';
 		var borderColor = backgroundColor;
 		var textColor =
 			event.textColor ||
 			source.textColor ||
 			view.opt('eventTextColor');
 		var statements = [];
+		var backgroundImage = eventStyle["background-image"]
 		if (backgroundColor) {
 			statements.push('background-color:' + backgroundColor);
 		}
@@ -422,7 +424,10 @@ $.extend(Grid.prototype, {
 		if (textColor) {
 			statements.push('color:' + textColor);
 		}
-		return statements.join(';');
+		if (backgroundImage) {
+			statements.push('background-image:' + backgroundImage);
+		}
+		return statements;
 	}
 
 });

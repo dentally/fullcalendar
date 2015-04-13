@@ -56,6 +56,7 @@ function Calendar(element, instanceOptions) {
 	t.gotoDate = gotoDate;
 	t.gotoDay = gotoDay;
 	t.gotoEvent = gotoEvent;
+	t.addOneWeeks = addOneWeek;
 	t.addThreeMonths = addThreeMonths;
 	t.addSixMonths = addSixMonths;
 	t.incrementDate = incrementDate;
@@ -758,6 +759,11 @@ function Calendar(element, instanceOptions) {
 	function gotoDay(dateInput) {
 		date = t.moment(dateInput);
 		renderView(0, "resourceDay");
+	}
+
+	function addOneWeek() {
+		date.add(1, 'week');
+		renderView();
 	}
 
 	function addThreeMonths() {

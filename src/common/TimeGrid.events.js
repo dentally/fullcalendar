@@ -117,6 +117,7 @@ $.extend(TimeGrid.prototype, {
 		var isResizable = !disableResizing && seg.isEnd && view.isEventResizable(event);
 		var classes = this.getSegClasses(seg, isDraggable, isResizable);
 		var skinCss = this.getEventSkinCss(event);
+		var backgroundColor = skinCss[0]
 		var timeText;
 		var fullTimeText; // more verbose time text. for the print stylesheet
 		var startTimeText; // just the start time text
@@ -125,6 +126,7 @@ $.extend(TimeGrid.prototype, {
     var stateClass = view.trigger("determineEventStateClass", this, event) || '';
     var eventNotes = view.trigger("determineEventNotes", this, event) || '';
 		var stateText =  view.trigger("determineEventStateText", this, event) || '';
+		skinCss = skinCss.join(';')
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...
@@ -177,7 +179,7 @@ $.extend(TimeGrid.prototype, {
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				(isResizable ?
-					'<div class="fc-resizer"/>' :
+					'<div class="fc-resizer" style="' + backgroundColor + '"><div class="fc-event-footer"></div></div>' :
 					''
 					) +
 			'</div>';
