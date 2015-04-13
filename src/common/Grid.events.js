@@ -130,7 +130,7 @@ $.extend(Grid.prototype, {
 					}
 				},
 				mousedown: function(seg, ev) {
-					if ($(ev.target).is('.fc-resizer') && view.isEventResizable(seg.event)) {
+					if ($(ev.target).is('.fc-event-footer') && view.isEventResizable(seg.event)) {
 						_this.segResizeMousedown(seg, ev);
 					}
 					else if (view.isEventDraggable(seg.event) && !isMonthView) {
