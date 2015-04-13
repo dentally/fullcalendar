@@ -76,6 +76,7 @@ var defaults = {
 	isRTL: false,
 	defaultButtonText: {
 		today: 'Today',
+		addOneWeeks: '+w',
 		addThreeMonths: '+3',
 		addSixMonths: '+6'
 	},
@@ -106,6 +107,7 @@ var defaults = {
 		findSlot: 'Find Available Slot',
 		next: 'Next',
 		prev: 'Previous',
+		addOneWeeks: 'Go forward one week',
 		addThreeMonths: 'Go forward three months',
 		addSixMonths: 'Go forward six months'
 	},
@@ -403,6 +405,7 @@ function Calendar(element, instanceOptions) {
 	t.gotoDate = gotoDate;
 	t.gotoDay = gotoDay;
 	t.gotoEvent = gotoEvent;
+	t.addOneWeeks = addOneWeek;
 	t.addThreeMonths = addThreeMonths;
 	t.addSixMonths = addSixMonths;
 	t.incrementDate = incrementDate;
@@ -1105,6 +1108,11 @@ function Calendar(element, instanceOptions) {
 	function gotoDay(dateInput) {
 		date = t.moment(dateInput);
 		renderView(0, "resourceDay");
+	}
+
+	function addOneWeek() {
+		date.add(1, 'week');
+		renderView();
 	}
 
 	function addThreeMonths() {
@@ -5540,13 +5548,15 @@ $.extend(Grid.prototype, {
 	getEventSkinCss: function(event) {
 		var view = this.view;
 		var source = event.source || {};
-		var backgroundColor = view.trigger("determineEventColour", this, event) || '#3b91ad';
+		var eventStyle = view.trigger("determineEventStyle", this, event) || {}
+		var backgroundColor = eventStyle["background-color"] || '#3b91ad';
 		var borderColor = backgroundColor;
 		var textColor =
 			event.textColor ||
 			source.textColor ||
 			view.opt('eventTextColor');
 		var statements = [];
+		var backgroundImage = eventStyle["background-image"]
 		if (backgroundColor) {
 			statements.push('background-color:' + backgroundColor);
 		}
@@ -5556,7 +5566,10 @@ $.extend(Grid.prototype, {
 		if (textColor) {
 			statements.push('color:' + textColor);
 		}
-		return statements.join(';');
+		if (backgroundImage) {
+			statements.push('background-image:' + backgroundImage);
+		}
+		return statements;
 	}
 
 });
@@ -5964,7 +5977,7 @@ $.extend(DayGrid.prototype, {
 		var isDraggable = view.isEventDraggable(event);
 		var isResizable = !disableResizing && event.allDay && seg.isEnd && view.isEventResizable(event);
 		var classes = this.getSegClasses(seg, isDraggable, isResizable);
-		var skinCss = this.getEventSkinCss(event);
+		var skinCss = this.getEventSkinCss(event).join(';');
 		var timeHtml = '';
 		var titleHtml;
 		var title = view.trigger("determineBasicEventTitle", this, event) || '';
@@ -6620,7 +6633,7 @@ $.extend(TimeGrid.prototype, {
 			html +=
 				'<tr ' + (!minutes ? '' : 'class="fc-minor"') + '>' +
 					axisHtml +
-					'<td class="' + view.widgetContentClass + '"/>' +
+					'<td class="' + view.widgetContentClass + '" title="' + slotDate.format("HH:mm") + '"/>' +
 					axisHtml +
 				"</tr>";
 
@@ -7163,6 +7176,7 @@ $.extend(TimeGrid.prototype, {
 		var isResizable = !disableResizing && seg.isEnd && view.isEventResizable(event);
 		var classes = this.getSegClasses(seg, isDraggable, isResizable);
 		var skinCss = this.getEventSkinCss(event);
+		var backgroundColor = skinCss[0]
 		var timeText;
 		var fullTimeText; // more verbose time text. for the print stylesheet
 		var startTimeText; // just the start time text
@@ -7171,6 +7185,7 @@ $.extend(TimeGrid.prototype, {
     var stateClass = view.trigger("determineEventStateClass", this, event) || '';
     var eventNotes = view.trigger("determineEventNotes", this, event) || '';
 		var stateText =  view.trigger("determineEventStateText", this, event) || '';
+		skinCss = skinCss.join(';')
 		classes.unshift('fc-time-grid-event');
 
 		if (view.isMultiDayEvent(event)) { // if the event appears to span more than one day...
@@ -7223,7 +7238,7 @@ $.extend(TimeGrid.prototype, {
 				'</div>' +
 				'<div class="fc-bg"/>' +
 				(isResizable ?
-					'<div class="fc-resizer"/>' :
+					'<div class="fc-resizer" style="' + backgroundColor + '"><div class="fc-event-footer"></div></div>' :
 					''
 					) +
 			'</div>';
@@ -8888,7 +8903,7 @@ function WorkingHours(curCalView, workingHours) {
     var days;
     if (!areTimesValid()){return null;}
     days = curCalView.end.diff(curCalView.start, "days");
-    for (var day = 0; day < days; day++){
+    for (var day = 0; day <= days; day++){
       var currentDay = curCalView.start.clone().add(day, "days");
       overlayTimeBeforeStart(currentDay);
       overlayTimeAfterEnd(currentDay);
@@ -8914,10 +8929,10 @@ function WorkingHours(curCalView, workingHours) {
  //validating input
 
  function areTimesValid() {
-  return containtsTimes() && containsTimesForAllDays();
+  return containsTimes() && containsTimesForAllDays();
  }
 
- function containtsTimes() {
+ function containsTimes() {
   return startTimes && finishTimes;
  }
  
