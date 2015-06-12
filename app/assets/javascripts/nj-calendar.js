@@ -1442,7 +1442,7 @@ function Menu(calendar, options, menuContainer) {
       onSelect: setDate,
       dateFormat: "yy-mm-dd",
       selectOtherMonths: true,
-      defaultDate: calendar.getDate().format("YY-MM-DD"),
+      defaultDate: calendar.getDate().format("YYYY-MM-DD"),
       beforeShowDay: shouldShowDay
     });
   }
@@ -1453,7 +1453,7 @@ function Menu(calendar, options, menuContainer) {
 
   function updateDatePicker(date) {
     if (menuShown){
-      datePicker.datepicker("setDate", date.format("YY-MM-DD"));
+      datePicker.datepicker("setDate", date.format("YYYY-MM-DD"));
     }
   }
 
